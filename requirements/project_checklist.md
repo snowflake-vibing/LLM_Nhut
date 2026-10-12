@@ -7,9 +7,9 @@ Checklist này tổng hợp toàn bộ các **Sản phẩm bàn giao (Deliverabl
 ## 🧩 PHẦN 1: OUTPUT MÃ NGUỒN (SOURCE CODE & MODULES)
 
 ### 1.1. Module Mô hình Đám mây & Nội bộ (Cloud & Local LLM Provider - 2.5đ)
-- [ ] **`src/llm_providers/cloud_provider.py`**: Tích hợp Google Gemini API (hoặc OpenAI API) qua SDK/LangChain.
-- [ ] **`src/llm_providers/local_provider.py`**: Kết nối Ollama cục bộ (Llama 3.1 / Qwen 2.5) qua API `http://localhost:11434`.
-- [ ] **`src/llm_providers/model_factory.py`**: Cơ chế Factory/Switcher cho phép chuyển đổi tức thì giữa Cloud và Local bằng cấu hình hoặc nút gạt trên UI.
+- [x] **`src/llm_providers/cloud_provider.py`**: Tích hợp Google Gemini API (hoặc OpenAI API) qua SDK/LangChain.
+- [x] **`src/llm_providers/local_provider.py`**: Kết nối Ollama cục bộ (Llama 3.1 / Qwen 2.5) qua API `http://localhost:11434`.
+- [x] **`src/llm_providers/model_factory.py`**: Cơ chế Factory/Switcher cho phép chuyển đổi tức thì giữa Cloud và Local bằng cấu hình hoặc nút gạt trên UI.
 
 ### 1.2. Kỹ năng Prompting (Prompt Engineering - 2.0đ)
 - [ ] **`src/prompts/system_prompts.py`**: Bộ System Prompts hoàn chỉnh (đầy đủ Role, Context, Constraint, Tone of Voice).
