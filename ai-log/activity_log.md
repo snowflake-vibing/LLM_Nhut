@@ -92,11 +92,15 @@ Tài liệu này ghi lại toàn bộ tiến trình làm việc, các quyết đ
   * **Tab 3: Security Monitor & Switcher:** Thử nghiệm PII Masking, Anti-Jailbreak và chuyển đổi Cloud/Local.
   * **Tab 4: Evaluation Dashboard:** Trực quan hóa biểu đồ điểm số Ragas Benchmark.
 
-### 13. Hoàn thiện Tài liệu Báo cáo & Thuyết trình
-* `reports/PROJECT_REPORT.md`: Báo cáo đồ án hoàn chỉnh 8 chương chi tiết bao quát toàn bộ 7 tiêu chí chấm điểm.
-* `reports/presentation_slides.md`: Bộ slide thuyết trình 12 trang tóm tắt đồ án.
-* `requirements.txt`: Danh sách đầy đủ dependencies.
-* Cập nhật đánh dấu hoàn thành 100% `[x]` trong [`requirements/project_checklist.md`](../requirements/project_checklist.md).
+### 14. Xây dựng Hướng dẫn Khởi chạy Dự án (Tutorial & Run Guide)
+* Tạo thư mục [`tutorial/`](../tutorial/) và file [`tutorial/run_guide.md`](../tutorial/run_guide.md): Hướng dẫn chi tiết từng bước:
+  - Cài đặt môi trường ảo Python (`venv`) và cài thư viện `requirements.txt`.
+  - Hướng dẫn lấy **Google Gemini API Key hoàn toàn miễn phí** tại Google AI Studio.
+  - Hướng dẫn cài đặt và khởi chạy **Local Model Ollama** (`qwen2.5:latest` / `llama3.1:latest`).
+  - Lệnh nạp CSDL SQLite pháp lý: `python src/database/init_db.py`.
+  - Hướng dẫn khởi chạy ứng dụng web Streamlit: `streamlit run app/main.py`.
+  - Hướng dẫn chạy benchmark đánh giá Ragas và so sánh mô hình.
+  - Hướng dẫn khắc phục sự cố thường gặp (Troubleshooting / FAQ).
 
 ---
 
@@ -133,6 +137,8 @@ LLM_Nhut/
 │   ├── prompts/                      # System prompts, Few-shot, CoT & Pydantic schemas
 │   ├── rag/                          # Pipeline Ingestion, Embeddings, VectorStore & Retriever
 │   └── security/                     # PII Masking, Prompt Injection Guard & Output Moderation
+├── tutorial/
+│   └── run_guide.md                  # [Mới tạo] Hướng dẫn chi tiết quy trình chạy dự án từ A đến Z
 ├── .env.example                      # Template cấu hình biến môi trường
 ├── .gitignore                        # Loại trừ cache, venv, .env
 ├── LICENSE                           # Giấy phép MIT
