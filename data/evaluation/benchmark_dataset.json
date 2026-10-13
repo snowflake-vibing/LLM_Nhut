@@ -1,0 +1,62 @@
+[
+  {
+    "id": "TC01",
+    "question": "Tôi muốn thành lập công ty TNHH một thành viên thì cần tối thiểu bao nhiêu vốn và chịu trách nhiệm như thế nào?",
+    "ground_truth": "Luật Doanh nghiệp 2020 không quy định mức vốn điều lệ tối thiểu chung (trừ ngành nghề yêu cầu vốn pháp định). Chủ sở hữu công ty TNHH một thành viên chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty trong phạm vi số vốn điều lệ theo quy định tại Điều 74.",
+    "expected_context": "Điều 74 Luật Doanh nghiệp 2020: Chủ sở hữu công ty chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty trong phạm vi số vốn điều lệ của công ty."
+  },
+  {
+    "id": "TC02",
+    "question": "Thời hạn góp đủ vốn điều lệ cho công ty TNHH là bao nhiêu ngày kể từ khi được cấp phép?",
+    "ground_truth": "Thời hạn góp vốn là 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp theo quy định tại Điều 47 Luật Doanh nghiệp 2020.",
+    "expected_context": "Điều 47 Luật Doanh nghiệp 2020: Thành viên phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong thời hạn 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp."
+  },
+  {
+    "id": "TC03",
+    "question": "Hộ kinh doanh cá thể có tư cách pháp nhân không và chịu trách nhiệm tài sản ra sao?",
+    "ground_truth": "Hộ kinh doanh không có tư cách pháp nhân và chủ hộ kinh doanh chịu trách nhiệm bằng toàn bộ tài sản của mình (trách nhiệm vô hạn) theo quy định tại Điều 79 Nghị định 01/2021/NĐ-CP.",
+    "expected_context": "Điều 79 Nghị định 01/2021/NĐ-CP: Hộ kinh doanh do một cá nhân hoặc các thành viên hộ gia đình đăng ký thành lập và chịu trách nhiệm bằng toàn bộ tài sản của mình đối với hoạt động kinh doanh của hộ. Hộ kinh doanh không có tư cách pháp nhân."
+  },
+  {
+    "id": "TC04",
+    "question": "Công ty cổ phần cần tối thiểu bao nhiêu cổ đông sáng lập khi thành lập?",
+    "ground_truth": "Công ty cổ phần yêu cầu số lượng cổ đông tối thiểu là 03 và không hạn chế số lượng tối đa theo quy định tại Điều 111 Luật Doanh nghiệp 2020.",
+    "expected_context": "Điều 111 Luật Doanh nghiệp 2020: Cổ đông có thể là tổ chức, cá nhân; số lượng cổ đông tối thiểu là 03 và không hạn chế số lượng tối đa."
+  },
+  {
+    "id": "TC05",
+    "question": "Thời gian giải quyết cấp Giấy chứng nhận đăng ký doanh nghiệp của cơ quan nhà nước là bao lâu?",
+    "ground_truth": "Thời hạn cấp Giấy chứng nhận đăng ký doanh nghiệp là 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ theo quy định tại Điều 24 Nghị định 01/2021/NĐ-CP.",
+    "expected_context": "Điều 24 Nghị định 01/2021/NĐ-CP: Thời hạn cấp Giấy chứng nhận đăng ký doanh nghiệp là 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ."
+  },
+  {
+    "id": "TC06",
+    "question": "Mở quán kinh doanh dịch vụ đồ uống và cà phê thuộc mã ngành VSIC nào?",
+    "ground_truth": "Mã ngành VSIC 5630: Dịch vụ phục vụ đồ uống (bao gồm quán cà phê, quán giải khát, quán bar).",
+    "expected_context": "VSIC 5630: Dịch vụ phục vụ đồ uống - Kinh doanh quán cà phê, trà sữa, quán nước giải khát."
+  },
+  {
+    "id": "TC07",
+    "question": "Kinh doanh phần mềm, lập trình ứng dụng di động thuộc mã ngành nào?",
+    "ground_truth": "Mã ngành VSIC 6201: Lập trình máy vi tính (bao gồm viết phần mềm, ứng dụng di động, thiết kế website).",
+    "expected_context": "VSIC 6201: Lập trình máy vi tính - Viết phần mềm, ứng dụng di động, thiết kế website, lập trình hệ thống."
+  },
+  {
+    "id": "TC08",
+    "question": "Mở nhà hàng, quán ăn cần có giấy phép con nào trước khi hoạt động?",
+    "ground_truth": "Cần có Giấy chứng nhận cơ sở đủ điều kiện An toàn thực phẩm (ATVSTP) và Giấy chứng nhận thẩm duyệt thiết kế PCCC (tùy diện tích).",
+    "expected_context": "Luật An toàn thực phẩm 2010 và Nghị định 15/2018/NĐ-CP yêu cầu Giấy chứng nhận cơ sở đủ điều kiện An toàn thực phẩm."
+  },
+  {
+    "id": "TC09",
+    "question": "Một cá nhân có được thành lập nhiều hộ kinh doanh không?",
+    "ground_truth": "Không. Mỗi cá nhân chỉ được đăng ký một hộ kinh doanh trong phạm vi toàn quốc theo Điều 79 Nghị định 01/2021/NĐ-CP.",
+    "expected_context": "Điều 79 Nghị định 01/2021/NĐ-CP: Cá nhân, thành viên hộ gia đình chỉ được đăng ký một hộ kinh doanh trong phạm vi toàn quốc."
+  },
+  {
+    "id": "TC10",
+    "question": "Hộ kinh doanh chuyển đổi lên doanh nghiệp có được miễn lệ phí môn bài không?",
+    "ground_truth": "Có, doanh nghiệp chuyển đổi từ hộ kinh doanh được miễn lệ phí môn bài trong thời hạn 03 năm kể từ ngày thành lập theo Điều 11 Nghị định 39/2018/NĐ-CP.",
+    "expected_context": "Điều 11 Nghị định 39/2018/NĐ-CP: Được miễn lệ phí môn bài trong thời hạn 03 năm kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp lần đầu."
+  }
+]

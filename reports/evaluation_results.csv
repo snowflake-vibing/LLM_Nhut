@@ -1,0 +1,46 @@
+﻿id,question,ground_truth,predicted_answer,citations,faithfulness,answer_relevance,context_precision,context_recall
+TC01,Tôi muốn thành lập công ty TNHH một thành viên thì cần tối thiểu bao nhiêu vốn và chịu trách nhiệm như thế nào?,Luật Doanh nghiệp 2020 không quy định mức vốn điều lệ tối thiểu chung (trừ ngành nghề yêu cầu vốn pháp định). Chủ sở hữu công ty TNHH một thành viên chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty trong phạm vi số vốn điều lệ theo quy định tại Điều 74.,"### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Luat Doanh Nghiep 2020 - Điều 74], [Luat Doanh Nghiep 2020 - Điều 4], [Luat Doanh Nghiep 2020 - Điều 47]",0.95,0.56,0.79,0.87
+TC02,Thời hạn góp đủ vốn điều lệ cho công ty TNHH là bao nhiêu ngày kể từ khi được cấp phép?,Thời hạn góp vốn là 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp theo quy định tại Điều 47 Luật Doanh nghiệp 2020.,"### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Luat Doanh Nghiep 2020 - Điều 4], [Luat Doanh Nghiep 2020 - Điều 111], [Luat Doanh Nghiep 2020 - Điều 47]",0.95,0.54,0.77,0.62
+TC03,Hộ kinh doanh cá thể có tư cách pháp nhân không và chịu trách nhiệm tài sản ra sao?,Hộ kinh doanh không có tư cách pháp nhân và chủ hộ kinh doanh chịu trách nhiệm bằng toàn bộ tài sản của mình (trách nhiệm vô hạn) theo quy định tại Điều 79 Nghị định 01/2021/NĐ-CP.,"### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Luat Doanh Nghiep 2020 - Điều 16], [Nghi Dinh 01 2021 ND CP - Điều 79], [Nghi Dinh 01 2021 ND CP - Điều 87]",0.95,0.65,0.97,0.89
+TC04,Công ty cổ phần cần tối thiểu bao nhiêu cổ đông sáng lập khi thành lập?,Công ty cổ phần yêu cầu số lượng cổ đông tối thiểu là 03 và không hạn chế số lượng tối đa theo quy định tại Điều 111 Luật Doanh nghiệp 2020.,"### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Luat Doanh Nghiep 2020 - Điều 74], [Luat Doanh Nghiep 2020 - Điều 4], [Luat Doanh Nghiep 2020 - Điều 111]",0.95,0.4,0.6,0.62
+TC05,Thời gian giải quyết cấp Giấy chứng nhận đăng ký doanh nghiệp của cơ quan nhà nước là bao lâu?,Thời hạn cấp Giấy chứng nhận đăng ký doanh nghiệp là 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ theo quy định tại Điều 24 Nghị định 01/2021/NĐ-CP.,"### Lộ trình & Checklist Thủ tục Đăng ký (TNHH_1TV):
+- [ ] **Bước 1: Chuẩn bị thông tin:** Tên công ty, trụ sở chính, vốn điều lệ và bản sao CCCD.
+- [...",,0.95,0.54,0.71,0.69
+TC06,Mở quán kinh doanh dịch vụ đồ uống và cà phê thuộc mã ngành VSIC nào?,"Mã ngành VSIC 5630: Dịch vụ phục vụ đồ uống (bao gồm quán cà phê, quán giải khát, quán bar).","### Kết quả tra cứu mã ngành kinh tế và giấy phép con:
+Dựa trên dữ liệu hệ thống ngành kinh tế Việt Nam (VSIC):
+
+```json
+[
+  {
+    ""code"": ""5630"",
+   ...",,0.95,0.65,0.76,0.69
+TC07,"Kinh doanh phần mềm, lập trình ứng dụng di động thuộc mã ngành nào?","Mã ngành VSIC 6201: Lập trình máy vi tính (bao gồm viết phần mềm, ứng dụng di động, thiết kế website).","### Kết quả tra cứu mã ngành kinh tế và giấy phép con:
+Dựa trên dữ liệu hệ thống ngành kinh tế Việt Nam (VSIC):
+
+```json
+[
+  {
+    ""code"": ""6201"",
+   ...",,0.95,0.66,0.82,0.8
+TC08,"Mở nhà hàng, quán ăn cần có giấy phép con nào trước khi hoạt động?",Cần có Giấy chứng nhận cơ sở đủ điều kiện An toàn thực phẩm (ATVSTP) và Giấy chứng nhận thẩm duyệt thiết kế PCCC (tùy diện tích).,"### Kết quả tra cứu mã ngành kinh tế và giấy phép con:
+Dựa trên dữ liệu hệ thống ngành kinh tế Việt Nam (VSIC):
+
+```json
+[
+  {
+    ""code"": ""6201"",
+   ...",,0.95,0.48,0.64,0.56
+TC09,Một cá nhân có được thành lập nhiều hộ kinh doanh không?,Không. Mỗi cá nhân chỉ được đăng ký một hộ kinh doanh trong phạm vi toàn quốc theo Điều 79 Nghị định 01/2021/NĐ-CP.,"### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Luat Doanh Nghiep 2020 - Điều 74], [Nghi Dinh 01 2021 ND CP - Điều 79], [Nghi Dinh 01 2021 ND CP - Điều 87]",0.95,0.48,0.8,0.74
+TC10,Hộ kinh doanh chuyển đổi lên doanh nghiệp có được miễn lệ phí môn bài không?,"Có, doanh nghiệp chuyển đổi từ hộ kinh doanh được miễn lệ phí môn bài trong thời hạn 03 năm kể từ ngày thành lập theo Điều 11 Nghị định 39/2018/NĐ-CP.","### Tư vấn loại hình doanh nghiệp:
+Dựa trên yêu cầu của bạn, nếu bạn khởi nghiệp với quy mô vừa và nhỏ:
+- **Công ty TNHH 1 Thành viên:** Phù hợp nếu b...","[Nghi Dinh 39 2018 ND CP - Điều 11], [Nghi Dinh 01 2021 ND CP - Điều 79], [Nghi Dinh 01 2021 ND CP - Điều 87]",0.95,0.4,0.63,0.6

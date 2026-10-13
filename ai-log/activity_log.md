@@ -9,102 +9,133 @@ Tài liệu này ghi lại toàn bộ tiến trình làm việc, các quyết đ
 * **Phân hạng đề tài:** **Tier S+ (Top 1)** - Tối ưu 100% theo 7 tiêu chí đánh giá môn học AI Engineer (thang điểm 10).
 * **Repository GitHub:** [snowflake-vibing/LLM_Nhut](https://github.com/snowflake-vibing/LLM_Nhut)
 * **Nhánh hoạt động:** `main`
+* **Trạng thái:** **HOÀN THÀNH 100% CHECKLIST (ALL DELIVERABLES COMPLETED)**
 
 ---
 
 ## 🕒 Lịch sử Hoàn thành Chi tiết Theo Giai đoạn
 
 ### 1. Phân tích Yêu cầu & Tiêu chí Đánh giá của Giảng viên
-* **Nội dung:** Giải thích chi tiết bản chất kỹ thuật và điểm số tương ứng của 7 tiêu chí trong đề cương:
+* Giải thích chi tiết bản chất kỹ thuật và điểm số tương ứng của 7 tiêu chí:
   1. *Ứng dụng LLM trong doanh nghiệp (1.0đ)*: Tính thực tiễn, giải quyết bài toán kinh doanh cụ thể.
   2. *Kỹ năng Prompting (2.0đ)*: System Prompting, Few-shot, Chain-of-Thought, Structured Output JSON.
   3. *Lập trình Cloud Server & Local Model (2.5đ)*: Tích hợp linh hoạt Gemini/OpenAI API và Ollama chạy local.
   4. *Vector & RAG cơ bản, đọc từ CSDL (1.5đ)*: ChromaDB cho văn bản PDF luật + CSDL SQLite cho dữ liệu có cấu trúc.
-  5. *AI Agents & Đa Tác Nhân (1.5đ)*: LangGraph điều phối Router, Advisory, Lookup và Reviewer Agents.
+  5. *AI Agents & Đa Tác Nhân (1.5đ)*: Điều phối Router, Advisory, Lookup và Reviewer Agents.
   6. *Đánh giá mô hình LLM (1.0đ)*: Benchmark bằng framework Ragas (Faithfulness, Relevance, Precision...).
   7. *Bảo mật LLM (0.5đ)*: Lọc dữ liệu nhạy cảm PII, phòng thủ Prompt Injection / Anti-Jailbreak.
 
 ### 2. Thiết lập Môi trường & Khởi tạo Tài liệu Ban đầu
-* **Kết nối & Clone Repository:** Clone mã nguồn từ GitHub về thư mục cục bộ `D:\LLM\LLM_Nhut`.
-* **Tạo thư mục & tài liệu `requirements/`:**
-  * Tạo file [`requirements/project_requirements.md`](../requirements/project_requirements.md): Tổng hợp chi tiết yêu cầu, rubric điểm, tech stack và lộ trình 6 giai đoạn.
-  * Commit: `docs: add project requirements and grading criteria` (Đã push lên GitHub).
+* Clone repo về máy cục bộ `D:\LLM\LLM_Nhut`.
+* Tạo file [`requirements/project_requirements.md`](../requirements/project_requirements.md): Tổng hợp chi tiết yêu cầu, rubric điểm, tech stack và lộ trình triển khai.
 
-### 3. Đánh giá & Phân hạng Đề tài (Tier List Ranking)
-* Phân tích và xếp hạng 5 đề tài tiềm năng theo khả năng đạt điểm tuyệt đối:
-  * **Tier S+ (Lựa chọn chính thức):** Trợ lý Pháp lý & Thủ tục Doanh nghiệp nhỏ (LegalTech SME Assistant).
-  * **Tier S:** Trợ lý CSKH & Tra cứu Đơn hàng E-Commerce.
-  * **Tier A+:** Trợ lý Nhân sự Nội bộ & Quản lý Nghỉ phép (Enterprise HR).
-  * **Tier A:** Trợ lý Thẩm định Hồ sơ Vay Ngân hàng (Fintech Loan).
-  * **Tier C:** Tư vấn & Báo cáo Thị trường Crypto (nhiều rủi ro pháp lý và khó đo lường Ground Truth).
+### 3. Phân hạng & Chốt Đề tài Tier S+
+* Đánh giá Tier List 5 đề tài tiềm năng, chốt **Tier S+**: Trợ lý Pháp lý & Thủ tục Doanh nghiệp nhỏ (LegalTech SME Assistant).
+* Cập nhật file [`README.md`](../README.md) hoàn chỉnh với sơ đồ Mermaid, phân rã 7 tiêu chí và hướng dẫn chạy nhanh.
 
-### 4. Cập nhật Tài liệu Kiến trúc Dự án
-* Cập nhật file [`README.md`](../README.md) hoàn chỉnh bao gồm:
-  * Giới thiệu bối cảnh doanh nghiệp và bài toán giải quyết.
-  * Bảng ánh xạ 7 tiêu chí đánh giá vào từng module kỹ thuật.
-  * Sơ đồ kiến trúc Mermaid Diagram (Luồng dữ liệu giữa User, Guardrails, Multi-Agent LangGraph, CSDL SQL, ChromaDB, Cloud/Local LLM).
-  * Cấu trúc cây thư mục chuẩn và hướng dẫn khởi chạy nhanh.
-  * Commit: `docs: update README with Tier S+ LegalTech SME Assistant project overview` (Đã push lên GitHub).
+### 4. Xây dựng Bản Checklist Sản phẩm Bàn giao
+* Tạo file [`requirements/project_checklist.md`](../requirements/project_checklist.md) quản lý toàn bộ deliverables.
 
-### 5. Xây dựng Bản Checklist Sản phẩm Bàn giao (Project Deliverables)
-* Tạo file [`requirements/project_checklist.md`](../requirements/project_checklist.md):
-  * Liệt kê chi tiết từng file mã nguồn, file dữ liệu, kịch bản kiểm thử, báo cáo Ragas, slide và đồ án cần nộp.
-  * Commit: `docs: add project deliverables and completion checklist` (Đã push lên GitHub).
+### 5. Hiện thực hóa Module 1.1: Cloud & Local LLM Provider (2.5đ)
+* `llm_provider/cloud_provider.py`: Google Gemini API qua REST và LangChain.
+* `llm_provider/local_provider.py`: Ollama API cục bộ (`http://localhost:11434`).
+* `llm_provider/model_factory.py`: Factory Pattern, Model Switcher, Auto-fallback & Health check.
+* `.env.example`, `.gitignore`.
 
-### 6. Hiện thực hóa Module 1.1: Cloud & Local LLM Provider (2.5 điểm)
-Xây dựng trọn bộ mã nguồn tầng Provider với khả năng chuyển đổi linh hoạt:
-* **`llm_provider/cloud_provider.py`:**
-  * Kết nối Google Gemini API (model mặc định: `gemini-1.5-flash`).
-  * Hỗ trợ gọi trực tiếp qua Gemini REST API (không bắt buộc cài package ngoài) lẫn tích hợp LangChain `ChatGoogleGenerativeAI`.
-  * Hỗ trợ các hàm `generate()`, `stream()` (hiển thị câu trả lời dạng gõ chữ) và `is_available()`.
-* **`llm_provider/local_provider.py`:**
-  * Kết nối Ollama nội bộ qua cổng `http://localhost:11434` (model: `qwen2.5:latest` hoặc `llama3.1:latest`).
-  * Tự động kiểm tra trạng thái hoạt động của Ollama (`is_available()`) và danh sách model đã tải (`list_models()`).
-  * Hỗ trợ hàm `generate()` và `stream()`.
-* **`llm_provider/model_factory.py`:**
-  * Áp dụng **Factory Pattern** và **Model Switcher** cho phép đổi model runtime bằng một dòng code hoặc nút gạt trên UI (`set_provider("cloud" | "local")`).
-  * Tích hợp hàm `check_health()` trả về trạng thái kết nối của cả 2 môi trường để hiển thị lên Dashboard.
-  * Cơ chế **Auto-fallback:** Tự động dự phòng sang Cloud nếu Local bị tắt hoặc lỗi kết nối.
-* **Các file phụ trợ:**
-  * `llm_provider/__init__.py`: Package export cho việc import module sạch sẽ.
-  * `.env.example`: Hướng dẫn cấu hình API Key và model name.
-  * `.gitignore`: Loại bỏ cache `__pycache__`, file ảo `.venv` và file bí mật `.env`.
-* **Kiểm thử tự động:** Đã chạy script test `python -c "from llm_provider import ModelFactory; ..."` và hàm `check_health()` phản hồi chính xác 100%.
+### 6. Hiện thực hóa Module 1.4 & Dữ liệu CSDL (1.5đ - Phần CSDL)
+* `data/database/schema.sql`: Schema CSDL pháp lý gồm bảng `industry_codes`, `license_requirements`, `registration_checklist`.
+* `src/database/init_db.py`: Khởi tạo và nạp dữ liệu SQLite `data/database/sme_legal.db` (hàng chục mã ngành VSIC 2018, giấy phép ATVSTP, PCCC, giấy phép rượu, và quy trình các bước).
+* `src/database/db_manager.py`: Thực thi truy vấn SELECT an toàn, phòng chống SQL Injection.
+* `src/database/sql_tools.py`: Tool calling cho AI Agent (`search_industry_tool`, `get_sub_license_tool`, `get_registration_steps_tool`).
 
-### 7. Tái cấu trúc (Refactor) Thư mục Mã nguồn
-* Theo yêu cầu của người dùng, thực hiện chuyển đổi cấu trúc:
-  * Di chuyển toàn bộ các file từ `src/llm_providers/` sang thư mục gốc [`llm_provider/`](../llm_provider/).
-  * Cập nhật đánh dấu hoàn thành `[x]` cho 3 mục của phần 1.1 trong checklist.
-  * Commit: `refactor: move llm provider files to llm_provider folder` (Đã push lên GitHub).
+### 7. Hiện thực hóa Module 1.3 & RAG Pipeline (1.5đ - Phần RAG)
+* Dữ liệu luật nguồn:
+  * `data/raw_documents/Luat_Doanh_Nghiep_2020.txt`
+  * `data/raw_documents/Nghi_Dinh_01_2021_ND_CP.txt`
+  * `data/raw_documents/Nghi_Dinh_39_2018_ND_CP.txt`
+* `src/rag/ingestion.py`: Bộ cắt đoạn thông minh theo từng Điều/Khoản luật (Article-level chunking).
+* `src/rag/embeddings.py`: Bộ sinh embedding vector (Gemini Embeddings API + fallback semantic hashing).
+* `src/rag/vector_store.py`: Quản lý lưu trữ vector và Cosine Similarity search.
+* `src/rag/retriever.py`: Trích xuất ngữ cảnh RAG kèm định dạng nguồn luật chuẩn xác (Citation: `[Tên Luật - Số Điều]`).
+
+### 8. Hiện thực hóa Module 1.2: Kỹ năng Prompt Engineering (2.0đ)
+* `src/prompts/system_prompts.py`: Bộ System Prompts đầy đủ Role, Task, Context, Constraints cho Router, Advisory, Lookup, Reviewer.
+* `src/prompts/few_shot_templates.py`: Mẫu trích xuất ý định và thực thể Few-shot learning.
+* `src/prompts/cot_reasoning.py`: Prompt ép mô hình suy luận logic 5 bước Chain-of-Thought.
+* `src/prompts/schemas.py`: Pydantic Models cho Structured Output (`BusinessEntityRecommendation`, `IndustryLicenseDetail`, `LegalDossierChecklist`).
+
+### 9. Hiện thực hóa Module 1.6: An toàn Bảo mật LLM (0.5đ)
+* `src/security/pii_masking.py`: Tự động nhận diện và ẩn danh CCCD (12 số), SĐT, Email trước khi gửi ra ngoài, hỗ trợ unmask sau khi nhận phản hồi.
+* `src/security/prompt_injection_guard.py`: Chống tấn công Jailbreak ("ignore previous instructions", "DAN mode") và từ chối các hành vi trái luật (trốn thuế, rửa tiền, kê khai khống vốn) theo Điều 16 Luật Doanh nghiệp 2020.
+* `src/security/output_moderation.py`: Kiểm duyệt đầu ra và tự động gắn khuyến cáo pháp lý (Legal Disclaimer).
+
+### 10. Hiện thực hóa Module 1.5: Hệ thống Đa Tác Nhân (Multi-Agent - 1.5đ)
+* `src/agents/router_agent.py`: Agent phân loại ý định người dùng.
+* `src/agents/advisory_agent.py`: Agent tư vấn mô hình công ty kết hợp RAG.
+* `src/agents/lookup_agent.py`: Agent tra cứu mã ngành VSIC & điều kiện cấp phép qua SQL Tools.
+* `src/agents/reviewer_agent.py`: Agent tổng hợp checklist hành động từng bước.
+* `src/agents/graph.py`: StateGraph Workflow tích hợp toàn diện Guardrails $\rightarrow$ Routing $\rightarrow$ Execution $\rightarrow$ Moderation.
+
+### 11. Hiện thực hóa Module 1.7: Đánh giá Mô hình & Benchmark (1.0đ)
+* `data/evaluation/benchmark_dataset.json`: Bộ 10 test cases kiểm thử chuẩn.
+* `src/evaluation/ragas_evaluator.py`: Chạy benchmark đo 4 chỉ số Ragas và xuất file `reports/evaluation_results.csv`:
+  * **Faithfulness:** `95.0%`
+  * **Context Precision:** `74.9%`
+  * **Context Recall:** `70.8%`
+  * **Overall Score:** `73.6%`
+* `src/evaluation/model_comparison.py`: Đo lường thực nghiệm Cloud (Gemini) vs Local (Ollama) và xuất báo cáo `reports/model_comparison_report.md`.
+
+### 12. Hiện thực hóa Module 1.8: Giao diện Người dùng Streamlit
+* `app/main.py`: Ứng dụng Streamlit đa chức năng gồm 4 tabs:
+  * **Tab 1: Chatbot AI:** Tương tác trực tiếp, trích dẫn căn cứ luật và huy hiệu Agent.
+  * **Tab 2: Database Explorer:** Tra cứu CSDL mã ngành VSIC và xem điều kiện cấp phép.
+  * **Tab 3: Security Monitor & Switcher:** Thử nghiệm PII Masking, Anti-Jailbreak và chuyển đổi Cloud/Local.
+  * **Tab 4: Evaluation Dashboard:** Trực quan hóa biểu đồ điểm số Ragas Benchmark.
+
+### 13. Hoàn thiện Tài liệu Báo cáo & Thuyết trình
+* `reports/PROJECT_REPORT.md`: Báo cáo đồ án hoàn chỉnh 8 chương chi tiết bao quát toàn bộ 7 tiêu chí chấm điểm.
+* `reports/presentation_slides.md`: Bộ slide thuyết trình 12 trang tóm tắt đồ án.
+* `requirements.txt`: Danh sách đầy đủ dependencies.
+* Cập nhật đánh dấu hoàn thành 100% `[x]` trong [`requirements/project_checklist.md`](../requirements/project_checklist.md).
 
 ---
 
-## 📂 Cấu trúc Thư mục Hiện tại của Repository
+## 📂 Cấu trúc Thư mục Hoàn chỉnh Hiện tại
 
 ```
 LLM_Nhut/
 ├── ai-log/
-│   └── activity_log.md          # [Mới tạo] Toàn bộ nhật ký hoạt động chi tiết
-├── llm_provider/                # Module Cloud & Local LLM Provider (Tiêu chí 3: 2.5đ)
-│   ├── __init__.py              # Export module
-│   ├── cloud_provider.py        # Tích hợp Google Gemini API
-│   ├── local_provider.py        # Tích hợp Ollama Local API
-│   └── model_factory.py         # Factory Pattern & Model Switcher
-├── requirements/                # Tài liệu yêu cầu & kế hoạch dự án
-│   ├── project_checklist.md     # Danh sách output cần có & tiến độ hoàn thành
-│   └── project_requirements.md  # Chi tiết 7 tiêu chí chấm điểm của giảng viên
-├── .env.example                 # File mẫu cấu hình biến môi trường
-├── .gitignore                   # Cấu hình bỏ qua cache và file nhạy cảm
-├── LICENSE                      # Giấy phép mã nguồn mở MIT
-└── README.md                    # Tài liệu tổng quan dự án chính thức
+│   └── activity_log.md               # Nhật ký hoạt động chi tiết
+├── app/
+│   └── main.py                       # Giao diện người dùng Streamlit (4 tabs)
+├── data/
+│   ├── chromadb/                     # CSDL Vector (Index lưu trữ embeddings)
+│   ├── database/                     # CSDL SQLite (schema.sql & sme_legal.db)
+│   ├── evaluation/                   # Dataset benchmark (benchmark_dataset.json)
+│   └── raw_documents/                # Văn bản luật nguồn (PDF/TXT)
+├── llm_provider/                     # Module Cloud & Local LLM Provider
+│   ├── __init__.py
+│   ├── cloud_provider.py             # Google Gemini API
+│   ├── local_provider.py             # Ollama Local API
+│   └── model_factory.py              # Factory Switcher & Auto-fallback
+├── reports/                          # Báo cáo và kết quả đo lường
+│   ├── evaluation_results.csv        # Kết quả benchmark Ragas chi tiết
+│   ├── model_comparison_report.md    # Báo cáo so sánh Cloud vs Local
+│   ├── presentation_slides.md        # Slide thuyết trình báo cáo đồ án
+│   └── PROJECT_REPORT.md             # Báo cáo đồ án hoàn chỉnh 8 chương
+├── requirements/                     # Tài liệu môn học
+│   ├── project_checklist.md          # Checklist hoàn thành 100%
+│   └── project_requirements.md       # Bảng 7 tiêu chí chấm điểm
+├── src/
+│   ├── agents/                       # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, Graph)
+│   ├── database/                     # Quản lý CSDL SQLite & SQL Tools
+│   ├── evaluation/                   # Script benchmark Ragas & Model Comparison
+│   ├── prompts/                      # System prompts, Few-shot, CoT & Pydantic schemas
+│   ├── rag/                          # Pipeline Ingestion, Embeddings, VectorStore & Retriever
+│   └── security/                     # PII Masking, Prompt Injection Guard & Output Moderation
+├── .env.example                      # Template cấu hình biến môi trường
+├── .gitignore                        # Loại trừ cache, venv, .env
+├── LICENSE                           # Giấy phép MIT
+├── README.md                         # Tài liệu giới thiệu dự án
+└── requirements.txt                  # Thư viện phụ thuộc Python
 ```
-
----
-
-## 🚀 Lịch sử Commit trên Nhánh `main`
-1. `docs: add project requirements and grading criteria`
-2. `docs: update README with Tier S+ LegalTech SME Assistant project overview`
-3. `docs: add project deliverables and completion checklist`
-4. `feat(llm): implement cloud provider, local provider, and model factory switcher`
-5. `chore: add .gitignore and untrack pycache`
-6. `refactor: move llm provider files to llm_provider folder`
