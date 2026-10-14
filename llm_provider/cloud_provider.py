@@ -25,7 +25,7 @@ class CloudLLMProvider:
         max_output_tokens: int = 2048,
     ):
         self.api_key = api_key or os.getenv("GOOGLE_API_KEY", "")
-        self.model_name = model_name or os.getenv("CLOUD_MODEL_NAME", "gemini-1.5-flash")
+        self.model_name = model_name or os.getenv("CLOUD_MODEL_NAME", "gemini-3.5-flash-lite")
         self.temperature = temperature
         self.max_output_tokens = max_output_tokens
         self._llm_instance = None
