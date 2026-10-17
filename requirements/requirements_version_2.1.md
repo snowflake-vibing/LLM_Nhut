@@ -44,15 +44,21 @@ Nâng tầm LegalTech Platform thành một **Luật sư Trực tuyến Toàn n�
 
 ---
 
-### 🚀 Yêu cầu 3: Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Yêu cầu (On-Demand Legal Drafter)
+### 🚀 Yêu cầu 3: Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Form Thông minh (Smart Pre-filled Form with Placeholder Fallback)
 * **Mô tả:** Xây dựng `src/dossier/dynamic_drafter.py`:
-  * Cho phép người dùng yêu cầu soạn bất kỳ loại văn bản pháp lý nào:
-    * *Đơn khởi kiện dân sự / kinh doanh thương mại*
-    * *Đơn tố giác tội phạm / Đơn khiếu nại*
-    * *Đơn yêu cầu hòa giải tranh chấp đất đai*
-    * *Thỏa thuận phân chia tài sản / Đơn ly hôn*
-    * *Hợp đồng dịch vụ / Hợp đồng lao động chuẩn song phương*
-  * Tự động xuất ra file Word (.docx) chuẩn thể thức hành chính tư pháp Việt Nam.
+  * **Cơ chế Form Thông minh Điền sẵn (Pre-filled by AI):**
+    * Khi người dùng chọn hoặc yêu cầu một loại văn bản (ví dụ: *Đơn khởi kiện đòi nợ*, *Đơn yêu cầu hòa giải tranh chấp đất đai*, *Đơn tố cáo bạo lực học đường*, *Đơn ly hôn thuận tình*, *Hợp đồng dịch vụ*...), AI sẽ **tự động soạn thảo và điền sẵn 100% các nội dung pháp lý cốt lõi, chuẩn mực**:
+      - Quốc hiệu, Tiêu ngữ, Tên loại đơn chuẩn tố tụng.
+      - Cơ quan có thẩm quyền tiếp nhận (TAND huyện/tỉnh, UBND xã/phường, Công an...).
+      - Toàn bộ nội dung sự việc mẫu, các căn cứ pháp luật và các yêu cầu đề nghị giải quyết.
+  * **Xử lý Thông tin Cá nhân Linh hoạt (Flexible Placeholders):**
+    * Các trường thông tin nhân thân (Họ tên, ngày sinh, số CCCD, địa chỉ, số tiền tranh chấp, vị trí thửa đất...):
+      - Nếu người dùng có nhập $\rightarrow$ Tự động ráp dữ liệu thật vào văn bản.
+      - **Nếu người dùng chưa biết hoặc bỏ trống** $\rightarrow$ AI tự động chèn các **chuỗi giữ chỗ chuẩn hóa dạng chấm dòng hoặc ngoặc vuông**:  
+        *`Ông/Bà: ........................................, CCCD số: ........................................ cấp ngày: ...../...../......... tại: ........................................`*  
+        hoặc: *`[HỌ VÀ TÊN NGƯỜI KHỞI KIỆN]`*, *`[SỐ TIỀN YÊU CẦU ĐÒI NỢ]`*.
+    * Người dùng không bị áp lực phải có đầy đủ thông tin mới tạo được, có thể tải về file Word (.docx) và điền tay hoặc bổ sung sau bất cứ lúc nào!
+  * **Xuất file Word (.docx) chuẩn:** Căn lề chuẩn văn bản tư pháp Việt Nam (Nghị quyết 01/2017/NQ-HĐTP và Nghị định 30/2020/NĐ-CP).
 
 ---
 

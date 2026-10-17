@@ -62,12 +62,14 @@ Dưới góc nhìn của một Kỹ sư AI phát triển hệ thống Agentic AI
 
 ---
 
-### 3. Phân tích: Dynamic On-Demand Legal Document Drafting Engine
-* **Kiến trúc sinh văn bản:**
-  * Thay vì chỉ dựa vào các hàm hardcode cho một vài biểu mẫu, xây dựng **Generalized Legal Document Generator (`src/dossier/dynamic_drafter.py`)**:
-    * Nhận yêu cầu tự nhiên: *"Hãy soạn cho tôi Đơn khởi kiện đòi nợ đối với ông Nguyễn Văn B kèm đề nghị áp dụng biện pháp khẩn cấp tạm thời phong tỏa tài sản"*.
-    * AI Agent xuất cấu trúc văn bản chuẩn thể thức văn bản tư pháp Việt Nam (Kính gửi TAND có thẩm quyền, Người khởi kiện, Người bị kiện, Nội dung vụ việc, Căn cứ pháp lý, Yêu cầu khởi kiện, Danh mục chứng cứ kèm theo).
-    * Tự động đóng gói và xuất thành file Word (.docx) chuẩn lề trang và kiểu chữ Times New Roman 13-14pt.
+### 3. Phân tích: Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Form Thông minh (Smart Pre-filled Form with Placeholders)
+* **Ý nghĩa & Trải nghiệm thực tế:**
+  * Đây là một cải tiến UX cực kỳ tinh tế và thấu hiểu tâm lý người dùng. Người dân hoặc chủ doanh nghiệp bình thường thường **không biết một lá đơn hay văn bản pháp lý cần có những điều khoản hay căn cứ luật nào**.
+  * **Giải pháp kỹ thuật (Pre-filled by AI & Flexible Placeholders):**
+    * Khi người dùng chọn một loại văn bản (Đơn khởi kiện đòi nợ, Đơn giải quyết tranh chấp đất đai, Đơn tố giác bạo lực học đường, Hợp đồng hợp tác kinh doanh...), AI sẽ **soạn thảo và điền sẵn 100% các căn cứ pháp luật, nội dung sự việc mẫu và các yêu cầu chuẩn mực**.
+    * Về phần thông tin cá nhân: Cung cấp form trực quan với các trường (Họ tên, CCCD, địa chỉ, số tiền/diện tích...).
+    * **Cơ chế Fallback thông minh:** Người dùng có thông tin gì thì điền vào đó. **Nếu người dùng chưa biết, chưa có giấy tờ trong tay hoặc để trống**, AI sẽ tự động thay thế bằng **các dòng chấm chuẩn hóa hoặc placeholder** (*`CCCD số: ........................................`* hoặc *`[SỐ TIỀN YÊU CẦU ĐÒI NỢ]`*).
+    * Người dùng vẫn có thể bấm nút xuất và tải ngay tệp Word (.docx) chuẩn thể thức để điền tay hoặc bổ sung sau bất cứ lúc nào!
 
 ---
 
