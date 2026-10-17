@@ -1,10 +1,10 @@
 # ⚖️ LegalTech Platform
-### Nền tảng Trí tuệ Pháp lý & Thẩm định Hợp đồng Toàn diện cho Cá nhân và Doanh nghiệp • Phiên bản 2.0 (Major Release)
+### Hệ thống Luật sư AI Trực tuyến & Studio Công cụ Pháp lý Toàn năng • Phiên bản 2.1 (The AI Lawyer & Studio Platform)
 
-[![Version: 2.0](https://img.shields.io/badge/Version-2.0_(Major_Release)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.1](https://img.shields.io/badge/Version-2.1_(The_AI_Lawyer_%26_Studio)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B.svg)](https://streamlit.io/)
+[![Streamlit](https://img.shields.io/badge/Frontend-Streamlit_(2_Tabs_NotebookLM)-FF4B4B.svg)](https://streamlit.io/)
 [![Ollama](https://img.shields.io/badge/Local_LLM-Ollama-black.svg)](https://ollama.ai/)
 [![Gemini](https://img.shields.io/badge/Cloud_LLM-Gemini_3.5_Flash_Lite-4285F4.svg)](https://aistudio.google.com/)
 
@@ -25,62 +25,62 @@
 * **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1) - [ĐÃ HOÀN THÀNH]:**
   * 4 nâng cấp thực chiến: Link kiểm chứng Cổng TT Chính phủ, Bộ tạo hồ sơ doanh nghiệp (.docx), Tra cứu Hybrid (CSDL + Web Search), Trực quan hóa PII: [`requirements/requirements_version_1.1.md`](./requirements/requirements_version_1.1.md).
 * **Đánh giá Phiên bản 1.1 (Preview Version 1.1):**
-  * Đánh giá v1.1, phân tích yêu cầu Tool Thẩm định Lỗ hổng Hợp đồng, In-Chat Generative UI, mở rộng phạm vi toàn bộ văn bản cho cá nhân/doanh nghiệp, và phản biện chuyên sâu về vấn đề "Train tool liên tục" trong LegalTech: [`requirements/preview_version_1.1.md`](./requirements/preview_version_1.1.md).
+  * Đánh giá v1.1, phân tích yêu cầu Tool Thẩm định Lỗ hổng Hợp đồng, In-Chat Generative UI, mở rộng phạm vi toàn bộ văn bản cho cá nhân/doanh nghiệp, và phản biện chuyên sâu: [`requirements/preview_version_1.1.md`](./requirements/preview_version_1.1.md).
 * **Yêu cầu Kỹ thuật Phiên bản 2.0 (Requirements Version 2.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
-  * Đại tu toàn diện kiến trúc: Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas, Hierarchical RAG Đa luật (Dân sự, Lao động, Thương mại) và Ngân hàng Ký ức Memory Bank: [`requirements/requirements_version_2.0.md`](./requirements/requirements_version_2.0.md).
+  * Đại tu toàn diện kiến trúc: Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas, Hierarchical RAG Đa luật: [`requirements/requirements_version_2.0.md`](./requirements/requirements_version_2.0.md).
 * **Đánh giá Phiên bản 2.0 (Preview Version 2.0):**
-  * Đánh giá v2.0, phân tích yêu cầu "Luật sư Online phân tích 2 chiều đối kháng", giải quyết 4 case xã hội (bạo lực học đường, đất đai, trốn nợ, ly hôn), soạn thảo văn bản on-demand và tái cấu trúc thành 2 Tab NotebookLM: [`requirements/preview_version_2.0.md`](./requirements/preview_version_2.0.md).
-* **Yêu cầu Kỹ thuật Phiên bản 2.1 (Requirements Version 2.1) - [ĐANG PHÁT TRIỂN]:**
-  * Lộ trình Version 2.1 (The Legal AI Lawyer & Studio Platform): Phân tích hợp đồng 2 chiều, giải quyết 4 case xã hội, On-demand Legal Drafter (.docx) và giao diện 2 Tab (AI Chatbot & Tools Studio): [`requirements/requirements_version_2.1.md`](./requirements/requirements_version_2.1.md).
+  * Đánh giá v2.0, phân tích yêu cầu "Luật sư Online phân tích 2 chiều đối kháng", giải quyết 4 case xã hội, soạn thảo văn bản on-demand và tái cấu trúc thành 2 Tab NotebookLM: [`requirements/preview_version_2.0.md`](./requirements/preview_version_2.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.1 (Requirements Version 2.1) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Legal AI Lawyer & Studio Platform: Phân tích hợp đồng 2 chiều đối kháng, 4 case đời sống xã hội, Smart Pre-filled Form with Placeholder Fallback và giao diện 2 Tab NotebookLM: [`requirements/requirements_version_2.1.md`](./requirements/requirements_version_2.1.md).
+  * Hướng dẫn chạy và kịch bản test chi tiết: [`tutorial/run_guide_version_2.1.md`](./tutorial/run_guide_version_2.1.md).
 
 ---
 
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.0 (MAJOR RELEASE)
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.1 (THE AI LAWYER & STUDIO)
 
-1. 🛡️ **Tool Thẩm định Lỗ hổng & Chấm điểm Hợp đồng (Contract Vulnerability Scanner):**
-   * Tự động phát hiện 4 nhóm rủi ro:
-     - 🚫 *Vi phạm điều cấm:* Phạt vi phạm vượt trần 8% (Điều 301 Luật Thương mại 2005), thử việc quá 60 ngày hoặc giữ bằng đại học (Điều 17, 25 BLLĐ 2019)...
-     - ⚠️ *Điều khoản bất bình đẳng / một chiều:* Quyền hủy hợp đồng tùy tiện, cơ quan tài phán mơ hồ.
-     - 📌 *Thiếu điều khoản bảo vệ cốt lõi:* Thiếu điều khoản Bất khả kháng (Điều 156, 351 BLDS 2015), thiếu thỏa thuận bảo mật NDA.
-   * **Thang điểm An toàn (Legal Risk Score 0 - 100):** Đánh giá mức độ an toàn và đưa ra **Đề xuất Điều khoản Chuẩn (Clause Redlining)** để đàm phán lại.
-   * **Xuất Báo cáo Thẩm định (.docx):** Tạo tệp Word báo cáo pháp lý chuyên nghiệp có bảng đối chiếu điều khoản.
-2. 💬 **In-Chat Interactive Canvas (Generative UI):**
-   * Khung chat đóng vai trò là một **Interactive Command Center**: Người dùng yêu cầu tạo hồ sơ hoặc kiểm tra hợp đồng, AI sẽ triệu hồi **Action Card & Download Widget** ngay trong dòng tin nhắn chat.
-3. 📚 **Kiến trúc Tri thức Pháp luật Đa tầng (Hierarchical Multi-Domain RAG):**
-   * Mở rộng tri thức bao quát toàn diện cá nhân và doanh nghiệp: **Bộ luật Dân sự 2015**, **Bộ luật Lao động 2019**, **Luật Thương mại 2005** và **Luật Doanh nghiệp 2020**.
-   * Batch embedding tốc độ cao (`batchEmbedContents`) chỉ mất 2 giây để lập chỉ mục toàn bộ.
-4. 🧠 **Cơ chế Tối ưu Liên tục Không Cần Đổi Trọng số (Legal Memory Bank):**
-   * Quản lý kho tình huống mẫu chuẩn (`src/agents/memory_store.py`) nạp động vào prompt (Dynamic In-Context Learning) kết hợp bộ quy tắc cứng (Deterministic Rules), loại bỏ 100% hiện tượng ảo giác hoặc quên lãng.
-
----
-
-## 🎯 2. Đáp ứng Tuyệt đối 7 Tiêu chí Đánh giá Dự án AI Engineer
-
-| STT | Tiêu chí | Trọng số | Triển khai trong Dự án (Version 2.0) |
-| :---: | :--- | :---: | :--- |
-| **1** | **Ứng dụng LLM Doanh nghiệp** | **1.0 đ** | Giải quyết bài toán tư vấn pháp lý, thẩm định rủi ro hợp đồng và tự động hóa hồ sơ thành lập doanh nghiệp cho cá nhân và SMEs. |
-| **2** | **Kỹ năng Prompting** | **2.0 đ** | Áp dụng Few-shot Prompting (mẫu phân loại router), Chain-of-Thought (tư duy bóc tách điều luật) và Dynamic In-Context Learning qua Memory Bank. |
-| **3** | **Cloud Server & Local Model** | **2.5 đ** | Hỗ trợ chuyển đổi tức thì (*Model Switcher*):<br>• **Local Model:** Ollama (Qwen 2.5) xử lý hợp đồng bí mật nội bộ.<br>• **Cloud Model:** Google Gemini 3.5 Flash Lite cho thẩm định chuyên sâu. |
-| **4** | **Vector DB & Đọc CSDL** | **1.5 đ** | • **Hierarchical Vector DB (ChromaDB):** Phân tầng 4 bộ luật lớn (Dân sự, Lao động, Thương mại, Doanh nghiệp).<br>• **CSDL (SQLite):** Bảng Hệ thống ngành kinh tế Việt Nam (VSIC) kết hợp Web Search mở rộng. |
-| **5** | **AI Agents & Đa Tác Nhân** | **1.5 đ** | Kiến trúc Multi-Agent Workflow Version 2.0:<br>• *Legal Router Agent v2.0:* Phân loại ý định đa luồng.<br>• *Contract Scanner Agent:* Quét lỗ hổng hợp đồng và redlining.<br>• *Entity Advisory Agent:* Tư vấn mô hình tổ chức DN.<br>• *Industry Lookup Agent:* Tra cứu mã ngành & giấy phép con.<br>• *Dossier Reviewer Agent:* Soạn thảo hồ sơ Word (.docx). |
-| **6** | **Đánh giá mô hình LLM** | **1.0 đ** | Sử dụng framework **Ragas** đo lường: Faithfulness (95.0%), Answer Relevance, Context Precision. Báo cáo so sánh Local vs Cloud. |
-| **7** | **Bảo mật LLM** | **0.5 đ** | • **PII Data Masking:** Tự động che dấu CCCD, SĐT, Email trước khi gửi Cloud API.<br>• **Prompt Injection Guard:** Chặn câu lệnh bẻ khóa system prompt hoặc yêu cầu trốn thuế, vi phạm pháp luật. |
+1. ⚖️ **Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis):**
+   - Đóng vai trò Vị Luật sư Trực tuyến bóc tách toàn diện 2 góc nhìn:
+     - 🔴 **Bên ra luật (Bên mạnh thế/soạn thảo):** Có thể lợi dụng kẽ hở nào để trì hoãn nghĩa vụ, áp phạt nặng hoặc né tránh bồi thường.
+     - 🟡 **Bên theo luật (Bên yếu thế/ký kết):** Có thể bị dính bẫy gì, hoặc có thể vận dụng điều luật nào để phản tố, vô hiệu hóa điều khoản bất lợi.
+   - Trực quan hóa qua **Ma trận Đối kháng (Bilateral Matrix)** và đề xuất điều khoản dung hòa (Neutral Clause Redline), xuất báo cáo Word (.docx).
+2. 🏛️ **Cơ sở Tri thức & Kịch bản 4 Case Đời sống Xã hội Phức tạp:**
+   - **Case 1 (Bạo lực học đường):** Điều 599 BLDS 2015 quy định trách nhiệm bồi thường của nhà trường; NĐ 80/2017/NĐ-CP; quy trình giám định thương tích và đơn khiếu nại.
+   - **Case 2 (Tranh chấp ranh giới Sổ đỏ):** Điều 202 Luật Đất đai (thủ tục hòa giải bắt buộc tại UBND cấp xã), Điều 175, 176 BLDS 2015 về mốc giới.
+   - **Case 3 (Đòi nợ khi con nợ bỏ trốn):** Điều 463 BLDS 2015; Điều 39, 40 BLTTDS (TAND nơi cư trú cuối cùng, niêm yết xét xử vắng mặt); Điều 175 BLHS.
+   - **Case 4 (Ly hôn, nuôi con & tài sản):** Điều 55, 59, 81 Luật HN&GĐ 2014 (con dưới 36 tháng ưu tiên mẹ, con từ đủ 7 tuổi phải hỏi ý kiến).
+3. 📝 **Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Form Thông minh (Smart Pre-filled Form with Flexible Placeholders):**
+   - AI tự động **điền sẵn 100% căn cứ pháp luật và nội dung tranh tụng chuẩn mực**.
+   - Các trường thông tin cá nhân: người dùng nhập thì nhận, **nếu để trống hoặc chưa biết thì AI tự động chèn dòng chấm giữ chỗ `........................`** để tải về in ra điền tay hoặc ký tên.
+   - Hỗ trợ mọi loại đơn: Đơn khởi kiện đòi nợ, Đơn hòa giải đất đai, Đơn khiếu nại trường học, Đơn thuận tình ly hôn, Hợp đồng dịch vụ cân bằng, Hồ sơ ĐKDN theo NĐ 01/2021, và Văn bản tự do theo yêu cầu qua AI.
+4. 💻 **Trải nghiệm 2 Tab Tối giản (The 2-Tab NotebookLM Experience):**
+   - **Tab 1: 💬 AI Legal Chatbot & Command Center:** Tích hợp tất cả các tool, triệu hồi Interactive Widget trực tiếp trong bong bóng chat theo lệnh text.
+   - **Tab 2: 🧰 Legal Tools Studio:** Trưng bày dạng dashboard toàn bộ 8 công cụ của hệ thống để chạy độc lập.
 
 ---
 
-## 🏛️ 3. Kiến trúc Hệ thống Version 2.0 (System Architecture)
+## 🏛️ 3. Kiến trúc Hệ thống Version 2.1 (System Architecture)
 
 ```mermaid
 flowchart TD
-    User["👤 Người dùng (Cá nhân / Doanh nghiệp)"] --> UI["🖥️ Giao diện Streamlit (Menu 6 Tab bên trái)"]
-    UI --> Guardrails["🛡️ Lớp Bảo mật (PII Masking & Prompt Injection Defense)"]
+    User["👤 Người dùng (Cá nhân & Doanh nghiệp)"] --> UI["🖥️ Giao diện Streamlit 2-Tab NotebookLM"]
     
-    subgraph MultiAgentOrchestrator ["🤖 Multi-Agent Orchestrator (Version 2.0)"]
-        Guardrails --> RouterAgent["Legal Router Agent v2.0"]
-        RouterAgent -->|"Thẩm định hợp đồng"| ContractScanner["Contract Vulnerability Scanner\n(Chấm điểm rủi ro & Redlining)"]
-        RouterAgent -->|"Soạn thảo văn bản"| DossierAgent["Dossier Drafting Agent\n(Xuất file Word .docx)"]
-        RouterAgent -->|"Tra cứu ngành nghề"| IndustryAgent["Industry Lookup Agent\n(Hybrid SQLite + Web Search)"]
-        RouterAgent -->|"Tư vấn pháp lý chung"| AdvisoryAgent["Entity Advisory Agent\n(Hierarchical RAG & Verify URL)"]
+    subgraph Tabs ["📑 Cấu trúc 2 Tab Tối giản"]
+        Tab1["💬 Tab 1: AI Legal Chatbot & Command Center\n(In-Chat Generative Actions & Widgets)"]
+        Tab2["🧰 Tab 2: Legal Tools Studio\n(8 Công cụ Độc lập Chuyên sâu)"]
+    end
+    
+    UI --> Tab1
+    UI --> Tab2
+    
+    Tab1 --> Guardrails["🛡️ Lớp Bảo mật (PII Masking & Prompt Injection Defense)"]
+    
+    subgraph MultiAgentOrchestrator ["🤖 Multi-Agent Orchestrator (Version 2.1)"]
+        Guardrails --> RouterAgent["Legal Router Agent v2.1"]
+        RouterAgent -->|"Thẩm định hợp đồng"| ContractScanner["Bilateral Contract Scanner\n(Phân tích 2 chiều & Redlining)"]
+        RouterAgent -->|"4 Case Xã hội"| SocialCasesEngine["Social Cases Advisory Agent\n(Bạo lực học đường, Đất đai, Trốn nợ, Ly hôn)"]
+        RouterAgent -->|"Soạn thảo đơn từ"| DynamicDrafter["Dynamic Legal Drafter\n(Smart Pre-filled Form & Placeholders)"]
+        RouterAgent -->|"Tra cứu ngành nghề"| IndustryLookup["Hybrid Industry Lookup Agent\n(SQLite VSIC + Web Search)"]
+        RouterAgent -->|"Tư vấn doanh nghiệp"| EntityAdvisory["Entity Advisory Agent\n(Hierarchical RAG 53 Chunks)"]
     end
 
     subgraph IntelligenceLayer ["🧠 Tầng Dữ liệu & Tri thức Pháp luật Đa tầng"]
@@ -105,12 +105,12 @@ flowchart TD
 ```
 LLM_Nhut/
 ├── app/
-│   └── main.py                  # Giao diện người dùng Streamlit (Menu 6 Tab bên trái)
+│   └── main.py                  # Giao diện Streamlit 2 Tab chuẩn NotebookLM (AI Chatbot & Tools Studio)
 ├── data/
-│   ├── chromadb/                # CSDL Vector (Index lưu trữ embeddings)
+│   ├── chromadb/                # CSDL Vector (Index lưu trữ 53 chunks đa luật)
 │   ├── database/                # CSDL SQLite (schema.sql & sme_legal.db) + legal_memory_bank.json
 │   ├── evaluation/              # Dataset benchmark (benchmark_dataset.json)
-│   └── raw_documents/           # 6 bộ luật nguồn (Dân sự, Lao động, Thương mại, Doanh nghiệp, NĐ01, NĐ39)
+│   └── raw_documents/           # 8 bộ luật nguồn (Dân sự, Lao động, Thương mại, Doanh nghiệp, Đất đai, Hôn nhân gia đình...)
 ├── llm_provider/                # Module Cloud & Local LLM Provider
 │   ├── cloud_provider.py        # Tích hợp Google Gemini API
 │   ├── local_provider.py        # Tích hợp Ollama Local API
@@ -120,24 +120,23 @@ LLM_Nhut/
 │   ├── model_comparison_report.md # Báo cáo so sánh Cloud vs Local
 │   ├── presentation_slides.md   # Slide thuyết trình báo cáo đồ án
 │   └── PROJECT_REPORT.md        # Báo cáo đồ án hoàn chỉnh 8 chương
-├── requirements/                # Quản lý yêu cầu & Phiên bản
+├── requirements/                # Quản lý yêu cầu & Phiên bản (Quy chuẩn RULES.md)
 │   ├── preview_version_1.md     # Đánh giá Version 1.0 & Phản biện kỹ thuật
 │   ├── requirements_version_1.md # 7 tiêu chí chấm điểm Version 1.0
 │   ├── preview_version_1.1.md   # Đánh giá Version 1.1 & Phản biện Continual Learning
 │   ├── requirements_version_1.1.md # Yêu cầu kỹ thuật Version 1.1
-│   └── requirements_version_2.0.md # Yêu cầu kỹ thuật Version 2.0 (Major Release)
+│   ├── preview_version_2.0.md   # Đánh giá Version 2.0 (Luật sư 2 chiều & 4 case xã hội)
+│   ├── requirements_version_2.0.md # Yêu cầu kỹ thuật Version 2.0 (Major Release)
+│   └── requirements_version_2.1.md # Yêu cầu kỹ thuật Version 2.1 (The AI Lawyer & Studio)
 ├── src/
 │   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, MemoryStore, Graph)
-│   ├── database/                # Quản lý CSDL SQLite & SQL Tools
-│   ├── dossier/                 # Document Generator (.docx) & Legal Compliance Validator
-│   ├── evaluation/              # Script benchmark Ragas & Model Comparison
-│   ├── prompts/                 # System prompts, Few-shot, CoT & Pydantic schemas (v2.0)
-│   ├── rag/                     # Pipeline Ingestion, Embeddings (Batching), VectorStore & Hierarchical Retriever
-│   ├── security/                # PII Masking, Prompt Injection Guard & Output Moderation
-│   └── tools/                   # Web Search Tool, Hybrid Search & Contract Vulnerability Scanner
-├── tutorial/
-│   ├── run_guide.md             # Hướng dẫn chi tiết quy trình chạy dự án Version 1.0 & 1.1
-│   └── run_guide_version_2.0.md # [MỚI v2.0] Bộ kịch bản kiểm thử thực chiến & hướng dẫn chạy Version 2.0
+│   ├── database/                # Quản lý truy vấn SQLite (db_manager.py)
+│   ├── dossier/                 # Tạo lập hồ sơ doanh nghiệp & Soạn thảo văn bản thông minh (dynamic_drafter.py)
+│   ├── evaluation/              # Framework đánh giá Ragas (ragas_evaluator.py)
+│   ├── rag/                     # Hierarchical RAG (embeddings, ingestion, retriever, vector_store)
+│   ├── security/                # Guardrails (pii_masker, prompt_injection, moderator)
+│   └── tools/                   # Web search tool, Contract scanner, Social cases knowledge
+└── tutorial/                    # Hướng dẫn kiểm thử thực tế (run_guide_version_2.1.md)
 ├── .env.example                 # Template cấu hình biến môi trường
 ├── .gitignore                   # Loại trừ cache, venv, .env
 ├── LICENSE                      # Giấy phép MIT

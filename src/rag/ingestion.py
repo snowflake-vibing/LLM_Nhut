@@ -21,6 +21,8 @@ LEGAL_SOURCE_URLS = {
     "Bo_Luat_Dan_Su_2015": "https://vanban.chinhphu.vn/?pageid=27160&docid=183188",
     "Bo_Luat_Lao_Dong_2019": "https://vanban.chinhphu.vn/?pageid=27160&docid=198540",
     "Luat_Thuong_Mai_2005": "https://vanban.chinhphu.vn/?pageid=27160&docid=21404",
+    "Luat_Dat_Dai_Tranh_Chap": "https://vanban.chinhphu.vn/?pageid=27160&docid=171738",
+    "Luat_Hon_Nhan_Gia_Dinh_2014": "https://vanban.chinhphu.vn/?pageid=27160&docid=175174",
 }
 
 # Ánh xạ lĩnh vực pháp lý (Legal Domain Taxonomy)
@@ -31,6 +33,8 @@ LEGAL_DOMAINS = {
     "Bo_Luat_Dan_Su_2015": "civil",
     "Bo_Luat_Lao_Dong_2019": "labor",
     "Luat_Thuong_Mai_2005": "commercial",
+    "Luat_Dat_Dai_Tranh_Chap": "land",
+    "Luat_Hon_Nhan_Gia_Dinh_2014": "family",
 }
 
 

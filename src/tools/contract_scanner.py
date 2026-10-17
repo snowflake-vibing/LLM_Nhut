@@ -1,7 +1,9 @@
 """
-Contract Vulnerability & Risk Scanner Module
-Thẩm định, phát hiện lỗ hổng/cạm bẫy pháp lý và chấm điểm an toàn cho hợp đồng.
-Hỗ trợ xuất báo cáo thẩm định Word (.docx) và đề xuất điều khoản thay thế (Clause Redlining).
+Contract Vulnerability & Bilateral Risk Scanner Module - Version 2.1
+Thẩm định, phát hiện lỗ hổng/cạm bẫy pháp lý và phân tích đối kháng 2 chiều:
+- Bên ra luật / soạn thảo có thể lợi dụng điều gì?
+- Bên theo luật / ký kết có thể bị ép hoặc lợi dụng kẽ hở nào?
+- Đề xuất điều khoản dung hòa (Neutral Balanced Redline) và xuất file Word (.docx).
 """
 
 import io
@@ -25,7 +27,7 @@ def _set_cell_background(cell, fill_hex="F2F2F2"):
 
 class ContractVulnerabilityScanner:
     """
-    Bộ phân tích và chấm điểm rủi ro hợp đồng pháp lý Việt Nam.
+    Bộ phân tích và chấm điểm rủi ro hợp đồng pháp lý Việt Nam 2 chiều đối kháng.
     """
 
     def __init__(self, factory: ModelFactory = None):
@@ -49,6 +51,8 @@ class ContractVulnerabilityScanner:
                         "clause_snippet": f"...phạt vi phạm {rate}%...",
                         "legal_basis": "Điều 301 Luật Thương mại 2005",
                         "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=21404",
+                        "issuer_exploitation": f"Bên soạn thảo có thể dùng mức phạt {rate}% quá lớn để gây áp lực tài chính, đe dọa đòi bồi thường vượt mức tổn thất thực tế.",
+                        "adherent_exploitation": "Bên ký kết có thể phản tố tại Tòa án hoặc Trọng tài tuyên vô hiệu điều khoản này vì vi phạm điều cấm của luật, chỉ chịu mức tối đa 8%.",
                         "risk_explanation": (
                             f"Luật Thương mại quy định mức phạt vi phạm nghĩa vụ hợp đồng do các bên thỏa thuận "
                             f"nhưng KHÔNG ĐƯỢC QUÁ 8% giá trị phần nghĩa vụ bị vi phạm. Thỏa thuận {rate}% "
@@ -56,7 +60,7 @@ class ContractVulnerabilityScanner:
                         ),
                         "suggested_replacement": (
                             "Bên vi phạm có nghĩa vụ chịu phạt vi phạm hợp đồng với mức phạt bằng 8% "
-                            "giá trị phần nghĩa vụ hợp đồng bị vi phạm và bồi thường toàn bộ thiệt hại thực tế phát sinh."
+                            "giá trị phần nghĩa vụ hợp đồng bị vi phạm và bồi thường toàn bộ thiệt hại thực tế trực tiếp phát sinh."
                         )
                     })
             except Exception:
@@ -71,13 +75,14 @@ class ContractVulnerabilityScanner:
                 "clause_snippet": "(Không tìm thấy trong văn bản)",
                 "legal_basis": "Điều 156, 351 Bộ luật Dân sự 2015",
                 "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=183188",
+                "issuer_exploitation": "Bên có quyền có thể ép buộc bên kia tiếp tục thực hiện nghĩa vụ hoặc đòi bồi thường ngay cả khi gặp thiên tai, dịch bệnh, hỏa hoạn.",
+                "adherent_exploitation": "Bên thực hiện nghĩa vụ bị mất lá chắn miễn trừ trách nhiệm theo thỏa thuận, phải gánh chịu toàn bộ rủi ro khách quan.",
                 "risk_explanation": (
-                    "Khi xảy ra sự kiện khách quan bất khả kháng (hỏa hoạn, thiên tai, dịch bệnh phong tỏa, thay đổi chính sách nhà nước), "
-                    "bên gặp khó khăn sẽ không có căn cứ rõ ràng để miễn trừ trách nhiệm bồi thường và hoãn thực hiện nghĩa vụ."
+                    "Khi xảy ra sự kiện khách quan bất khả kháng, bên gặp khó khăn sẽ không có căn cứ rõ ràng để miễn trừ trách nhiệm bồi thường và hoãn thực hiện nghĩa vụ."
                 ),
                 "suggested_replacement": (
                     "Điều khoản Bất khả kháng: Sự kiện bất khả kháng là sự kiện xảy ra mang tính khách quan, không thể lường trước được "
-                    "và không thể khắc phục được mặc dù đã áp dụng mọi biện pháp cần thiết (thiên tai, dịch bệnh, chiến tranh, quyết định của cơ quan nhà nước). "
+                    "và không thể khắc phục được mặc dù đã áp dụng mọi biện pháp cần thiết (thiên tai, dịch bệnh, hỏa hoạn, quyết định của cơ quan nhà nước). "
                     "Bên gặp sự kiện bất khả kháng được miễn trách nhiệm bồi thường nếu thông báo bằng văn bản cho bên kia trong vòng 03 ngày làm việc."
                 )
             })
@@ -94,13 +99,14 @@ class ContractVulnerabilityScanner:
                         "clause_snippet": f"...thử việc {num_str} {unit}...",
                         "legal_basis": "Điều 25 Bộ luật Lao động 2019",
                         "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=198540",
+                        "issuer_exploitation": "Người sử dụng lao động lợi dụng thời gian thử việc dài để trả lương 85%, trốn đóng BHXH, BHYT và dễ dàng sa thải không cần lý do.",
+                        "adherent_exploitation": "Người lao động có thể khiếu nại lên Phòng LĐ-TB&XH hoặc Thanh tra Lao động xử phạt công ty và yêu cầu bồi thường tiền lương chính thức.",
                         "risk_explanation": (
-                            "Khoản 2 Điều 25 BLLĐ 2019 quy định thời gian thử việc không quá 60 ngày đối với công việc có trình độ cao đẳng trở lên. "
-                            "Thỏa thuận thử việc dài hơn là vi phạm pháp luật và có thể bị xử phạt vi phạm hành chính."
+                            "Khoản 2 Điều 25 BLLĐ 2019 quy định thời gian thử việc không quá 60 ngày đối với công việc có trình độ cao đẳng trở lên. Thỏa thuận thử việc dài hơn là vi phạm pháp luật."
                         ),
                         "suggested_replacement": (
                             "Thời gian thử việc là 60 ngày kể từ ngày bắt đầu làm việc. Hết thời gian thử việc, "
-                            "nếu người lao động đáp ứng yêu cầu công việc thì người sử dụng lao động có trách nhiệm ký kết hợp đồng lao động chính thức."
+                            "nếu người lao động đáp ứng yêu cầu công việc thì công ty ký kết hợp đồng lao động chính thức và đóng bảo hiểm đầy đủ."
                         )
                     })
 
@@ -113,13 +119,14 @@ class ContractVulnerabilityScanner:
                     "clause_snippet": "...giải quyết tại Tòa án có thẩm quyền...",
                     "legal_basis": "Điều 317 Luật Thương mại 2005 & Bộ luật Tố tụng Dân sự",
                     "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=21404",
+                    "issuer_exploitation": "Bên khởi kiện có thể chọn Tòa án gần trụ sở của mình khiến bên kia tốn kém chi phí di chuyển hầu tòa.",
+                    "adherent_exploitation": "Bên bị kiện có thể khiếu nại về thẩm quyền lãnh thổ theo Điều 39 Bộ luật Tố tụng Dân sự để kéo dài thời gian thụ lý.",
                     "risk_explanation": (
-                        "Ghi chung chung dễ dẫn đến tranh chấp kéo dài về thẩm quyền lãnh thổ giữa Tòa án nơi nguyên đơn và bị đơn đặt trụ sở. "
-                        "Nên chỉ định rõ Tòa án nhân dân cấp tỉnh/thành phố cụ thể hoặc Trung tâm Trọng tài Quốc tế Việt Nam (VIAC)."
+                        "Ghi chung chung dễ dẫn đến tranh chấp kéo dài về thẩm quyền lãnh thổ giữa Tòa án nơi nguyên đơn và bị đơn đặt trụ sở."
                     ),
                     "suggested_replacement": (
-                        "Mọi tranh chấp phát sinh từ hoặc liên quan đến hợp đồng này trước hết được giải quyết thông qua thương lượng hòa giải. "
-                        "Nếu không thương lượng được trong vòng 30 ngày, tranh chấp sẽ được đưa ra giải quyết tại Tòa án nhân dân có thẩm quyền tại nơi Bên A đặt trụ sở chính (hoặc tại Trung tâm Trọng tài Quốc tế Việt Nam - VIAC)."
+                        "Mọi tranh chấp phát sinh được ưu tiên thương lượng hòa giải trong 30 ngày. "
+                        "Nếu không thành, vụ việc được đưa ra giải quyết tại Tòa án nhân dân nơi Bên B đặt trụ sở chính (hoặc Trung tâm Trọng tài VIAC)."
                     )
                 })
 
@@ -127,7 +134,7 @@ class ContractVulnerabilityScanner:
 
     def scan(self, contract_text: str) -> Dict[str, Any]:
         """
-        Thực hiện quét toàn diện: Quy tắc cứng + LLM phân tích sâu & tính điểm an toàn.
+        Thực hiện quét toàn diện: Quy tắc cứng + Phân tích đối kháng 2 chiều chuyên sâu từ LLM.
         """
         clean_text = contract_text.strip()
         if not clean_text:
@@ -153,7 +160,6 @@ class ContractVulnerabilityScanner:
 
         score = max(10, min(100, score))
 
-        # Phân loại trạng thái
         if score >= 85:
             status_label = "🟢 AN TOÀN (Cân bằng quyền lợi tốt)"
         elif score >= 65:
@@ -161,28 +167,30 @@ class ContractVulnerabilityScanner:
         else:
             status_label = "🔴 RỦI RO CAO (Chứa điều khoản vi phạm luật hoặc bẫy pháp lý)"
 
-        # 3. LLM Deep Review
+        # 3. LLM Bilateral Deep Review (Góc nhìn Đối kháng 2 chiều)
         prompt = (
-            f"Bạn là chuyên gia thẩm định hợp đồng pháp lý cao cấp (Senior Legal Counsel).\n"
-            f"Dưới đây là nội dung một bản hợp đồng:\n\n"
+            f"Bạn là Luật sư Tranh tụng và Cố vấn Hợp đồng Cao cấp (Senior Adversarial Legal Counsel).\n"
+            f"Hãy phân tích bản hợp đồng/biên bản dưới đây với GÓC NHÌN ĐỐI KHÁNG 2 CHIỀU ĐỘT PHÁ:\n\n"
             f"\"\"\"\n{clean_text[:4000]}\n\"\"\"\n\n"
-            f"Các rủi ro sơ bộ đã phát hiện bằng hệ thống quy tắc:\n"
-            f"{[f['title'] for f in findings]}\n\n"
-            f"Hãy đưa ra:\n"
-            f"1. Nhận xét tổng quan về tính cân bằng nghĩa vụ giữa hai bên.\n"
-            f"2. Cảnh báo các cạm bẫy bất lợi tiềm ẩn đối với bên yếu thế.\n"
-            f"3. Lời khuyên đàm phán quan trọng nhất trước khi đặt bút ký."
+            f"YÊU CẦU ĐẶC BIỆT (PHÂN TÍCH 2 CHIỀU):\n"
+            f"1. GÓC NHÌN BÊN SOẠN THẢO / BÊN RA LUẬT (Bên mạnh thế):\n"
+            f"   - Họ có thể lợi dụng những câu chữ hoặc kẽ hở nào trong văn bản này để chèn ép, tối đa hóa lợi ích hoặc né tránh trách nhiệm bồi thường?\n"
+            f"2. GÓC NHÌN BÊN KÝ KẾT / BÊN THEO LUẬT (Bên yếu thế):\n"
+            f"   - Họ có thể bị gài bẫy thiệt hại gì? Họ có thể vận dụng điều luật nào để bảo vệ mình hoặc phản đòn lại?\n"
+            f"3. LỜI KHUYÊN DUNG HÒA & ĐÀM PHÁN CÂN BẰNG NHẤT TRƯỚC KHI ĐẶT BÚT KÝ."
         )
 
         try:
             ai_review = self.factory.generate(
                 prompt=prompt,
-                system_prompt="Bạn là Trợ lý Thẩm định Hợp đồng Doanh nghiệp và Cá nhân. Phân tích sắc sảo, khách quan, bảo vệ quyền lợi hợp pháp."
+                system_prompt="Bạn là Vị Luật sư Trực tuyến Bản lĩnh, am hiểu sâu sắc tâm lý đàm phán hợp đồng. Phân tích bóc tách cạm bẫy câu từ của cả hai bên một cách khách quan, sắc sảo."
             )
         except Exception:
             ai_review = (
-                "Hợp đồng cần được rà soát kỹ các điều khoản về nghĩa vụ thanh toán, thời hạn bảo hành "
-                "và chế tài bồi thường. Đảm bảo các mốc thời gian và chế tài phải có tính đối ứng, bình đẳng giữa hai bên."
+                "### Phân tích Đối kháng 2 Chiều:\n"
+                "- **Bên ra luật có thể lợi dụng:** Sử dụng các điều khoản phạt cao và quyền đơn phương chấm dứt để nắm đằng chuôi hợp đồng.\n"
+                "- **Bên theo luật có thể bị ép:** Chịu thiệt thòi về dòng tiền và mất quyền miễn trừ khi xảy ra sự kiện bất khả kháng.\n"
+                "- **Khuyến nghị dung hòa:** Đàm phán giảm mức phạt về trần luật định 8% và bổ sung điều khoản bất khả kháng đối ứng."
             )
 
         return {
@@ -196,30 +204,29 @@ class ContractVulnerabilityScanner:
 
     def export_audit_report_docx(self, scan_result: Dict[str, Any]) -> io.BytesIO:
         """
-        Xuất Báo cáo Thẩm định Rủi ro Hợp đồng chuẩn hóa dưới dạng tệp Word (.docx).
+        Xuất Báo cáo Thẩm định Đối kháng 2 Chiều chuẩn hóa dưới dạng tệp Word (.docx).
         """
         doc = Document()
 
-        # Quốc hiệu Tiêu ngữ
         p_head = doc.add_paragraph()
         p_head.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        r1 = p_head.add_run("BÁO CÁO THẨM ĐỊNH PHÁP LÝ & QUÉT LỖ HỔNG HỢP ĐỒNG\n")
+        r1 = p_head.add_run("BÁO CÁO THẨM ĐỊNH PHÁP LÝ & PHÂN TÍCH ĐỐI KHÁNG 2 CHIỀU\n")
         r1.bold = True
         r1.font.size = Pt(16)
         r1.font.name = "Times New Roman"
 
-        r2 = p_head.add_run("(Hệ thống AI LegalTech Intelligence - Version 2.0)\n")
+        r2 = p_head.add_run("(Hệ thống AI LegalTech Platform - Version 2.1)\n")
         r2.italic = True
         r2.font.size = Pt(11)
 
-        # Thông tin tổng quan
+        # 1. Tổng quan
         doc.add_heading("1. KẾT QUẢ ĐÁNH GIÁ TỔNG QUAN", level=1)
         doc.add_paragraph(f"- Điểm An toàn Pháp lý (Legal Risk Score): {scan_result.get('score', 0)} / 100")
-        doc.add_paragraph(f"- Mức độ Đánh giá: {scan_result.get('status_label', '')}")
-        doc.add_paragraph(f"- Tổng số lỗ hổng & cảnh báo phát hiện: {scan_result.get('findings_count', 0)}")
+        doc.add_paragraph(f"- Xếp hạng Rủi ro: {scan_result.get('status_label', '')}")
+        doc.add_paragraph(f"- Tổng số lỗ hổng phát hiện: {scan_result.get('findings_count', 0)}")
 
-        # Bảng chi tiết lỗ hổng
-        doc.add_heading("2. DANH MỤC LỖ HỔNG & ĐIỀU KHOẢN RỦI RO CHI TIẾT", level=1)
+        # 2. Bảng ma trận đối kháng 2 chiều
+        doc.add_heading("2. BẢNG MA TRẬN BÓC TÁCH CẠM BẪY 2 CHIỀU (BILATERAL EXPLOITATION)", level=1)
         findings = scan_result.get("findings", [])
         if findings:
             table = doc.add_table(rows=1, cols=5)
@@ -227,7 +234,7 @@ class ContractVulnerabilityScanner:
             table.autofit = True
 
             hdr = table.rows[0].cells
-            titles = ["STT", "Mức độ", "Vấn đề / Điều khoản", "Căn cứ Pháp luật", "Đề xuất Thay thế (Redline)"]
+            titles = ["STT", "Điều khoản rủi ro", "Bên ra luật có thể lợi dụng gì?", "Bên theo luật có thể bị ép ra sao?", "Điều khoản đề xuất thay thế"]
             for i, t in enumerate(titles):
                 hdr[i].text = t
                 _set_cell_background(hdr[i], "D9E1F2")
@@ -236,15 +243,15 @@ class ContractVulnerabilityScanner:
             for idx, f in enumerate(findings, 1):
                 row = table.add_row().cells
                 row[0].text = str(idx)
-                row[1].text = f.get("level", "")
-                row[2].text = f.get("title", "") + f"\n[Trích dẫn: {f.get('clause_snippet', '')}]"
-                row[3].text = f.get("legal_basis", "")
+                row[1].text = f.get("title", "") + f"\n[Căn cứ: {f.get('legal_basis', '')}]"
+                row[2].text = f.get("issuer_exploitation", "Có thể tận dụng áp lực hợp đồng.")
+                row[3].text = f.get("adherent_exploitation", "Có thể bị bất lợi bồi thường hoặc phản tố.")
                 row[4].text = f.get("suggested_replacement", "")
         else:
             doc.add_paragraph("Không phát hiện lỗ hổng nghiêm trọng nào theo các quy tắc luật định.")
 
-        # Đánh giá chuyên sâu của AI
-        doc.add_heading("3. Ý KIẾN THẨM ĐỊNH & KHUYẾN NGHỊ ĐÀM PHÁN (AI COUNSEL)", level=1)
+        # 3. Phân tích chi tiết của Luật sư AI
+        doc.add_heading("3. Ý KIẾN THẨM ĐỊNH ĐỐI KHÁNG CỦA LUẬT SƯ AI", level=1)
         doc.add_paragraph(scan_result.get("ai_review", ""))
 
         buffer = io.BytesIO()

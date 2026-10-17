@@ -19,11 +19,13 @@ from src.agents.advisory_agent import EntityAdvisoryAgent
 from src.agents.lookup_agent import IndustryLookupAgent
 from src.agents.reviewer_agent import DocumentReviewerAgent
 from src.tools.contract_scanner import ContractVulnerabilityScanner
+from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
+from src.dossier.dynamic_drafter import DynamicLegalDrafter
 
 
 class LegalMultiAgentWorkflow:
     """
-    Hệ thống điều phối Đa tác nhân (Multi-Agent System) cho LegalTech Platform - Version 2.0.
+    Hệ thống điều phối Đa tác nhân (Multi-Agent System) cho LegalTech Platform - Version 2.1.
     """
 
     def __init__(self, factory: Optional[ModelFactory] = None):
@@ -37,6 +39,7 @@ class LegalMultiAgentWorkflow:
         self.lookup_agent = IndustryLookupAgent(self.factory)
         self.reviewer_agent = DocumentReviewerAgent(self.factory)
         self.contract_scanner = ContractVulnerabilityScanner(self.factory)
+        self.dynamic_drafter = DynamicLegalDrafter(self.factory)
 
     def process(self, raw_user_query: str) -> Dict[str, Any]:
         """
@@ -44,7 +47,7 @@ class LegalMultiAgentWorkflow:
         1. Guardrail 1: Kiểm tra an toàn Prompt Injection & Ý định trái luật.
         2. Guardrail 2: Masking dữ liệu nhạy cảm PII (CCCD, SĐT, Email).
         3. Router Agent: Xác định ý định và Agent chuyên trách.
-        4. Specialized Agent: Thực thi tác vụ (RAG, SQL, Contract Scanner, Dossier Action).
+        4. Specialized Agent: Thực thi tác vụ (RAG, SQL, Contract Scanner, Social Cases, Dynamic Drafter).
         5. Guardrail 3: Unmasking dữ liệu và kiểm duyệt phản hồi + gắn Disclaimer.
         """
         # BƯỚC 1: Kiểm tra an toàn đầu vào
@@ -71,7 +74,47 @@ class LegalMultiAgentWorkflow:
         action_type = None
         action_data = None
 
-        if intent == "CONTRACT_AUDIT":
+        if intent == "SOCIAL_CASE_ADVISORY":
+            active_agent = "SocialCasesAdvisoryAgent"
+            case_id = route_decision.get("case_id", "DEBT_COLLECTION")
+            raw_response = SocialCasesKnowledgeEngine.generate_advisory_text(case_id)
+            action_type = "DYNAMIC_DRAFT_ACTION"
+            action_data = {"case_id": case_id}
+
+            case_info = SOCIAL_CASES_DATA.get(case_id, {})
+            for law_str in case_info.get("key_laws", []):
+                citations.append({
+                    "law_title": law_str.split(":")[0] if ":" in law_str else law_str,
+                    "article": law_str,
+                    "header": case_info.get("title", "Tình huống pháp lý xã hội"),
+                    "verify_url": "https://vanban.chinhphu.vn/",
+                    "text_snippet": law_str,
+                    "full_text": case_info.get("core_doctrine", "")
+                })
+
+        elif intent == "DYNAMIC_DRAFT":
+            active_agent = "DynamicDocumentDrafter"
+            case_id = route_decision.get("case_id", "CUSTOM")
+            action_type = "DYNAMIC_DRAFT_ACTION"
+            action_data = {"case_id": case_id}
+            raw_response = (
+                "### 📝 Biểu mẫu Soạn thảo Văn bản Pháp lý Thông minh (In-Chat Smart Form):\n"
+                "Tôi đã kích hoạt biểu mẫu điền sẵn 100% căn cứ pháp luật và nội dung tranh tụng chuẩn mực ngay bên dưới. "
+                "Bạn chỉ cần điền thông tin cá nhân (nếu có), trường nào chưa biết có thể để trống — hệ thống sẽ tự động chèn dòng kẻ giữ chỗ "
+                "để bạn tải ngay file Word (.docx) dùng ngay!"
+            )
+            citations = [
+                {
+                    "law_title": "Bộ luật Dân sự & Nghị định 30/2020/NĐ-CP",
+                    "article": "Quy chuẩn thể thức văn bản tư pháp",
+                    "header": "Biểu mẫu pháp lý chuẩn mực",
+                    "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=199514",
+                    "text_snippet": "Thể thức trình bày văn bản hành chính và văn bản tố tụng tư pháp chuẩn quốc gia.",
+                    "full_text": "Quy định về căn lề, Quốc hiệu, Tiêu ngữ, số hiệu và chữ ký theo Nghị định 30/2020/NĐ-CP."
+                }
+            ]
+
+        elif intent == "CONTRACT_AUDIT":
             active_agent = "ContractVulnerabilityScanner"
             scan_res = self.contract_scanner.scan(masked_query)
             action_type = "CONTRACT_AUDIT_ACTION"
@@ -92,7 +135,7 @@ class LegalMultiAgentWorkflow:
                 f"### 🛡️ Kết quả Thẩm định Rủi ro Hợp đồng (Legal Risk Audit):\n",
                 f"- **Điểm An toàn Pháp lý:** `{scan_res['score']} / 100` ({scan_res['status_label']})\n",
                 f"- **Số lượng vấn đề phát hiện:** `{scan_res['findings_count']}`\n\n",
-                f"**Ý kiến chuyên gia thẩm định:**\n{scan_res['ai_review']}\n\n",
+                f"**Ý kiến chuyên gia thẩm định (Phân tích đối kháng 2 chiều):**\n{scan_res['ai_review']}\n\n",
                 f"👉 *Bạn có thể tải Báo cáo Thẩm định (.docx) hoặc chỉnh sửa trực tiếp qua công cụ bên dưới!*"
             ]
             raw_response = "".join(resp_parts)

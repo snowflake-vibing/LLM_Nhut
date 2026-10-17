@@ -75,7 +75,7 @@ Nâng tầm LegalTech Platform thành một **Luật sư Trực tuyến Toàn n�
 ---
 
 ## 📅 3. Lộ trình Triển khai Version 2.1
-1. [ ] **Sprint 2.1.1:** Nâng cấp Engine Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis).
-2. [ ] **Sprint 2.1.2:** Bổ sung Tri thức & Workflow xử lý 4 Case Tình huống Đời sống Xã hội.
-3. [ ] **Sprint 2.1.3:** Xây dựng Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Yêu cầu (Dynamic Drafter .docx).
-4. [ ] **Sprint 2.1.4:** Tái cấu trúc Giao diện Streamlit thành 2 Tab chuẩn phong cách NotebookLM.
+1. [x] **Sprint 2.1.1:** Nâng cấp Engine Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis).
+2. [x] **Sprint 2.1.2:** Bổ sung Tri thức & Workflow xử lý 4 Case Tình huống Đời sống Xã hội.
+3. [x] **Sprint 2.1.3:** Xây dựng Engine Soạn thảo Văn bản Pháp lý Đa dạng theo Yêu cầu (Dynamic Drafter .docx).
+4. [x] **Sprint 2.1.4:** Tái cấu trúc Giao diện Streamlit thành 2 Tab chuẩn phong cách NotebookLM.

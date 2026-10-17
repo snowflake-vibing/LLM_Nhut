@@ -11,6 +11,7 @@ from .template_generator import (
     validate_company_name,
     validate_dossier_legal_compliance,
 )
+from .dynamic_drafter import DynamicLegalDrafter
 
 __all__ = [
     "generate_registration_request_docx",
@@ -19,4 +20,5 @@ __all__ = [
     "generate_full_dossier_docx",
     "validate_company_name",
     "validate_dossier_legal_compliance",
+    "DynamicLegalDrafter",
 ]
