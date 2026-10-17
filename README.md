@@ -132,7 +132,8 @@ LLM_Nhut/
 │   ├── security/                # PII Masking, Prompt Injection Guard & Output Moderation
 │   └── tools/                   # Web Search Tool, Hybrid Search & Contract Vulnerability Scanner
 ├── tutorial/
-│   └── run_guide.md             # Hướng dẫn chi tiết quy trình chạy dự án từ A đến Z
+│   ├── run_guide.md             # Hướng dẫn chi tiết quy trình chạy dự án Version 1.0 & 1.1
+│   └── run_guide_version_2.0.md # [MỚI v2.0] Bộ kịch bản kiểm thử thực chiến & hướng dẫn chạy Version 2.0
 ├── .env.example                 # Template cấu hình biến môi trường
 ├── .gitignore                   # Loại trừ cache, venv, .env
 ├── LICENSE                      # Giấy phép MIT
@@ -144,7 +145,9 @@ LLM_Nhut/
 
 ## 🚀 5. Hướng dẫn Khởi chạy Nhanh
 
-Xem hướng dẫn chi tiết từng bước tại: 👉 **[`tutorial/run_guide.md`](./tutorial/run_guide.md)**
+Xem hướng dẫn chi tiết từng bước & bộ test cases tại:  
+👉 **[`tutorial/run_guide_version_2.0.md`](./tutorial/run_guide_version_2.0.md)** *(Hướng dẫn & Test Cases thực chiến cho Version 2.0)*  
+👉 **[`tutorial/run_guide.md`](./tutorial/run_guide.md)** *(Hướng dẫn nền tảng các phiên bản trước)*
 
 ```bash
 # 1. Kích hoạt môi trường ảo

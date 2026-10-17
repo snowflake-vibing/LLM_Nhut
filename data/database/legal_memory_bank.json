@@ -1,0 +1,29 @@
+[
+  {
+    "id": "case_penalty_cap",
+    "category": "commercial_contract",
+    "title": "Xử lý mức phạt vi phạm vượt trần trong hợp đồng mua bán thương mại",
+    "user_query": "hợp đồng phạt vi phạm 12% có hợp pháp không",
+    "key_risk": "Vi phạm Điều 301 Luật Thương mại 2005 (trần 8%)",
+    "golden_solution": "Điều khoản phạt 12% vi phạm điều cấm của Luật Thương mại 2005 (Điều 301). Giải pháp tối ưu: Tách riêng mức Phạt vi phạm = 8% và Bồi thường toàn bộ thiệt hại thực tế phát sinh (Điều 302).",
+    "legal_basis": "Điều 301, 302 Luật Thương mại 2005"
+  },
+  {
+    "id": "case_probation_period",
+    "category": "labor_contract",
+    "title": "Thẩm định thời gian thử việc vị trí chuyên viên kỹ thuật",
+    "user_query": "công ty cho thử việc 3 tháng vị trí kỹ sư phần mềm",
+    "key_risk": "Vi phạm Khoản 2 Điều 25 Bộ luật Lao động 2019 (tối đa 60 ngày)",
+    "golden_solution": "Vị trí kỹ sư/chuyên môn cao đẳng trở lên chỉ được thử việc tối đa 60 ngày. Thỏa thuận 3 tháng (90 ngày) là trái luật. Cần yêu cầu điều chỉnh lại 60 ngày và nhận lương ít nhất 85%.",
+    "legal_basis": "Điều 25, 26 Bộ luật Lao động 2019"
+  },
+  {
+    "id": "case_nda_trade_secret",
+    "category": "ip_and_nda",
+    "title": "Thỏa thuận bảo mật thông tin và không cạnh tranh (NDA / Non-compete)",
+    "user_query": "thỏa thuận cấm nhân viên làm cho đối thủ sau nghỉ việc",
+    "key_risk": "Xung đột quyền tự do việc làm theo Điều 35 Hiến pháp và Điều 5 BLLĐ",
+    "golden_solution": "Không được cấm quyền làm việc chung chung. Chỉ được bảo vệ bí mật kinh doanh, bí mật công nghệ theo Khoản 2 Điều 21 BLLĐ 2019 kèm khoản tiền đền bù/hỗ trợ bảo mật tương xứng.",
+    "legal_basis": "Khoản 2 Điều 21 Bộ luật Lao động 2019 & Luật Sở hữu trí tuệ"
+  }
+]
