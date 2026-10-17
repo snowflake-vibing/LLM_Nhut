@@ -28,6 +28,10 @@
   * Đánh giá v1.1, phân tích yêu cầu Tool Thẩm định Lỗ hổng Hợp đồng, In-Chat Generative UI, mở rộng phạm vi toàn bộ văn bản cho cá nhân/doanh nghiệp, và phản biện chuyên sâu về vấn đề "Train tool liên tục" trong LegalTech: [`requirements/preview_version_1.1.md`](./requirements/preview_version_1.1.md).
 * **Yêu cầu Kỹ thuật Phiên bản 2.0 (Requirements Version 2.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
   * Đại tu toàn diện kiến trúc: Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas, Hierarchical RAG Đa luật (Dân sự, Lao động, Thương mại) và Ngân hàng Ký ức Memory Bank: [`requirements/requirements_version_2.0.md`](./requirements/requirements_version_2.0.md).
+* **Đánh giá Phiên bản 2.0 (Preview Version 2.0):**
+  * Đánh giá v2.0, phân tích yêu cầu "Luật sư Online phân tích 2 chiều đối kháng", giải quyết 4 case xã hội (bạo lực học đường, đất đai, trốn nợ, ly hôn), soạn thảo văn bản on-demand và tái cấu trúc thành 2 Tab NotebookLM: [`requirements/preview_version_2.0.md`](./requirements/preview_version_2.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.1 (Requirements Version 2.1) - [ĐANG PHÁT TRIỂN]:**
+  * Lộ trình Version 2.1 (The Legal AI Lawyer & Studio Platform): Phân tích hợp đồng 2 chiều, giải quyết 4 case xã hội, On-demand Legal Drafter (.docx) và giao diện 2 Tab (AI Chatbot & Tools Studio): [`requirements/requirements_version_2.1.md`](./requirements/requirements_version_2.1.md).
 
 ---
 
