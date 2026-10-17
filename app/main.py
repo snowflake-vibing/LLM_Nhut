@@ -1,6 +1,6 @@
 """
 LegalTech SME Assistant - Streamlit Application
-Giao diện người dùng đa chức năng đáp ứng trọn vẹn 7 tiêu chí đồ án AI Engineer.
+Giao diện người dùng với thanh điều hướng Tab bên trái (Sidebar Navigation).
 """
 
 import os
@@ -54,17 +54,35 @@ if "workflow" not in st.session_state:
 if "db_manager" not in st.session_state:
     st.session_state.db_manager = DatabaseManager()
 
-# --- SIDEBAR: CẤU HÌNH & MODEL SWITCHER ---
+# ==================== SIDEBAR: GIỚI THIỆU & ĐIỀU HƯỚNG TABS ====================
 with st.sidebar:
-    st.title("⚖️ Cấu hình Hệ thống")
+    st.title("⚖️ LegalTech SME")
+    st.caption("Trợ lý AI Hỗ trợ Pháp lý Doanh nghiệp Vừa & Nhỏ")
     st.markdown("---")
 
+    # 📌 MENU ĐIỀU HƯỚNG CÁC CHỨC NĂNG (TABS BÊN TRÁI)
+    st.subheader("📑 Danh mục Chức năng")
+    tab_options = [
+        "💬 Trò chuyện Trợ lý Pháp lý",
+        "📚 Tra cứu Mã ngành & Giấy phép",
+        "🛡️ Giám sát Bảo mật & Switcher",
+        "📊 Đánh giá Benchmark (Ragas)"
+    ]
+    selected_tab = st.radio(
+        "Chọn chức năng cần dùng:",
+        options=tab_options,
+        index=0
+    )
+
+    st.markdown("---")
+
+    # ⚡ CẤU HÌNH MODEL SWITCHER
     st.subheader("⚡ Chế độ Mô hình (Model Mode)")
     current_mode = st.session_state.factory.current_provider_type.value
     selected_mode = st.radio(
         "Chọn môi trường LLM:",
         options=["cloud", "local"],
-        format_func=lambda x: "☁️ Cloud Model (Google Gemini API)" if x == "cloud" else "💻 Local Model (Ollama / Llama 3)",
+        format_func=lambda x: "☁️ Cloud Model (Google Gemini)" if x == "cloud" else "💻 Local Model (Ollama / Qwen 2.5)",
         index=0 if current_mode == "cloud" else 1
     )
 
@@ -72,9 +90,9 @@ with st.sidebar:
         st.session_state.factory.set_provider(selected_mode)
         st.success(f"Đã chuyển sang chế độ: **{selected_mode.upper()}**")
 
-    # Kiểm tra trạng thái kết nối
+    # 📡 KIỂM TRA TRẠNG THÁI KẾT NỐI
     st.markdown("---")
-    st.subheader("📡 Trạng thái Kết nối (Health Check)")
+    st.subheader("📡 Trạng thái Kết nối (Health)")
     health = st.session_state.factory.check_health()
 
     c1, c2 = st.columns(2)
@@ -82,34 +100,28 @@ with st.sidebar:
         if health["cloud"]["available"]:
             st.markdown("🟢 **Cloud:** Sẵn sàng")
         else:
-            st.markdown("🟡 **Cloud:** Chưa có API Key")
+            st.markdown("🟡 **Cloud:** Chưa có Key")
     with c2:
         if health["local"]["available"]:
             st.markdown("🟢 **Local:** Online")
         else:
             st.markdown("🔴 **Local:** Offline")
 
-    st.caption(f"Model Cloud: `{health['cloud']['model']}`")
-    st.caption(f"Model Local: `{health['local']['model']}`")
+    st.caption(f"Cloud: `{health['cloud']['model']}`")
+    st.caption(f"Local: `{health['local']['model']}`")
 
     st.markdown("---")
     st.info(
         "🛡️ **Lớp Bảo mật (Guardrails):**\n"
-        "- Tự động ẩn danh CCCD, SĐT, Email (PII Masking)\n"
+        "- Ẩn danh số CCCD, SĐT, Email (PII Masking)\n"
         "- Chống bẻ khóa Jailbreak & Prompt Injection\n"
         "- Tuân thủ Điều 16 Luật Doanh nghiệp 2020"
     )
 
-# --- KHU VỰC NỘI DUNG CHÍNH: 4 TABS ---
-tab_chat, tab_db, tab_security, tab_eval = st.tabs([
-    "💬 Trò chuyện Trợ lý Pháp lý",
-    "📚 Tra cứu Mã ngành & Giấy phép (Database)",
-    "🛡️ Giám sát Bảo mật & Model Switcher",
-    "📊 Đánh giá Benchmark (Ragas Evaluation)"
-])
+# ==================== KHU VỰC HIỂN THỊ NỘI DUNG CHÍNH ====================
 
-# ==================== TAB 1: CHATBOT ====================
-with tab_chat:
+# 💬 TAB 1: CHATBOT TRỢ LÝ PHÁP LÝ
+if selected_tab == "💬 Trò chuyện Trợ lý Pháp lý":
     st.header("💬 Trò chuyện cùng Trợ lý Pháp lý SME")
     st.caption("Ứng dụng Multi-Agent Orchestration + RAG Luật Doanh nghiệp 2020 + CSDL VSIC 2018")
 
@@ -127,12 +139,10 @@ with tab_chat:
     # Input từ người dùng
     user_input = st.chat_input("Nhập câu hỏi hoặc ý tưởng kinh doanh của bạn...")
     if user_input:
-        # Lưu câu hỏi người dùng
         st.session_state.messages.append({"role": "user", "content": user_input})
         with st.chat_message("user"):
             st.markdown(user_input)
 
-        # Xử lý qua Multi-Agent Workflow
         with st.chat_message("assistant"):
             with st.spinner("AI Agents đang phân tích và tra cứu căn cứ pháp lý..."):
                 result = st.session_state.workflow.process(user_input)
@@ -147,7 +157,6 @@ with tab_chat:
 
             st.caption(f"🤖 Xử lý bởi Agent: **{result['active_agent']}**")
 
-            # Lưu vào session
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": resp_text,
@@ -155,8 +164,8 @@ with tab_chat:
                 "citations": result.get("citations", [])
             })
 
-# ==================== TAB 2: TRA CỨU CSDL ====================
-with tab_db:
+# 📚 TAB 2: TRA CỨU CSDL MÃ NGÀNH & GIẤY PHÉP
+elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép":
     st.header("📚 Tra cứu CSDL Mã ngành Kinh tế & Điều kiện Giấy phép")
     st.caption("Dữ liệu đọc trực tiếp từ SQLite Database (`sme_legal.db`)")
 
@@ -166,7 +175,7 @@ with tab_db:
         st.subheader(f"Kết quả tra cứu mã ngành cho: '{search_kw}' ({len(industries)} kết quả)")
         if industries:
             df_ind = pd.DataFrame(industries)
-            st.dataframe(df_ind, use_container_width=True)
+            st.dataframe(df_ind, width=1200)
         else:
             st.warning("Không tìm thấy mã ngành phù hợp.")
 
@@ -183,8 +192,8 @@ with tab_db:
         else:
             st.info("Không có yêu cầu giấy phép con đặc thù cho từ khóa này (hoặc ngành nghề kinh doanh tự do).")
 
-# ==================== TAB 3: BẢO MẬT & MODEL SWITCHER ====================
-with tab_security:
+# 🛡️ TAB 3: BẢO MẬT & MODEL SWITCHER
+elif selected_tab == "🛡️ Giám sát Bảo mật & Switcher":
     st.header("🛡️ Giám sát Bảo mật (Security & Guardrails Monitor)")
     st.caption("Hiện thực hóa Tiêu chí 7: Bảo mật LLM & Che giấu thông tin PII")
 
@@ -214,8 +223,8 @@ with tab_security:
         else:
             st.error(f"🚫 {reason}")
 
-# ==================== TAB 4: ĐÁNH GIÁ MÔ HÌNH ====================
-with tab_eval:
+# 📊 TAB 4: ĐÁNH GIÁ MÔ HÌNH RAGAS
+elif selected_tab == "📊 Đánh giá Benchmark (Ragas)":
     st.header("📊 Bảng điều khiển Đánh giá Mô hình (Ragas Evaluation Dashboard)")
     st.caption("Hiện thực hóa Tiêu chí 6: Đánh giá mô hình LLM với 4 chỉ số cốt lõi")
 
@@ -223,7 +232,6 @@ with tab_eval:
     if os.path.exists(results_csv_path):
         df_eval = pd.read_csv(results_csv_path)
 
-        # Tính toán metric trung bình
         avg_faith = df_eval["faithfulness"].mean()
         avg_rel = df_eval["answer_relevance"].mean()
         avg_prec = df_eval["context_precision"].mean()
@@ -236,7 +244,7 @@ with tab_eval:
         m4.metric("Context Recall (Độ bao phủ)", f"{avg_rec*100:.1f}%")
 
         st.subheader("Bảng dữ liệu Test Cases chi tiết:")
-        st.dataframe(df_eval, use_container_width=True)
+        st.dataframe(df_eval, width=1200)
 
         st.subheader("Biểu đồ so sánh 4 chỉ số chất lượng RAG:")
         chart_data = pd.DataFrame({

@@ -140,9 +140,10 @@ Trình duyệt web sẽ tự động mở tại địa chỉ: **`http://localhos
 
 ---
 
-### 🖥️ Hướng dẫn Trải nghiệm 4 Tab Nghiệp vụ:
+### 🖥️ Hướng dẫn Trải nghiệm 4 Chức năng (Nằm ở Menu Sidebar bên trái):
+Menu điều hướng 4 chức năng được bố trí cố định ngay tại **cột bên trái (Sidebar)** dưới mục *"📑 Danh mục Chức năng"*, giúp bạn bấm chuyển tab tức thì mà không lo bị trôi khi màn hình chat cuộn dài:
 
-* 💬 **Tab 1: Trò chuyện Trợ lý Pháp lý (Chatbot AI):**
+* 💬 **Chức năng 1: Trò chuyện Trợ lý Pháp lý (Chatbot AI):**
   * Đặt câu hỏi thực tế: *"Tôi muốn mở một quán cà phê bánh ngọt có nhạc acoustic tại Quận 1, cần chuẩn bị những thủ tục gì?"*
   * AI Agents sẽ tự động phân tích, tra cứu văn bản luật và trả về **Bản Checklist Pháp lý Hoàn chỉnh**.
   * Bấm mở rộng phần **"Căn cứ pháp luật trích dẫn (Citations)"** để xem nguồn luật được trích dẫn (Ví dụ: `[Luật Doanh nghiệp 2020 - Điều 74]`).
