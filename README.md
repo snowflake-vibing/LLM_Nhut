@@ -17,9 +17,8 @@
 
 ## 🚀 QUẢN LÝ PHIÊN BẢN & LỘ TRÌNH (VERSIONING & ROADMAP)
 
-* **Phiên bản Hiện tại (Version 1.0 - Completed):**
-  * Hoàn thành đầy đủ 7 tiêu chí chấm điểm của giảng viên (Multi-Agent, RAG, SQLite VSIC 2018, Cloud Gemini + Local Ollama, Benchmark Ragas 95%, PII Masking & Anti-Jailbreak).
-  * Checklist nghiệm thu: [`requirements/project_checklist.md`](./requirements/project_checklist.md).
+* **Yêu cầu Kỹ thuật Phiên bản 1 (Requirements Version 1):**
+  * Đặc tả 7 tiêu chí chấm điểm ban đầu của giảng viên: [`requirements/requirements_version_1.md`](./requirements/requirements_version_1.md).
 * **Đánh giá Phiên bản 1 (Preview Version 1):**
   * Tổng hợp 4 nhận xét người dùng & phản biện chuyên sâu của AI Engineer: [`requirements/preview_version_1.md`](./requirements/preview_version_1.md).
 * **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1):**
@@ -104,8 +103,7 @@ LLM_Nhut/
 │   └── PROJECT_REPORT.md        # Báo cáo đồ án hoàn chỉnh 8 chương
 ├── requirements/                # Quản lý yêu cầu & Phiên bản
 │   ├── preview_version_1.md     # Đánh giá Version 1 & Phản biện kỹ thuật
-│   ├── project_checklist.md     # Checklist nghiệm thu Version 1 (100% [x])
-│   ├── project_requirements.md  # 7 tiêu chí chấm điểm ban đầu
+│   ├── requirements_version_1.md # 7 tiêu chí chấm điểm Version 1.0
 │   └── requirements_version_1.1.md # Yêu cầu kỹ thuật nâng cấp cho Version 1.1
 ├── src/
 │   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, Graph)

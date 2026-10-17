@@ -1,4 +1,5 @@
-# BỘ YÊU CẦU DỰ ÁN AI ENGINEER (PROJECT REQUIREMENTS)
+# 🎯 BỘ YÊU CẦU DỰ ÁN AI ENGINEER PHIÊN BẢN 1 (REQUIREMENTS VERSION 1)
+### ⚖️ ĐỀ TÀI: LEGALTECH SME ASSISTANT (HỖ TRỢ PHÁP LÝ DOANH NGHIỆP VỪA & NHỎ)
 
 ## 📌 Tổng quan dự án
 Tài liệu này tổng hợp toàn bộ các tiêu chí đánh giá, yêu cầu kỹ thuật và lộ trình xây dựng dự án môn học **AI Engineer**. Dự án hướng đến việc phát triển một ứng dụng tích hợp Trí tuệ nhân tạo tạo sinh (Generative AI / LLM) giải quyết bài toán thực tế trong doanh nghiệp, đáp ứng đầy đủ 7 tiêu chí chấm điểm từ giảng viên.
