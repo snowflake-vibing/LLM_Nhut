@@ -112,12 +112,16 @@ with st.sidebar:
 
     if selected_mode != current_mode:
         st.session_state.factory.set_provider(selected_mode)
+        st.session_state.health = st.session_state.factory.check_health()
         st.success(f"Đã chuyển sang chế độ: **{selected_mode.upper()}**")
 
     # 📡 KIỂM TRA TRẠNG THÁI KẾT NỐI
     st.markdown("---")
     st.subheader("📡 Trạng thái Kết nối (Health)")
-    health = st.session_state.factory.check_health()
+    if "health" not in st.session_state:
+        st.session_state.health = st.session_state.factory.check_health()
+    health = st.session_state.health
+
     c1, c2 = st.columns(2)
     with c1:
         if health["cloud"]["available"]:
@@ -132,6 +136,9 @@ with st.sidebar:
 
     st.caption(f"Cloud: `{health['cloud']['model']}`")
     st.caption(f"Local: `{health['local']['model']}`")
+    if st.button("🔄 Kiểm tra lại kết nối", use_container_width=True):
+        st.session_state.health = st.session_state.factory.check_health()
+        st.rerun()
 
     st.markdown("---")
     st.info(
@@ -254,127 +261,100 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                     )
 
                     # Form nhập thông tin nhân thân linh hoạt
+                    f_vals = {}
                     with st.form(f"dynamic_form_{idx}"):
                         st.caption("*(Điền các trường bạn biết, để trống trường chưa biết để AI chèn dòng giữ chỗ)*")
 
                         if selected_doc_key == "DEBT_COLLECTION":
                             df_c1, df_c2 = st.columns(2)
                             with df_c1:
-                                f_court = st.text_input("Tòa án nhân dân tiếp nhận đơn:", placeholder="VD: TAND Quận 1, TP. Hồ Chí Minh")
-                                f_pl_name = st.text_input("Họ và tên Người khởi kiện (Chủ nợ):", placeholder="VD: Nguyễn Văn A")
-                                f_pl_cccd = st.text_input("CCCD Chủ nợ:", placeholder="07920100xxxx")
-                                f_pl_phone = st.text_input("Số điện thoại Chủ nợ:", placeholder="0912345678")
+                                f_vals["court_name"] = st.text_input("Tòa án nhân dân tiếp nhận đơn:", placeholder="VD: TAND Quận 1, TP. Hồ Chí Minh", key=f"f_court_{idx}")
+                                f_vals["plaintiff_name"] = st.text_input("Họ và tên Người khởi kiện (Chủ nợ):", placeholder="VD: Nguyễn Văn A", key=f"f_pl_name_{idx}")
+                                f_vals["plaintiff_cccd"] = st.text_input("CCCD Chủ nợ:", placeholder="07920100xxxx", key=f"f_pl_cccd_{idx}")
+                                f_vals["plaintiff_phone"] = st.text_input("Số điện thoại Chủ nợ:", placeholder="0912345678", key=f"f_pl_phone_{idx}")
                             with df_c2:
-                                f_df_name = st.text_input("Họ và tên Người bị kiện (Con nợ):", placeholder="VD: Trần Văn B")
-                                f_df_addr = st.text_input("Nơi cư trú cuối cùng của con nợ:", placeholder="Số 45 Lê Lợi, Phường Bến Nghé, Quận 1")
-                                f_amount = st.text_input("Số tiền nợ gốc (VNĐ):", placeholder="VD: 300.000.000 VNĐ")
-                                f_interest = st.text_input("Số tiền lãi yêu cầu tính thêm:", placeholder="VD: 15.000.000 VNĐ")
+                                f_vals["defendant_name"] = st.text_input("Họ và tên Người bị kiện (Con nợ):", placeholder="VD: Trần Văn B", key=f"f_df_name_{idx}")
+                                f_vals["defendant_address"] = st.text_input("Nơi cư trú cuối cùng của con nợ:", placeholder="Số 45 Lê Lợi, Phường Bến Nghé, Quận 1", key=f"f_df_addr_{idx}")
+                                f_vals["principal_amount"] = st.text_input("Số tiền nợ gốc (VNĐ):", placeholder="VD: 300.000.000 VNĐ", key=f"f_amount_{idx}")
+                                f_vals["interest_amount"] = st.text_input("Số tiền lãi yêu cầu tính thêm:", placeholder="VD: 15.000.000 VNĐ", key=f"f_interest_{idx}")
+                                f_vals["total_amount"] = f_vals["principal_amount"]
 
                         elif selected_doc_key == "LAND_DISPUTE":
                             df_c1, df_c2 = st.columns(2)
                             with df_c1:
-                                f_ubnd = st.text_input("UBND cấp xã tiếp nhận đơn hòa giải:", placeholder="VD: UBND Phường Linh Trung, TP. Thủ Đức")
-                                f_app_name = st.text_input("Họ và tên người làm đơn:", placeholder="VD: Lê Thị C")
-                                f_parcel = st.text_input("Thông tin thửa đất tranh chấp:", placeholder="Thửa đất số 12, Tờ bản đồ số 45")
+                                f_vals["ubnd_name"] = st.text_input("UBND cấp xã tiếp nhận đơn hòa giải:", placeholder="VD: UBND Phường Linh Trung, TP. Thủ Đức", key=f"f_ubnd_{idx}")
+                                f_vals["applicant_name"] = st.text_input("Họ và tên người làm đơn:", placeholder="VD: Lê Thị C", key=f"f_app_name_{idx}")
+                                f_vals["parcel_info"] = st.text_input("Thông tin thửa đất tranh chấp:", placeholder="Thửa đất số 12, Tờ bản đồ số 45", key=f"f_parcel_{idx}")
                             with df_c2:
-                                f_neighbor = st.text_input("Họ và tên hộ hàng xóm liền kề:", placeholder="VD: Hoàng Văn D")
-                                f_encroach = st.text_input("Mô tả hành vi lấn chiếm ranh giới:", placeholder="Xây tường rào lấn sang mốc giới 1.5 mét")
+                                f_vals["neighbor_name"] = st.text_input("Họ và tên hộ hàng xóm liền kề:", placeholder="VD: Hoàng Văn D", key=f"f_neighbor_{idx}")
+                                f_vals["encroachment_desc"] = st.text_input("Mô tả hành vi lấn chiếm ranh giới:", placeholder="Xây tường rào lấn sang mốc giới 1.5 mét", key=f"f_encroach_{idx}")
 
                         elif selected_doc_key == "SCHOOL_VIOLENCE":
                             df_c1, df_c2 = st.columns(2)
                             with df_c1:
-                                f_school = st.text_input("Tên trường học xảy ra vụ việc:", placeholder="VD: Trường THCS Nguyễn Du")
-                                f_parent = st.text_input("Họ tên phụ huynh đứng đơn:", placeholder="VD: Vũ Văn E")
-                                f_student = st.text_input("Họ tên học sinh bị bạo lực:", placeholder="VD: Cháu Vũ Minh F (Lớp 8A)")
+                                f_vals["school_name"] = st.text_input("Tên trường học xảy ra vụ việc:", placeholder="VD: Trường THCS Nguyễn Du", key=f"f_school_{idx}")
+                                f_vals["parent_name"] = st.text_input("Họ tên phụ huynh đứng đơn:", placeholder="VD: Vũ Văn E", key=f"f_parent_{idx}")
+                                f_vals["student_name"] = st.text_input("Họ tên học sinh bị bạo lực:", placeholder="VD: Cháu Vũ Minh F (Lớp 8A)", key=f"f_student_{idx}")
                             with df_c2:
-                                f_dept = st.text_input("Phòng/Sở GD&ĐT quản lý:", placeholder="VD: Phòng GD&ĐT Quận 3")
-                                f_med_cost = st.text_input("Chi phí y tế & viện phí yêu cầu bồi thường:", placeholder="VD: 25.000.000 VNĐ")
+                                f_vals["education_department"] = st.text_input("Phòng/Sở GD&ĐT quản lý:", placeholder="VD: Phòng GD&ĐT Quận 3", key=f"f_dept_{idx}")
+                                f_vals["medical_cost"] = st.text_input("Chi phí y tế & viện phí yêu cầu bồi thường:", placeholder="VD: 25.000.000 VNĐ", key=f"f_med_cost_{idx}")
 
                         elif selected_doc_key == "DIVORCE_AND_CUSTODY":
                             df_c1, df_c2 = st.columns(2)
                             with df_c1:
-                                f_div_court = st.text_input("Tòa án nhân dân nộp đơn:", placeholder="VD: TAND Huyện Bình Chánh")
-                                f_husband = st.text_input("Họ và tên Người chồng:", placeholder="VD: Đặng Văn G")
-                                f_wife = st.text_input("Họ và tên Người vợ:", placeholder="VD: Phạm Thị H")
+                                f_vals["court_name"] = st.text_input("Tòa án nhân dân nộp đơn:", placeholder="VD: TAND Huyện Bình Chánh", key=f"f_div_court_{idx}")
+                                f_vals["husband_name"] = st.text_input("Họ và tên Người chồng:", placeholder="VD: Đặng Văn G", key=f"f_husband_{idx}")
+                                f_vals["wife_name"] = st.text_input("Họ và tên Người vợ:", placeholder="VD: Phạm Thị H", key=f"f_wife_{idx}")
                             with df_c2:
-                                f_custody = st.text_input("Thỏa thuận quyền nuôi con & cấp dưỡng:", placeholder="Mẹ nuôi con nhỏ 2 tuổi, cha cấp dưỡng 5 triệu/tháng")
-                                f_prop = st.text_input("Thỏa thuận tài sản chung:", placeholder="Tự thỏa thuận không yêu cầu Tòa án giải quyết")
+                                f_vals["custody_agreement"] = st.text_input("Thỏa thuận quyền nuôi con & cấp dưỡng:", placeholder="Mẹ nuôi con nhỏ 2 tuổi, cha cấp dưỡng 5 triệu/tháng", key=f"f_custody_{idx}")
+                                f_vals["property_division"] = st.text_input("Thỏa thuận tài sản chung:", placeholder="Tự thỏa thuận không yêu cầu Tòa án giải quyết", key=f"f_prop_{idx}")
 
                         elif selected_doc_key == "SERVICE_CONTRACT":
                             df_c1, df_c2 = st.columns(2)
                             with df_c1:
-                                f_pa = st.text_input("Bên A (Bên thuê dịch vụ):", placeholder="VD: CÔNG TY TNHH ALPHA")
-                                f_pb = st.text_input("Bên B (Bên cung ứng dịch vụ):", placeholder="VD: CÔNG TY CP BETA")
+                                f_vals["party_a_name"] = st.text_input("Bên A (Bên thuê dịch vụ):", placeholder="VD: CÔNG TY TNHH ALPHA", key=f"f_pa_{idx}")
+                                f_vals["party_b_name"] = st.text_input("Bên B (Bên cung ứng dịch vụ):", placeholder="VD: CÔNG TY CP BETA", key=f"f_pb_{idx}")
                             with df_c2:
-                                f_scope = st.text_input("Phạm vi dịch vụ cung cấp:", placeholder="Thiết kế và triển khai phần mềm quản lý")
-                                f_val = st.text_input("Giá trị hợp đồng:", placeholder="VD: 150.000.000 VNĐ")
+                                f_vals["service_scope"] = st.text_input("Phạm vi dịch vụ cung cấp:", placeholder="Thiết kế và triển khai phần mềm quản lý", key=f"f_scope_{idx}")
+                                f_vals["contract_value"] = st.text_input("Giá trị hợp đồng:", placeholder="VD: 150.000.000 VNĐ", key=f"f_val_{idx}")
 
                         else:
-                            f_custom_prompt = st.text_area(
+                            f_vals["custom_prompt"] = st.text_area(
                                 "Mô tả chi tiết văn bản pháp lý bạn muốn AI soạn thảo:",
-                                value="Soạn thảo Giấy ủy quyền quản lý tài sản nhà đất hợp pháp có điều khoản giới hạn phạm vi ủy quyền."
+                                value="Soạn thảo Giấy ủy quyền quản lý tài sản nhà đất hợp pháp có điều khoản giới hạn phạm vi ủy quyền.",
+                                key=f"f_custom_{idx}"
                             )
 
-                        btn_generate = st.form_submit_button("⚡ Tạo và Cập nhật Văn bản (.docx)")
+                        btn_generate = st.form_submit_button("⚡ Cập nhật & Tạo Văn bản (.docx)")
 
-                    # Xử lý xuất file Word (.docx)
+                    # Xử lý xuất file Word (.docx) an toàn không giật lag
                     if selected_doc_key == "DEBT_COLLECTION":
-                        doc_blob = st.session_state.dynamic_drafter.draft_debt_lawsuit({
-                            "court_name": locals().get("f_court", ""),
-                            "plaintiff_name": locals().get("f_pl_name", ""),
-                            "plaintiff_cccd": locals().get("f_pl_cccd", ""),
-                            "plaintiff_phone": locals().get("f_pl_phone", ""),
-                            "defendant_name": locals().get("f_df_name", ""),
-                            "defendant_address": locals().get("f_df_addr", ""),
-                            "principal_amount": locals().get("f_amount", ""),
-                            "interest_amount": locals().get("f_interest", ""),
-                            "total_amount": locals().get("f_amount", "")
-                        })
+                        doc_blob = st.session_state.dynamic_drafter.draft_debt_lawsuit(f_vals)
                         file_title = "Don_Khoi_Kien_Doi_No.docx"
 
                     elif selected_doc_key == "LAND_DISPUTE":
-                        doc_blob = st.session_state.dynamic_drafter.draft_land_dispute({
-                            "ubnd_name": locals().get("f_ubnd", ""),
-                            "applicant_name": locals().get("f_app_name", ""),
-                            "parcel_info": locals().get("f_parcel", ""),
-                            "neighbor_name": locals().get("f_neighbor", ""),
-                            "encroachment_desc": locals().get("f_encroach", "")
-                        })
+                        doc_blob = st.session_state.dynamic_drafter.draft_land_dispute(f_vals)
                         file_title = "Don_Yeu_Cau_Hoa_Giai_Dat_Dai.docx"
 
                     elif selected_doc_key == "SCHOOL_VIOLENCE":
-                        doc_blob = st.session_state.dynamic_drafter.draft_school_violence_complaint({
-                            "school_name": locals().get("f_school", ""),
-                            "education_department": locals().get("f_dept", ""),
-                            "parent_name": locals().get("f_parent", ""),
-                            "student_name": locals().get("f_student", ""),
-                            "medical_cost": locals().get("f_med_cost", "")
-                        })
+                        doc_blob = st.session_state.dynamic_drafter.draft_school_violence_complaint(f_vals)
                         file_title = "Don_Khieu_Nai_Bao_Luc_Hoc_Duong.docx"
 
                     elif selected_doc_key == "DIVORCE_AND_CUSTODY":
-                        doc_blob = st.session_state.dynamic_drafter.draft_divorce_petition({
-                            "court_name": locals().get("f_div_court", ""),
-                            "husband_name": locals().get("f_husband", ""),
-                            "wife_name": locals().get("f_wife", ""),
-                            "custody_agreement": locals().get("f_custody", ""),
-                            "property_division": locals().get("f_prop", "")
-                        })
+                        doc_blob = st.session_state.dynamic_drafter.draft_divorce_petition(f_vals)
                         file_title = "Don_Thuan_Tinh_Ly_Hon.docx"
 
                     elif selected_doc_key == "SERVICE_CONTRACT":
-                        doc_blob = st.session_state.dynamic_drafter.draft_service_contract({
-                            "party_a_name": locals().get("f_pa", ""),
-                            "party_b_name": locals().get("f_pb", ""),
-                            "service_scope": locals().get("f_scope", ""),
-                            "contract_value": locals().get("f_val", "")
-                        })
+                        doc_blob = st.session_state.dynamic_drafter.draft_service_contract(f_vals)
                         file_title = "Hop_Dong_Dich_Vu_Thuong_Mai.docx"
 
                     else:
-                        doc_blob = st.session_state.dynamic_drafter.draft_custom_document(
-                            locals().get("f_custom_prompt", "Văn bản pháp lý theo yêu cầu")
-                        )
+                        cust_key = f"cust_blob_{idx}"
+                        if btn_generate or cust_key not in st.session_state:
+                            st.session_state[cust_key] = st.session_state.dynamic_drafter.draft_custom_document(
+                                f_vals.get("custom_prompt", "Văn bản pháp lý theo yêu cầu")
+                            )
+                        doc_blob = st.session_state[cust_key]
                         file_title = "Van_Ban_Phap_Ly_Theo_Yeu_Cau.docx"
 
                     st.download_button(
@@ -617,126 +597,100 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
 
         st.info("💡 Bạn có thể nhập thông tin vào các ô bên dưới; ô nào chưa biết có thể để trống — AI sẽ tự động điền dòng giữ chỗ chuẩn mực `........................`!")
 
+        s_vals = {}
         with st.form("studio_drafter_form"):
             if "đòi nợ" in drafter_type.lower():
                 c1, c2 = st.columns(2)
                 with c1:
-                    d_court = st.text_input("Tòa án nhân dân nơi con nợ cư trú cuối cùng:", value="Tòa án nhân dân Quận 1, TP. Hồ Chí Minh")
-                    d_pl = st.text_input("Họ tên Người khởi kiện (Chủ nợ):", value="Nguyễn Văn Nhựt")
-                    d_pl_cccd = st.text_input("CCCD Chủ nợ:", value="079201004567")
-                    d_pl_addr = st.text_input("Địa chỉ Chủ nợ:", value="Quận 1, TP. Hồ Chí Minh")
+                    s_vals["court_name"] = st.text_input("Tòa án nhân dân nơi con nợ cư trú cuối cùng:", value="Tòa án nhân dân Quận 1, TP. Hồ Chí Minh", key="std_court")
+                    s_vals["plaintiff_name"] = st.text_input("Họ tên Người khởi kiện (Chủ nợ):", value="Nguyễn Văn Nhựt", key="std_pl")
+                    s_vals["plaintiff_cccd"] = st.text_input("CCCD Chủ nợ:", value="079201004567", key="std_pl_cccd")
+                    s_vals["plaintiff_address"] = st.text_input("Địa chỉ Chủ nợ:", value="Quận 1, TP. Hồ Chí Minh", key="std_pl_addr")
                 with c2:
-                    d_df = st.text_input("Họ tên Người bị kiện (Con nợ):", value="")
-                    d_df_addr = st.text_input("Nơi cư trú cuối cùng của con nợ:", value="")
-                    d_principal = st.text_input("Số tiền nợ gốc (VNĐ):", value="300.000.000 VNĐ")
-                    d_interest = st.text_input("Số tiền lãi chậm trả yêu cầu tính thêm:", value="15.000.000 VNĐ")
+                    s_vals["defendant_name"] = st.text_input("Họ tên Người bị kiện (Con nợ):", value="", key="std_df")
+                    s_vals["defendant_address"] = st.text_input("Nơi cư trú cuối cùng của con nợ:", value="", key="std_df_addr")
+                    s_vals["principal_amount"] = st.text_input("Số tiền nợ gốc (VNĐ):", value="300.000.000 VNĐ", key="std_amount")
+                    s_vals["interest_amount"] = st.text_input("Số tiền lãi chậm trả yêu cầu tính thêm:", value="15.000.000 VNĐ", key="std_interest")
+                    s_vals["total_amount"] = s_vals["principal_amount"]
 
             elif "đất đai" in drafter_type.lower():
                 c1, c2 = st.columns(2)
                 with c1:
-                    d_ubnd = st.text_input("UBND cấp xã nơi có đất:", value="UBND Phường Linh Trung, TP. Thủ Đức")
-                    d_app = st.text_input("Họ tên người làm đơn:", value="Nguyễn Văn Nhựt")
-                    d_parcel = st.text_input("Thông tin thửa đất:", value="Thửa đất số 45, Tờ bản đồ số 12")
+                    s_vals["ubnd_name"] = st.text_input("UBND cấp xã nơi có đất:", value="UBND Phường Linh Trung, TP. Thủ Đức", key="std_ubnd")
+                    s_vals["applicant_name"] = st.text_input("Họ tên người làm đơn:", value="Nguyễn Văn Nhựt", key="std_app")
+                    s_vals["parcel_info"] = st.text_input("Thông tin thửa đất:", value="Thửa đất số 45, Tờ bản đồ số 12", key="std_parcel")
                 with c2:
-                    d_neighbor = st.text_input("Họ tên hộ lấn chiếm ranh giới:", value="")
-                    d_encroach = st.text_input("Hành vi lấn chiếm:", value="Xây tường rào lấn sang mốc giới khoảng 1.5 mét")
+                    s_vals["neighbor_name"] = st.text_input("Họ tên hộ lấn chiếm ranh giới:", value="", key="std_neighbor")
+                    s_vals["encroachment_desc"] = st.text_input("Hành vi lấn chiếm:", value="Xây tường rào lấn sang mốc giới khoảng 1.5 mét", key="std_encroach")
 
             elif "bạo lực" in drafter_type.lower():
                 c1, c2 = st.columns(2)
                 with c1:
-                    d_school = st.text_input("Tên trường học:", value="Trường THCS Nguyễn Du")
-                    d_parent = st.text_input("Họ tên phụ huynh học sinh:", value="Nguyễn Văn Nhựt")
-                    d_student = st.text_input("Họ tên học sinh bị bạo lực:", value="Cháu Nguyễn Hoàng Nam (Lớp 8A)")
+                    s_vals["school_name"] = st.text_input("Tên trường học:", value="Trường THCS Nguyễn Du", key="std_school")
+                    s_vals["parent_name"] = st.text_input("Họ tên phụ huynh học sinh:", value="Nguyễn Văn Nhựt", key="std_parent")
+                    s_vals["student_name"] = st.text_input("Họ tên học sinh bị bạo lực:", value="Cháu Nguyễn Hoàng Nam (Lớp 8A)", key="std_student")
                 with c2:
-                    d_dept = st.text_input("Phòng/Sở Giáo dục và Đào tạo:", value="Phòng Giáo dục và Đào tạo Quận 1")
-                    d_cost = st.text_input("Chi phí y tế & viện phí yêu cầu bồi thường:", value="20.000.000 VNĐ")
+                    s_vals["education_department"] = st.text_input("Phòng/Sở Giáo dục và Đào tạo:", value="Phòng Giáo dục và Đào tạo Quận 1", key="std_dept")
+                    s_vals["medical_cost"] = st.text_input("Chi phí y tế & viện phí yêu cầu bồi thường:", value="20.000.000 VNĐ", key="std_med_cost")
 
             elif "ly hôn" in drafter_type.lower():
                 c1, c2 = st.columns(2)
                 with c1:
-                    d_court = st.text_input("Tòa án nhân dân thụ lý:", value="Tòa án nhân dân Huyện Bình Chánh, TP. Hồ Chí Minh")
-                    d_husband = st.text_input("Họ tên người chồng:", value="Nguyễn Văn Nhựt")
-                    d_wife = st.text_input("Họ tên người vợ:", value="")
+                    s_vals["court_name"] = st.text_input("Tòa án nhân dân thụ lý:", value="Tòa án nhân dân Huyện Bình Chánh, TP. Hồ Chí Minh", key="std_div_court")
+                    s_vals["husband_name"] = st.text_input("Họ tên người chồng:", value="Nguyễn Văn Nhựt", key="std_husband")
+                    s_vals["wife_name"] = st.text_input("Họ tên người vợ:", value="", key="std_wife")
                 with c2:
-                    d_custody = st.text_input("Thỏa thuận quyền nuôi con & cấp dưỡng:", value="Mẹ nuôi con nhỏ dưới 36 tháng, cha cấp dưỡng 5 triệu/tháng")
-                    d_prop = st.text_input("Thỏa thuận tài sản chung:", value="Tự thỏa thuận không yêu cầu Tòa án phân chia")
+                    s_vals["custody_agreement"] = st.text_input("Thỏa thuận quyền nuôi con & cấp dưỡng:", value="Mẹ nuôi con nhỏ dưới 36 tháng, cha cấp dưỡng 5 triệu/tháng", key="std_custody")
+                    s_vals["property_division"] = st.text_input("Thỏa thuận tài sản chung:", value="Tự thỏa thuận không yêu cầu Tòa án phân chia", key="std_prop")
 
             elif "hợp đồng dịch vụ" in drafter_type.lower():
                 c1, c2 = st.columns(2)
                 with c1:
-                    d_pa = st.text_input("Bên A (Bên Thuê):", value="CÔNG TY TNHH NHỰT AI SOLUTIONS")
-                    d_pb = st.text_input("Bên B (Bên Cung Ứng):", value="")
+                    s_vals["party_a_name"] = st.text_input("Bên A (Bên Thuê):", value="CÔNG TY TNHH NHỰT AI SOLUTIONS", key="std_pa")
+                    s_vals["party_b_name"] = st.text_input("Bên B (Bên Cung Ứng):", value="", key="std_pb")
                 with c2:
-                    d_scope = st.text_input("Nội dung dịch vụ:", value="Phát triển và bảo trì hệ thống AI LegalTech")
-                    d_val = st.text_input("Giá trị hợp đồng (VNĐ):", value="150.000.000 VNĐ")
+                    s_vals["service_scope"] = st.text_input("Nội dung dịch vụ:", value="Phát triển và bảo trì hệ thống AI LegalTech", key="std_scope")
+                    s_vals["contract_value"] = st.text_input("Giá trị hợp đồng (VNĐ):", value="150.000.000 VNĐ", key="std_val")
 
             else:
-                d_custom_prompt = st.text_area(
+                s_vals["custom_prompt"] = st.text_area(
                     "Mô tả văn bản pháp lý cần tạo:",
-                    value="Soạn thảo Biên bản bàn giao tài sản và cam kết bảo hành sản phẩm."
+                    value="Soạn thảo Biên bản bàn giao tài sản và cam kết bảo hành sản phẩm.",
+                    key="std_custom"
                 )
 
             d_submit = st.form_submit_button("⚡ Tạo Văn bản Hoàn chỉnh (.docx)")
 
-        if "đòi nợ" in drafter_type.lower():
-            doc_stream = st.session_state.dynamic_drafter.draft_debt_lawsuit({
-                "court_name": locals().get("d_court", ""),
-                "plaintiff_name": locals().get("d_pl", ""),
-                "plaintiff_cccd": locals().get("d_pl_cccd", ""),
-                "plaintiff_address": locals().get("d_pl_addr", ""),
-                "defendant_name": locals().get("d_df", ""),
-                "defendant_address": locals().get("d_df_addr", ""),
-                "principal_amount": locals().get("d_principal", ""),
-                "interest_amount": locals().get("d_interest", ""),
-                "total_amount": locals().get("d_principal", "")
-            })
-            out_name = "Don_Khoi_Kien_Doi_No.docx"
-        elif "đất đai" in drafter_type.lower():
-            doc_stream = st.session_state.dynamic_drafter.draft_land_dispute({
-                "ubnd_name": locals().get("d_ubnd", ""),
-                "applicant_name": locals().get("d_app", ""),
-                "parcel_info": locals().get("d_parcel", ""),
-                "neighbor_name": locals().get("d_neighbor", ""),
-                "encroachment_desc": locals().get("d_encroach", "")
-            })
-            out_name = "Don_Hoa_Giai_Dat_Dai.docx"
-        elif "bạo lực" in drafter_type.lower():
-            doc_stream = st.session_state.dynamic_drafter.draft_school_violence_complaint({
-                "school_name": locals().get("d_school", ""),
-                "education_department": locals().get("d_dept", ""),
-                "parent_name": locals().get("d_parent", ""),
-                "student_name": locals().get("d_student", ""),
-                "medical_cost": locals().get("d_cost", "")
-            })
-            out_name = "Don_Khieu_Nai_Bao_Luc_Hoc_Duong.docx"
-        elif "ly hôn" in drafter_type.lower():
-            doc_stream = st.session_state.dynamic_drafter.draft_divorce_petition({
-                "court_name": locals().get("d_court", ""),
-                "husband_name": locals().get("d_husband", ""),
-                "wife_name": locals().get("d_wife", ""),
-                "custody_agreement": locals().get("d_custody", ""),
-                "property_division": locals().get("d_prop", "")
-            })
-            out_name = "Don_Thuan_Tinh_Ly_Hon.docx"
-        elif "hợp đồng dịch vụ" in drafter_type.lower():
-            doc_stream = st.session_state.dynamic_drafter.draft_service_contract({
-                "party_a_name": locals().get("d_pa", ""),
-                "party_b_name": locals().get("d_pb", ""),
-                "service_scope": locals().get("d_scope", ""),
-                "contract_value": locals().get("d_val", "")
-            })
-            out_name = "Hop_Dong_Dich_Vu_Can_Bang.docx"
-        else:
-            doc_stream = st.session_state.dynamic_drafter.draft_custom_document(
-                locals().get("d_custom_prompt", "Văn bản pháp lý theo yêu cầu")
-            )
-            out_name = "Van_Ban_Phap_Ly_Theo_Yeu_Cau.docx"
+        if d_submit or "studio_doc_ready" not in st.session_state:
+            if "đòi nợ" in drafter_type.lower():
+                doc_stream = st.session_state.dynamic_drafter.draft_debt_lawsuit(s_vals)
+                out_name = "Don_Khoi_Kien_Doi_No.docx"
+            elif "đất đai" in drafter_type.lower():
+                doc_stream = st.session_state.dynamic_drafter.draft_land_dispute(s_vals)
+                out_name = "Don_Hoa_Giai_Dat_Dai.docx"
+            elif "bạo lực" in drafter_type.lower():
+                doc_stream = st.session_state.dynamic_drafter.draft_school_violence_complaint(s_vals)
+                out_name = "Don_Khieu_Nai_Bao_Luc_Hoc_Duong.docx"
+            elif "ly hôn" in drafter_type.lower():
+                doc_stream = st.session_state.dynamic_drafter.draft_divorce_petition(s_vals)
+                out_name = "Don_Thuan_Tinh_Ly_Hon.docx"
+            elif "hợp đồng dịch vụ" in drafter_type.lower():
+                doc_stream = st.session_state.dynamic_drafter.draft_service_contract(s_vals)
+                out_name = "Hop_Dong_Dich_Vu_Can_Bang.docx"
+            else:
+                doc_stream = st.session_state.dynamic_drafter.draft_custom_document(
+                    s_vals.get("custom_prompt", "Văn bản pháp lý theo yêu cầu")
+                )
+                out_name = "Van_Ban_Phap_Ly_Theo_Yeu_Cau.docx"
+            st.session_state["studio_doc_ready"] = (doc_stream, out_name)
 
+        doc_to_dl, name_to_dl = st.session_state["studio_doc_ready"]
         st.download_button(
-            label=f"📥 Tải Văn bản Word Chuẩn Thể thức (.docx): {out_name}",
-            data=doc_stream,
-            file_name=out_name,
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            label=f"📥 Tải Văn bản Word Chuẩn Thể thức (.docx): {name_to_dl}",
+            data=doc_to_dl,
+            file_name=name_to_dl,
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            key="btn_dl_studio_drafter"
         )
 
     # 3. SOCIAL CASES LEGAL CENTER
