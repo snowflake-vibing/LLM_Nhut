@@ -61,8 +61,8 @@ Phiên bản 2.0 đánh dấu bước chuyển đổi bước ngoặt từ một
 
 ---
 
-## 📅 3. Lộ trình Triển khai Version 2.0 (Major Release)
-1. [ ] **Sprint 2.0.1:** Thu thập, chunking và xây dựng Hierarchical Vector Collections cho Bộ luật Dân sự 2015, Bộ luật Lao động 2019 và Luật Thương mại 2005 (kèm link kiểm chứng vanban.chinhphu.vn).
-2. [ ] **Sprint 2.0.2:** Xây dựng Engine Thẩm định Lỗ hổng Hợp đồng (`src/tools/contract_scanner.py`) với hệ thống chấm điểm rủi ro (0-100) và gợi ý điều khoản thay thế.
-3. [ ] **Sprint 2.0.3:** Tích hợp In-Chat Interactive Canvas (Generative UI) cho phép tương tác tool trực tiếp trong luồng hội thoại Streamlit.
-4. [ ] **Sprint 2.0.4:** Tích hợp Dynamic Few-shot Memory Store, cập nhật kịch bản kiểm thử benchmark Ragas mở rộng và hoàn thiện tài liệu bàn giao.
+## 📅 3. Lộ trình Triển khai Version 2.0 (Major Release) - [ĐÃ HOÀN THÀNH 100%]
+1. [x] **Sprint 2.0.1:** Thu thập, chunking và xây dựng Hierarchical Vector Collections cho Bộ luật Dân sự 2015, Bộ luật Lao động 2019 và Luật Thương mại 2005 (kèm link kiểm chứng vanban.chinhphu.vn).
+2. [x] **Sprint 2.0.2:** Xây dựng Engine Thẩm định Lỗ hổng Hợp đồng (`src/tools/contract_scanner.py`) với hệ thống chấm điểm rủi ro (0-100), gợi ý điều khoản thay thế (Redlining) và xuất báo cáo Word (.docx).
+3. [x] **Sprint 2.0.3:** Tích hợp In-Chat Interactive Canvas (Generative UI) cho phép tương tác tool trực tiếp trong luồng hội thoại Streamlit (`app/main.py`).
+4. [x] **Sprint 2.0.4:** Tích hợp Dynamic Few-shot Memory Store (`src/agents/memory_store.py`), cập nhật kịch bản kiểm thử benchmark và hoàn thiện tài liệu bàn giao.

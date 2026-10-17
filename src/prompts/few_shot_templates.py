@@ -33,6 +33,24 @@ Phân loại:
   "entities": ["công ty TNHH 1 thành viên", "hồ sơ", "nơi nộp"],
   "reasoning": "Người dùng muốn biết checklist các bước nộp và cơ quan tiếp nhận hồ sơ."
 }
+
+Ví dụ 4:
+Người dùng: "Hãy kiểm tra hợp đồng này giúp tôi: 'Bên B chậm giao hàng phạt 15% và công ty giữ bằng đại học làm tin.'"
+Phân loại:
+{
+  "intent": "CONTRACT_AUDIT",
+  "entities": ["kiểm tra hợp đồng", "phạt 15%", "giữ bằng đại học"],
+  "reasoning": "Người dùng muốn thẩm định và rà soát lỗ hổng hợp đồng."
+}
+
+Ví dụ 5:
+Người dùng: "Tạo cho tôi bộ hồ sơ đăng ký thành lập công ty TNHH 1 thành viên mở quán cà phê"
+Phân loại:
+{
+  "intent": "DOSSIER_CREATION",
+  "entities": ["tạo hồ sơ", "thành lập công ty TNHH 1 thành viên"],
+  "reasoning": "Người dùng muốn soạn thảo hồ sơ đăng ký doanh nghiệp."
+}
 """
 
 FEW_SHOT_ENTITY_EXTRACTION_EXAMPLES = """

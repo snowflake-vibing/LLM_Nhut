@@ -1,8 +1,13 @@
 """
-Web Search & External Tools Module
-Công cụ tìm kiếm thông tin ngành nghề và giấy phép con mở rộng qua Internet.
+Web Search, External Tools & Contract Scanner Module
+Hỗ trợ tìm kiếm mở rộng Internet và thẩm định lỗ hổng hợp đồng (Version 2.0).
 """
 
 from .web_search_tool import search_web_legal, hybrid_industry_search
+from .contract_scanner import ContractVulnerabilityScanner
 
-__all__ = ["search_web_legal", "hybrid_industry_search"]
+__all__ = [
+    "search_web_legal",
+    "hybrid_industry_search",
+    "ContractVulnerabilityScanner",
+]

@@ -1,6 +1,7 @@
 """
-LegalTech SME Assistant - Streamlit Application
-Giao diện người dùng với thanh điều hướng Tab bên trái (Sidebar Navigation) - Phiên bản 1.1.
+LegalTech Platform - Streamlit Application - Version 2.0 (Major Release)
+Giao diện người dùng với In-Chat Generative UI, Thẩm định Hợp đồng, Soạn thảo Hồ sơ,
+Tra cứu Hybrid và Quản lý Memory Bank (Continual Optimization).
 """
 
 import os
@@ -20,6 +21,8 @@ from src.agents import LegalMultiAgentWorkflow
 from src.database import DatabaseManager
 from src.security import PIIMasker, PromptInjectionGuard
 from src.tools.web_search_tool import hybrid_industry_search
+from src.tools.contract_scanner import ContractVulnerabilityScanner
+from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
     generate_company_charter_docx,
@@ -31,31 +34,13 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech SME Assistant - v1.1",
+    page_title="LegalTech Platform - v2.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # Khởi tạo trạng thái Session
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {
-            "role": "assistant",
-            "content": (
-                "👋 **Xin chào! Tôi là Trợ lý AI Tư vấn Pháp lý Khởi nghiệp (LegalTech SME Assistant v1.1).**\n\n"
-                "Tôi có thể hỗ trợ bạn:\n"
-                "- 🏢 Tư vấn lựa chọn mô hình: *Hộ kinh doanh cá thể, Công ty TNHH 1TV, 2TV hay Cổ phần*.\n"
-                "- 📝 **MỚI v1.1:** Tự động soạn thảo Bộ hồ sơ thành lập doanh nghiệp chuẩn và xuất file Word (.docx).\n"
-                "- 🔍 Tra cứu mã ngành kinh tế (VSIC 2018) và Web Search mở rộng cho các ngành nghề mới.\n"
-                "- 📖 Trích dẫn chính xác Điều/Khoản kèm **link kiểm chứng tại Cổng TT Chính phủ**.\n\n"
-                "👉 *Bạn đang dự định khởi nghiệp mô hình kinh doanh gì? Hãy chia sẻ với tôi nhé!*"
-            ),
-            "agent": "SystemGreeting",
-            "citations": []
-        }
-    ]
-
 if "factory" not in st.session_state:
     st.session_state.factory = ModelFactory()
 
@@ -65,19 +50,46 @@ if "workflow" not in st.session_state:
 if "db_manager" not in st.session_state:
     st.session_state.db_manager = DatabaseManager()
 
+if "contract_scanner" not in st.session_state:
+    st.session_state.contract_scanner = ContractVulnerabilityScanner(st.session_state.factory)
+
+if "memory_store" not in st.session_state:
+    st.session_state.memory_store = LegalMemoryStore()
+
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {
+            "role": "assistant",
+            "content": (
+                "👋 **Xin chào! Tôi là Trợ lý AI Trí tuệ Pháp lý Toàn diện (LegalTech Platform v2.0 - Major Release).**\n\n"
+                "Hệ thống Version 2.0 đã được nâng cấp với các công cụ đột phá:\n"
+                "- 🛡️ **Quét Lỗ hổng & Chấm điểm Hợp đồng:** Phát hiện cạm bẫy phạt quá 8%, thử việc quá hạn, thiếu bất khả kháng và xuất báo cáo Word (.docx).\n"
+                "- 💬 **In-Chat Interactive Canvas:** Bạn có thể yêu cầu tạo hồ sơ hoặc thẩm định văn bản ngay trong khung chat này.\n"
+                "- 📚 **Tri thức Đa luật Đa tầng:** Bao quát Luật Doanh nghiệp 2020, Bộ luật Dân sự 2015, Bộ luật Lao động 2019 và Luật Thương mại 2005 kèm link Cổng TT Chính phủ.\n"
+                "- 📝 **Tự động Soạn thảo Hồ sơ:** Xuất trọn bộ biểu mẫu thành lập doanh nghiệp chuẩn Nghị định 01/2021/NĐ-CP.\n\n"
+                "👉 *Bạn muốn thẩm định một bản hợp đồng, tra cứu ngành nghề hay tạo hồ sơ doanh nghiệp?*"
+            ),
+            "agent": "SystemGreeting",
+            "citations": [],
+            "action_type": None,
+            "action_data": None
+        }
+    ]
+
 # ==================== SIDEBAR: GIỚI THIỆU & ĐIỀU HƯỚNG TABS ====================
 with st.sidebar:
-    st.title("⚖️ LegalTech SME")
-    st.caption("Trợ lý AI Hỗ trợ Pháp lý Doanh nghiệp Vừa & Nhỏ • **v1.1**")
+    st.title("⚖️ LegalTech Platform")
+    st.caption("Nền tảng Trí tuệ Pháp lý & Thẩm định Hợp đồng • **v2.0 (Major Release)**")
     st.markdown("---")
 
     # 📌 MENU ĐIỀU HƯỚNG CÁC CHỨC NĂNG (TABS BÊN TRÁI)
     st.subheader("📑 Danh mục Chức năng")
     tab_options = [
-        "💬 Trò chuyện Trợ lý Pháp lý",
+        "💬 Khung Chat & Command Center",
+        "🛡️ Thẩm định & Quét Lỗ hổng Hợp đồng",
         "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)",
-        "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)",
-        "🛡️ Giám sát Bảo mật & Switcher",
+        "📚 Tra cứu CSDL Mã ngành & Giấy phép (Hybrid)",
+        "🔐 Giám sát Bảo mật, Switcher & Memory Bank",
         "📊 Đánh giá Benchmark (Ragas)"
     ]
     selected_tab = st.radio(
@@ -124,25 +136,97 @@ with st.sidebar:
 
     st.markdown("---")
     st.info(
-        "🛡️ **Lớp Bảo mật (Guardrails):**\n"
-        "- Ẩn danh số CCCD, SĐT, Email (PII Masking)\n"
-        "- Chống bẻ khóa Jailbreak & Prompt Injection\n"
-        "- Tuân thủ Điều 16 Luật Doanh nghiệp 2020\n"
-        "- Link kiểm chứng tại Cổng TT Chính phủ"
+        "🛡️ **Kiến trúc Version 2.0:**\n"
+        "- In-Chat Generative Actions\n"
+        "- Contract Vulnerability Scanner\n"
+        "- Hierarchical RAG (Dân sự, Lao động, Thương mại)\n"
+        "- Dynamic Few-shot Memory Bank"
     )
 
 
 # ==================== KHU VỰC HIỂN THỊ NỘI DUNG CHÍNH ====================
 
-# 💬 TAB 1: CHATBOT TRỢ LÝ PHÁP LÝ (KÈM CITATION CARDS VÀ LINK KIỂM CHỨNG)
-if selected_tab == "💬 Trò chuyện Trợ lý Pháp lý":
-    st.header("💬 Trò chuyện cùng Trợ lý Pháp lý SME")
-    st.caption("Ứng dụng Multi-Agent Orchestration + RAG Luật Doanh nghiệp 2020 + Verify URL Cổng TT Chính phủ")
+# 💬 TAB 1: KHUNG CHAT & COMMAND CENTER (IN-CHAT GENERATIVE ACTIONS)
+if selected_tab == "💬 Khung Chat & Command Center":
+    st.header("💬 Trợ lý Trí tuệ Pháp lý & Command Center")
+    st.caption("Trung tâm Điều phối Đa tác nhân • Tương tác trực tiếp công cụ trong luồng hội thoại")
+
+    # Gợi ý nhanh các câu lệnh
+    st.markdown("💡 **Lối tắt thao tác nhanh (Quick Actions):**")
+    qc1, qc2, qc3 = st.columns(3)
+    quick_prompt = None
+    with qc1:
+        if st.button("🛡️ Quét thử Hợp đồng mẫu phạt 15%"):
+            quick_prompt = "Hãy kiểm tra rủi ro hợp đồng này: 'Hợp đồng mua bán hàng hóa quy định nếu Bên B chậm thanh toán thì phải chịu phạt vi phạm 15% giá trị hợp đồng và không có điều khoản bất khả kháng.'"
+    with qc2:
+        if st.button("📝 Kích hoạt Tạo hồ sơ Doanh nghiệp"):
+            quick_prompt = "Tôi muốn tạo bộ hồ sơ đăng ký thành lập công ty TNHH 1 thành viên ngành phần mềm"
+    with qc3:
+        if st.button("🔍 Tra cứu ngành kinh tế mới"):
+            quick_prompt = "Tôi muốn mở doanh nghiệp dịch vụ livestream bán hàng và affiliate marketing thì đăng ký mã ngành gì?"
 
     # Hiển thị lịch sử chat
-    for msg in st.session_state.messages:
+    for idx, msg in enumerate(st.session_state.messages):
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
+
+            # 1. Hiển thị Interactive Action Widget nếu có
+            action_type = msg.get("action_type")
+            action_data = msg.get("action_data")
+
+            if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
+                with st.expander("🔍 Thẻ Chi tiết Thẩm định & Tải Báo cáo (.docx)", expanded=True):
+                    sc1, sc2 = st.columns([1, 2])
+                    with sc1:
+                        st.metric("Điểm An toàn Pháp lý", f"{action_data.get('score', 0)} / 100")
+                        st.markdown(f"**Trạng thái:** {action_data.get('status_label', '')}")
+                    with sc2:
+                        st.markdown(f"**Số lỗ hổng phát hiện:** `{action_data.get('findings_count', 0)}`")
+                        docx_audit = st.session_state.contract_scanner.export_audit_report_docx(action_data)
+                        st.download_button(
+                            label="📥 Tải Báo cáo Thẩm định Hợp đồng (.docx)",
+                            data=docx_audit,
+                            file_name=f"Bao_Cao_Tham_Dinh_Hop_Dong_{idx}.docx",
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            key=f"dl_audit_{idx}"
+                        )
+
+            elif action_type == "DOSSIER_CREATION_ACTION":
+                with st.expander("📝 Form Tạo Nhanh Bộ Hồ sơ Thành lập Doanh nghiệp", expanded=True):
+                    st.info("Nhấn nút bên dưới để tạo và tải về trọn bộ file Word mẫu chuẩn quy định của Bộ KH&ĐT:")
+                    default_dossier = {
+                        "company_name": "CÔNG TY TNHH CÔNG NGHỆ NHỰT AI",
+                        "entity_type_label": "Công ty TNHH 1 Thành viên",
+                        "city": "TP. Hồ Chí Minh",
+                        "address_street": "123 Đường Nguyễn Huệ",
+                        "address_ward": "Phường Bến Nghé",
+                        "address_district": "Quận 1",
+                        "main_industry_name": "Lập trình máy vi tính (AI & SaaS)",
+                        "main_industry_code": "6201",
+                        "charter_capital": 500000000,
+                        "charter_capital_in_words": "Năm trăm triệu đồng",
+                        "rep_name": "Nguyễn Văn Nhựt",
+                        "rep_title": "Giám đốc",
+                        "rep_gender": "Nam",
+                        "rep_dob": "15/08/2000",
+                        "rep_phone": "0912345678",
+                        "rep_email": "nhut@techai.vn",
+                        "rep_cccd": "079201004567",
+                        "rep_cccd_date": "10/05/2022",
+                        "rep_cccd_place": "Cục Cảnh sát QLHC về trật tự xã hội",
+                        "rep_permanent_address": "TP. Hồ Chí Minh",
+                        "rep_current_address": "TP. Hồ Chí Minh"
+                    }
+                    doc_buf = generate_full_dossier_docx(default_dossier)
+                    st.download_button(
+                        label="📦 Tải Trọn bộ Hồ sơ Mẫu ĐKDN (.docx)",
+                        data=doc_buf,
+                        file_name=f"Tron_Bo_Ho_So_DKDN_Mau_{idx}.docx",
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        key=f"dl_dossier_{idx}"
+                    )
+
+            # 2. Hiển thị Citations
             citations = msg.get("citations", [])
             if citations:
                 with st.expander(f"📖 Căn cứ pháp luật trích dẫn ({len(citations)} tài liệu kiểm chứng)"):
@@ -158,24 +242,48 @@ if selected_tab == "💬 Trò chuyện Trợ lý Pháp lý":
                             st.markdown("---")
                         else:
                             st.markdown(f"- `{c}`")
+
             if msg.get("agent") and msg["role"] == "assistant":
                 st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
 
-    # Input từ người dùng
-    user_input = st.chat_input("Nhập câu hỏi hoặc ý tưởng kinh doanh của bạn...")
+    # Nhận input từ chat box hoặc nút quick action
+    user_input = st.chat_input("Nhập câu hỏi, yêu cầu soạn hồ sơ hoặc dán điều khoản hợp đồng cần kiểm tra...")
+    if quick_prompt:
+        user_input = quick_prompt
+
     if user_input:
         st.session_state.messages.append({"role": "user", "content": user_input})
         with st.chat_message("user"):
             st.markdown(user_input)
 
         with st.chat_message("assistant"):
-            with st.spinner("AI Agents đang phân tích, tra cứu văn bản và chuẩn bị đường link kiểm chứng..."):
+            with st.spinner("AI Agents đang phân tích, đối chiếu quy tắc luật và chuẩn bị phản hồi..."):
                 result = st.session_state.workflow.process(user_input)
 
             resp_text = result["response"]
             st.markdown(resp_text)
 
             citations = result.get("citations", [])
+            action_type = result.get("action_type")
+            action_data = result.get("action_data")
+
+            # Hiển thị Interactive Widget tương ứng
+            if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
+                with st.expander("🔍 Thẻ Chi tiết Thẩm định & Tải Báo cáo (.docx)", expanded=True):
+                    sc1, sc2 = st.columns([1, 2])
+                    with sc1:
+                        st.metric("Điểm An toàn Pháp lý", f"{action_data.get('score', 0)} / 100")
+                        st.markdown(f"**Trạng thái:** {action_data.get('status_label', '')}")
+                    with sc2:
+                        st.markdown(f"**Số lỗ hổng phát hiện:** `{action_data.get('findings_count', 0)}`")
+                        docx_audit = st.session_state.contract_scanner.export_audit_report_docx(action_data)
+                        st.download_button(
+                            label="📥 Tải Báo cáo Thẩm định Hợp đồng (.docx)",
+                            data=docx_audit,
+                            file_name="Bao_Cao_Tham_Dinh_Hop_Dong_Moi.docx",
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        )
+
             if citations:
                 with st.expander(f"📖 Căn cứ pháp luật trích dẫn ({len(citations)} tài liệu kiểm chứng)"):
                     for c in citations:
@@ -197,20 +305,88 @@ if selected_tab == "💬 Trò chuyện Trợ lý Pháp lý":
                 "role": "assistant",
                 "content": resp_text,
                 "agent": result["active_agent"],
-                "citations": citations
+                "citations": citations,
+                "action_type": action_type,
+                "action_data": action_data
             })
 
-# 📝 TAB 2: SOẠN THẢO HỒ SƠ DOANH NGHIỆP TỰ ĐỘNG (.DOCX) - SPRINT 1.1.2
+# 🛡️ TAB 2: THẨM ĐỊNH & QUÉT LỖ HỔNG HỢP ĐỒNG (CHUYÊN SÂU TOÀN MÀN HÌNH)
+elif selected_tab == "🛡️ Thẩm định & Quét Lỗ hổng Hợp đồng":
+    st.header("🛡️ Thẩm định & Quét Lỗ hổng Hợp đồng Chuyên sâu")
+    st.caption("Công cụ Phân tích Cạm bẫy Pháp lý • Chấm điểm An toàn (0 - 100) • Gợi ý Điều khoản Thay thế (Redlining)")
+
+    st.markdown("Chọn một mẫu hợp đồng thử nghiệm hoặc dán nội dung hợp đồng của bạn vào ô bên dưới:")
+
+    sample_contracts = {
+        "Hợp đồng 1: Mua bán Hàng hóa (Dính bẫy phạt 15% & thiếu Bất khả kháng)": (
+            "HỢP ĐỒNG MUA BÁN HÀNG HÓA\n"
+            "Điều 1: Bên A bán cho Bên B lô hàng linh kiện máy tính với tổng giá trị 200.000.000 VNĐ.\n"
+            "Điều 2: Bên B thanh toán trong vòng 15 ngày kể từ ngày nhận hàng.\n"
+            "Điều 3 (Phạt vi phạm): Nếu Bên B chậm thanh toán, Bên B phải chịu phạt vi phạm bằng 15% tổng giá trị hợp đồng.\n"
+            "Điều 4: Tranh chấp phát sinh sẽ được đưa ra giải quyết tại Tòa án có thẩm quyền."
+        ),
+        "Hợp đồng 2: Hợp đồng Thử việc (Vi phạm thời gian thử việc 90 ngày)": (
+            "HỢP ĐỒNG THỬ VIỆC\n"
+            "Điều 1: Công ty tuyển dụng ông Nguyễn Văn A làm vị trí Lập trình viên Backend.\n"
+            "Điều 2 (Thời gian thử việc): Thời gian thử việc là 03 tháng (90 ngày) kể từ ngày ký.\n"
+            "Điều 3: Mức lương thử việc bằng 85% mức lương chính thức.\n"
+            "Điều 4: Trong thời gian thử việc, công ty có quyền giữ bản chính bằng đại học của người lao động để làm tin."
+        ),
+        "Hợp đồng 3: Hợp đồng Thuê Nhà mở Quán (Điều khoản một chiều bất lợi)": (
+            "HỢP ĐỒNG THUÊ MẶT BẰNG KINH DOANH\n"
+            "Điều 1: Bên A cho Bên B thuê căn nhà số 45 Nguyễn Huệ để mở quán cà phê, thời hạn 3 năm.\n"
+            "Điều 2: Tiền thuê là 30.000.000 VNĐ/tháng, đặt cọc 3 tháng tiền nhà.\n"
+            "Điều 3 (Đơn phương chấm dứt): Bên A có quyền đơn phương lấy lại nhà bất kỳ lúc nào chỉ cần báo trước 7 ngày mà không phải trả lại tiền cọc hay bồi thường chi phí sửa chữa cho Bên B.\n"
+            "Điều 4: Không áp dụng bất kỳ lý do miễn trừ nào kể cả thiên tai, dịch bệnh phong tỏa."
+        )
+    }
+
+    selected_sample = st.selectbox("Chọn mẫu kiểm thử nhanh:", list(sample_contracts.keys()))
+    contract_input = st.text_area(
+        "Nội dung văn bản hợp đồng cần thẩm định:",
+        value=sample_contracts[selected_sample],
+        height=220
+    )
+
+    if st.button("🔍 Bắt đầu Quét Lỗ hổng & Chấm điểm Hợp đồng"):
+        with st.spinner("AI Scanner đang đối chiếu quy chuẩn pháp luật và phân tích rủi ro..."):
+            scan_out = st.session_state.contract_scanner.scan(contract_input)
+
+        col_sc1, col_sc2 = st.columns([1, 2])
+        with col_sc1:
+            st.metric("Điểm An toàn Pháp lý (Risk Score)", f"{scan_out['score']} / 100")
+            st.markdown(f"**Đánh giá:** {scan_out['status_label']}")
+            st.markdown(f"**Số vấn đề phát hiện:** `{scan_out['findings_count']}`")
+        with col_sc2:
+            st.subheader("💡 Ý kiến Thẩm định của Luật sư AI:")
+            st.write(scan_out["ai_review"])
+
+        st.markdown("---")
+        st.subheader("📋 Bảng Danh mục Cạm bẫy Pháp lý & Đề xuất Điều khoản Thay thế (Redlining)")
+        for idx, f in enumerate(scan_out["findings"], 1):
+            badge = "🔴" if f["level"] == "CRITICAL" else ("🟡" if f["level"] == "WARNING" else "🔵")
+            with st.expander(f"{badge} Vấn đề {idx}: {f['title']}", expanded=True):
+                st.markdown(f"- **Đoạn trích rủi ro:** `{f['clause_snippet']}`")
+                st.markdown(f"- **Căn cứ pháp lý vi phạm:** **{f['legal_basis']}** - [🔗 Kiểm chứng tại Cổng TT Chính phủ]({f['verify_url']})")
+                st.markdown(f"- **Phân tích rủi ro:** {f['risk_explanation']}")
+                st.success(f"**✍️ Điều khoản Đề xuất Thay thế (Clause Redlining):**\n\n*{f['suggested_replacement']}*")
+
+        # Nút tải báo cáo Word
+        st.markdown("---")
+        docx_report = st.session_state.contract_scanner.export_audit_report_docx(scan_out)
+        st.download_button(
+            label="📥 Tải về Bản Báo cáo Thẩm định Pháp lý Đầy đủ (.docx)",
+            data=docx_report,
+            file_name="Bao_Cao_Tham_Dinh_Rui_Ro_Hop_Dong.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+
+# 📝 TAB 3: SOẠN THẢO HỒ SƠ DOANH NGHIỆP TỰ ĐỘNG (.DOCX)
 elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
     st.header("📝 Tự động Soạn thảo Bộ Hồ sơ Đăng ký Doanh nghiệp")
     st.caption("Chuẩn biểu mẫu Nghị định 01/2021/NĐ-CP và Luật Doanh nghiệp 2020 • Xuất file Word (.docx) dùng ngay")
 
-    st.markdown(
-        "💡 **Hướng dẫn:** Doanh nghiệp chỉ cần điền thông tin cơ bản bên dưới. "
-        "AI sẽ tự động kiểm tra tính hợp lệ của tên công ty, rà soát điều kiện pháp lý và xuất trọn bộ văn bản."
-    )
-
-    with st.form("dossier_form"):
+    with st.form("dossier_form_dedicated"):
         st.subheader("1. Thông tin Doanh nghiệp Dự kiến")
         col1, col2 = st.columns(2)
         with col1:
@@ -278,7 +454,6 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
 
         submit_btn = st.form_submit_button("🔍 Thẩm định Pháp lý & Tạo Bộ Hồ sơ")
 
-    # Dữ liệu đóng gói
     dossier_data = {
         "company_name": form_company_name,
         "company_name_en": form_company_en,
@@ -305,10 +480,9 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
         "rep_current_address": form_rep_address,
     }
 
-    # Kết quả thẩm định pháp lý AI
     st.subheader("⚖️ Kết quả Thẩm định Pháp lý Doanh nghiệp (AI Legal Check)")
     alerts = validate_dossier_legal_compliance(dossier_data)
-    is_name_valid, name_warnings = validate_company_name(form_company_name)
+    is_name_valid, _ = validate_company_name(form_company_name)
 
     if is_name_valid:
         st.success(f"✅ **Tên doanh nghiệp hợp lệ:** '{form_company_name}' tuân thủ Điều 37, 38, 39, 41 Luật Doanh nghiệp 2020.")
@@ -320,11 +494,8 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
         else:
             st.info(alert)
 
-    # Sinh các tệp Word (.docx)
     st.markdown("---")
     st.subheader("📥 Tải về Bộ Hồ sơ Hoàn chỉnh (.docx)")
-    st.caption("Các tệp Word được sinh ra có thể chỉnh sửa tự do và in trực tiếp để ký nộp Sở KH&ĐT.")
-
     col_d1, col_d2, col_d3, col_d4 = st.columns(4)
 
     with col_d1:
@@ -336,7 +507,6 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             use_container_width=True
         )
-
     with col_d2:
         charter_buf = generate_company_charter_docx(dossier_data)
         st.download_button(
@@ -346,7 +516,6 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             use_container_width=True
         )
-
     with col_d3:
         members_buf = generate_member_list_docx(dossier_data)
         st.download_button(
@@ -356,7 +525,6 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             use_container_width=True
         )
-
     with col_d4:
         full_buf = generate_full_dossier_docx(dossier_data)
         st.download_button(
@@ -367,8 +535,8 @@ elif selected_tab == "📝 Soạn thảo Hồ sơ Doanh nghiệp (.docx)":
             use_container_width=True
         )
 
-# 📚 TAB 3: TRA CỨU CSDL MÃ NGÀNH & GIẤY PHÉP (HYBRID RETRIEVAL & PAGINATION)
-elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)":
+# 📚 TAB 4: TRA CỨU CSDL MÃ NGÀNH & GIẤY PHÉP (HYBRID RETRIEVAL & PAGINATION)
+elif selected_tab == "📚 Tra cứu CSDL Mã ngành & Giấy phép (Hybrid)":
     st.header("📚 Tra cứu CSDL Mã ngành Kinh tế & Điều kiện Giấy phép")
     st.caption("Kiến trúc Lai (Hybrid): SQLite Database nội bộ + Web Search Tool mở rộng + Phân trang (Pagination)")
 
@@ -384,11 +552,9 @@ elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)":
         if hybrid_res["is_web_fallback_used"]:
             st.info(f"🌐 **Web Search Kích hoạt:** Không tìm thấy từ khóa '{search_kw}' trong SQLite nội bộ. Hệ thống đã tự động tìm kiếm mở rộng từ Internet và Cổng TT Chính phủ.")
 
-        # Hiển thị kết quả CSDL SQLite có phân trang
         st.subheader(f"1. Kết quả từ CSDL SQLite VSIC 2018 ({len(industries)} kết quả)")
         if industries:
             df_ind = pd.DataFrame(industries)
-            # Phân trang
             page_size = 5
             total_pages = max(1, math.ceil(len(industries) / page_size))
             col_p1, col_p2 = st.columns([1, 4])
@@ -403,7 +569,6 @@ elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)":
         else:
             st.warning(f"Không có mã ngành trong CSDL cục bộ cho: '{search_kw}'.")
 
-        # Hiển thị kết quả Web Search nếu có
         if web_hits:
             st.markdown("---")
             st.subheader(f"2. Kết quả Mở rộng từ Web Search & Ngành Kinh tế Mới ({len(web_hits)} kết quả)")
@@ -412,7 +577,6 @@ elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)":
                     st.markdown(f"**Nội dung:** {hit['snippet']}")
                     st.markdown(f"**Nguồn xác thực:** [🔗 Truy cập văn bản]({hit['url']})")
 
-        # Điều kiện Giấy phép con
         st.markdown("---")
         licenses = st.session_state.db_manager.get_license_info(search_kw)
         st.subheader("3. Điều kiện Giấy phép con & Căn cứ Pháp lý liên quan:")
@@ -426,29 +590,22 @@ elif selected_tab == "📚 Tra cứu Mã ngành & Giấy phép (Hybrid)":
         else:
             st.info("Không có yêu cầu giấy phép con đặc thù cho từ khóa này trong CSDL (hoặc ngành nghề kinh doanh tự do).")
 
-# 🛡️ TAB 4: BẢO MẬT & MODEL SWITCHER (TRỰC QUAN HÓA PII FLOW)
-elif selected_tab == "🛡️ Giám sát Bảo mật & Switcher":
-    st.header("🛡️ Giám sát Bảo mật (Security & Guardrails Monitor)")
-    st.caption("Hiện thực hóa Tiêu chí 7: Bảo mật LLM & Che giấu thông tin PII • Trực quan hóa Quy trình")
+# 🔐 TAB 5: GIÁM SÁT BẢO MẬT, SWITCHER & MEMORY BANK (CONTINUAL OPTIMIZATION)
+elif selected_tab == "🔐 Giám sát Bảo mật, Switcher & Memory Bank":
+    st.header("🔐 Giám sát Bảo mật & Ngân hàng Ký ức Tri thức (Memory Bank)")
+    st.caption("Hiện thực hóa Tiêu chí 7: Bảo mật LLM & Cơ chế Tối ưu Liên tục Không Cần Đổi Trọng số")
 
-    # SƠ ĐỒ TRỰC QUAN HÓA QUY TRÌNH PII MASKING (SPRINT 1.1.4)
+    # 1. PII Flow Diagram
     st.subheader("1. Sơ đồ Luồng Bảo vệ Dữ liệu Cá nhân (PII Masking Flow)")
-    st.markdown(
-        """
-        Khi người dùng gửi câu hỏi chứa thông tin định danh nhạy cảm (CCCD, SĐT, Email), 
-        hệ thống **Local Guardrail** sẽ chặn và mã hóa trước khi dữ liệu được gửi đến Google Gemini hoặc Cloud LLM.
-        """
-    )
-
     p1, p2, p3, p4 = st.columns(4)
     with p1:
-        st.info("👤 **Bước 1: Input Người dùng**\n\nChứa thông tin thật:\n- CCCD: `079201004567`\n- SĐT: `0912345678`\n- Email: `nhut@gmail.com`")
+        st.info("👤 **Bước 1: Input Người dùng**\n\nChứa thông tin thật:\n- CCCD: `079201004567`\n- SĐT: `0912345678`")
     with p2:
-        st.warning("🛡️ **Bước 2: Local PII Masker**\n\nChe giấu cục bộ:\n- CCCD $\\rightarrow$ `[CCCD_0]`\n- SĐT $\\rightarrow$ `[PHONE_0]`\n- Bảng map lưu RAM máy bạn")
+        st.warning("🛡️ **Bước 2: Local PII Masker**\n\nChe giấu cục bộ:\n- CCCD $\\rightarrow$ `[CCCD_0]`\n- Bảng map lưu RAM máy")
     with p3:
-        st.success("☁️ **Bước 3: Cloud LLM API**\n\nGemini chỉ nhận được:\n*\"Tôi là cá nhân [CCCD_0] muốn thành lập công ty\"*\n*(Không lộ thông tin thật)*")
+        st.success("☁️ **Bước 3: Cloud LLM API**\n\nGemini chỉ nhận được:\n*\"Tôi là cá nhân [CCCD_0]\"*\n*(Không lộ thông tin)*")
     with p4:
-        st.info("🔄 **Bước 4: Local Unmasker**\n\nKhôi phục dữ liệu gốc:\nSau khi LLM trả lời, hệ thống ráp lại CCCD/SĐT thật để người dùng xem kết quả.")
+        st.info("🔄 **Bước 4: Local Unmasker**\n\nKhôi phục dữ liệu gốc:\nRáp lại CCCD/SĐT thật trước khi trả về cho bạn.")
 
     st.markdown("---")
     st.subheader("2. Thử nghiệm Trực tiếp Lọc Thông tin Định danh (PII Masking)")
@@ -477,7 +634,32 @@ elif selected_tab == "🛡️ Giám sát Bảo mật & Switcher":
         else:
             st.error(f"🚫 {reason}")
 
-# 📊 TAB 5: ĐÁNH GIÁ MÔ HÌNH RAGAS
+    # 4. MEMORY BANK
+    st.markdown("---")
+    st.subheader("4. Ngân hàng Ký ức Tri thức Động (Dynamic Few-Shot Memory Bank)")
+    st.caption("Cơ chế tự học hỏi từ các tình huống pháp lý chuẩn và phản hồi người dùng (Continual Learning without Weight Training)")
+
+    cases = st.session_state.memory_store.cases
+    st.markdown(f"Hiện có **{len(cases)}** tình huống pháp lý chuẩn được nạp tự động vào ngữ cảnh suy luận (In-Context Learning):")
+
+    for c in cases:
+        with st.expander(f"📌 {c.get('title', 'Tình huống pháp lý')}"):
+            st.markdown(f"- **Vấn đề cốt lõi:** `{c.get('key_risk', '')}`")
+            st.markdown(f"- **Giải pháp vàng:** {c.get('golden_solution', '')}")
+            st.markdown(f"- **Căn cứ pháp luật:** `{c.get('legal_basis', '')}`")
+
+    with st.expander("➕ Ghi nhận một Kinh nghiệm / Tình huống Pháp lý Mới vào Memory Bank"):
+        with st.form("add_memory_form"):
+            new_title = st.text_input("Tiêu đề tình huống:")
+            new_query = st.text_input("Câu hỏi / Từ khóa tìm kiếm:")
+            new_solution = st.text_area("Giải pháp chuẩn:")
+            new_basis = st.text_input("Căn cứ pháp luật:")
+            submit_mem = st.form_submit_button("Lưu vào Memory Bank")
+            if submit_mem and new_title and new_solution:
+                st.session_state.memory_store.record_feedback(new_title, new_query, new_solution, new_basis)
+                st.success("✅ Đã ghi nhận kinh nghiệm mới vào Memory Bank! Mô hình sẽ tự động bốc ví dụ này trong các lần tư vấn tiếp theo.")
+
+# 📊 TAB 6: ĐÁNH GIÁ MÔ HÌNH RAGAS
 elif selected_tab == "📊 Đánh giá Benchmark (Ragas)":
     st.header("📊 Bảng điều khiển Đánh giá Mô hình (Ragas Evaluation Dashboard)")
     st.caption("Hiện thực hóa Tiêu chí 6: Đánh giá mô hình LLM với 4 chỉ số cốt lõi")

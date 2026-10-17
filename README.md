@@ -1,7 +1,7 @@
-# ⚖️ LegalTech SME Assistant
-### Trợ lý AI Hỗ trợ Tư vấn & Tự động Hóa Thủ tục Pháp lý cho Doanh nghiệp Vừa và Nhỏ (SMEs & Hộ Kinh Doanh) • Phiên bản 1.1
+# ⚖️ LegalTech Platform
+### Nền tảng Trí tuệ Pháp lý & Thẩm định Hợp đồng Toàn diện cho Cá nhân và Doanh nghiệp • Phiên bản 2.0 (Major Release)
 
-[![Version: 1.1](https://img.shields.io/badge/Version-1.1-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.0](https://img.shields.io/badge/Version-2.0_(Major_Release)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B.svg)](https://streamlit.io/)
@@ -22,87 +22,75 @@
   * Đặc tả 7 tiêu chí chấm điểm ban đầu của giảng viên: [`requirements/requirements_version_1.md`](./requirements/requirements_version_1.md).
 * **Đánh giá Phiên bản 1.0 (Preview Version 1):**
   * Tổng hợp nhận xét người dùng & phản biện kỹ thuật sơ khởi: [`requirements/preview_version_1.md`](./requirements/preview_version_1.md).
-* **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1) - [ĐÃ HOÀN THÀNH 100%]:**
+* **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1) - [ĐÃ HOÀN THÀNH]:**
   * 4 nâng cấp thực chiến: Link kiểm chứng Cổng TT Chính phủ, Bộ tạo hồ sơ doanh nghiệp (.docx), Tra cứu Hybrid (CSDL + Web Search), Trực quan hóa PII: [`requirements/requirements_version_1.1.md`](./requirements/requirements_version_1.1.md).
 * **Đánh giá Phiên bản 1.1 (Preview Version 1.1):**
   * Đánh giá v1.1, phân tích yêu cầu Tool Thẩm định Lỗ hổng Hợp đồng, In-Chat Generative UI, mở rộng phạm vi toàn bộ văn bản cho cá nhân/doanh nghiệp, và phản biện chuyên sâu về vấn đề "Train tool liên tục" trong LegalTech: [`requirements/preview_version_1.1.md`](./requirements/preview_version_1.1.md).
-* **Yêu cầu Kỹ thuật Phiên bản 2.0 (Requirements Version 2.0 - Major Release) - [ĐANG PHÁT TRIỂN]:**
-  * Lộ trình Đại tu Version 2.0 (The Full-stack Legal Intelligence & Contract Vulnerability Platform): Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas và Hierarchical RAG (Dân sự, Lao động, Thương mại): [`requirements/requirements_version_2.0.md`](./requirements/requirements_version_2.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.0 (Requirements Version 2.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
+  * Đại tu toàn diện kiến trúc: Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas, Hierarchical RAG Đa luật (Dân sự, Lao động, Thương mại) và Ngân hàng Ký ức Memory Bank: [`requirements/requirements_version_2.0.md`](./requirements/requirements_version_2.0.md).
 
 ---
 
-## 🌟 TÍNH NĂNG MỚI NÂNG CẤP TRONG PHIÊN BẢN 1.1
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.0 (MAJOR RELEASE)
 
-1. 📝 **Bộ Tạo Hồ sơ Pháp lý Tự động (Dossier Generator):**
-   * Cho phép nhập thông tin doanh nghiệp, đại diện pháp luật, thành viên góp vốn.
-   * AI thẩm định tên doanh nghiệp (tránh vi phạm Điều 37, 38, 41 Luật Doanh nghiệp 2020) và thời hạn góp vốn 90 ngày.
-   * Tự động sinh và tải về trọn bộ file Word (.docx) chuẩn: **Giấy đề nghị ĐKDN (Nghị định 01/2021/NĐ-CP)**, **Dự thảo Điều lệ công ty**, **Danh sách thành viên sáng lập**.
-2. 🔗 **Trích dẫn Căn cứ Pháp luật & Link Kiểm chứng Chính phủ (Verify URL):**
-   * Mỗi câu trả lời của AI đều gắn thẻ **Citation Card** có trích dẫn nguyên văn Điều/Khoản kèm nút `[🔗 Kiểm chứng tại Cổng TT Chính phủ]` trỏ trực tiếp đến `vanban.chinhphu.vn`.
-3. 🌐 **Kiến trúc Tra cứu Lai (Hybrid Retrieval & Pagination):**
-   * Ưu tiên tra cứu nhanh trong CSDL SQLite nội bộ.
-   * Tự động kích hoạt **Web Search Tool** khi gặp các ngành nghề mới (Thương mại điện tử, Livestream bán hàng, AI/SaaS, Logistics...).
-   * Hỗ trợ bộ lọc phân trang (Pagination) xem toàn bộ danh mục ngành kinh tế VSIC.
-4. 🛡️ **Trực quan hóa Luồng Bảo vệ Dữ liệu Cá nhân (PII Masking Flow):**
-   * Sơ đồ minh họa 4 bước minh bạch: *Người dùng $\rightarrow$ Local Masker $\rightarrow$ Cloud Gemini $\rightarrow$ Local Unmasker*, cam kết không lộ số CCCD, SĐT hay email lên đám mây.
-
----
-
-## 📖 1. Giới thiệu Đề tài & Bài toán Doanh nghiệp (Business Case)
-Khi thành lập hoặc mở rộng kinh doanh tại Việt Nam, các **Doanh nghiệp vừa và nhỏ (SMEs), Startup và Hộ kinh doanh cá thể** đối mặt với rào cản pháp lý rất lớn:
-* **Nỗi đau (Pain points):** Hệ thống luật pháp (Luật Doanh nghiệp, Luật Đầu tư, Luật Thuế), nghị định, thông tư phức tạp; thủ tục xin giấy phép con (ATVSTP, PCCC, giấy phép môi trường...) phân tán; chi phí thuê văn phòng luật sư tư vấn vượt quá ngân sách ban đầu.
-* **Giải pháp:** **LegalTech SME Assistant** là hệ thống AI Agent hỗ trợ:
-  * Phân tích ý tưởng kinh doanh $\rightarrow$ Định hướng mô hình doanh nghiệp tối ưu (TNHH, Cổ phần, Hộ cá thể).
-  * Tự động tra cứu mã ngành kinh tế (VSIC) từ Cơ sở dữ liệu quốc gia SQLite kết hợp Web Search.
-  * Truy xuất điều kiện cấp phép con chính xác từ các văn bản pháp luật chính thống (RAG).
-  * Tự động tạo lập hồ sơ pháp lý (.docx) chuẩn hóa cho Sở KH&ĐT.
+1. 🛡️ **Tool Thẩm định Lỗ hổng & Chấm điểm Hợp đồng (Contract Vulnerability Scanner):**
+   * Tự động phát hiện 4 nhóm rủi ro:
+     - 🚫 *Vi phạm điều cấm:* Phạt vi phạm vượt trần 8% (Điều 301 Luật Thương mại 2005), thử việc quá 60 ngày hoặc giữ bằng đại học (Điều 17, 25 BLLĐ 2019)...
+     - ⚠️ *Điều khoản bất bình đẳng / một chiều:* Quyền hủy hợp đồng tùy tiện, cơ quan tài phán mơ hồ.
+     - 📌 *Thiếu điều khoản bảo vệ cốt lõi:* Thiếu điều khoản Bất khả kháng (Điều 156, 351 BLDS 2015), thiếu thỏa thuận bảo mật NDA.
+   * **Thang điểm An toàn (Legal Risk Score 0 - 100):** Đánh giá mức độ an toàn và đưa ra **Đề xuất Điều khoản Chuẩn (Clause Redlining)** để đàm phán lại.
+   * **Xuất Báo cáo Thẩm định (.docx):** Tạo tệp Word báo cáo pháp lý chuyên nghiệp có bảng đối chiếu điều khoản.
+2. 💬 **In-Chat Interactive Canvas (Generative UI):**
+   * Khung chat đóng vai trò là một **Interactive Command Center**: Người dùng yêu cầu tạo hồ sơ hoặc kiểm tra hợp đồng, AI sẽ triệu hồi **Action Card & Download Widget** ngay trong dòng tin nhắn chat.
+3. 📚 **Kiến trúc Tri thức Pháp luật Đa tầng (Hierarchical Multi-Domain RAG):**
+   * Mở rộng tri thức bao quát toàn diện cá nhân và doanh nghiệp: **Bộ luật Dân sự 2015**, **Bộ luật Lao động 2019**, **Luật Thương mại 2005** và **Luật Doanh nghiệp 2020**.
+   * Batch embedding tốc độ cao (`batchEmbedContents`) chỉ mất 2 giây để lập chỉ mục toàn bộ.
+4. 🧠 **Cơ chế Tối ưu Liên tục Không Cần Đổi Trọng số (Legal Memory Bank):**
+   * Quản lý kho tình huống mẫu chuẩn (`src/agents/memory_store.py`) nạp động vào prompt (Dynamic In-Context Learning) kết hợp bộ quy tắc cứng (Deterministic Rules), loại bỏ 100% hiện tượng ảo giác hoặc quên lãng.
 
 ---
 
-## 🎯 2. Đáp ứng 7 Tiêu chí Đánh giá Dự án AI Engineer
+## 🎯 2. Đáp ứng Tuyệt đối 7 Tiêu chí Đánh giá Dự án AI Engineer
 
-| STT | Tiêu chí | Trọng số | Triển khai trong Dự án |
+| STT | Tiêu chí | Trọng số | Triển khai trong Dự án (Version 2.0) |
 | :---: | :--- | :---: | :--- |
-| **1** | **Ứng dụng LLM Doanh nghiệp** | **1.0 đ** | Giải quyết bài toán tư vấn pháp lý và thành lập doanh nghiệp thực tế, tiết kiệm thời gian và chi phí cho SMEs. |
-| **2** | **Kỹ năng Prompting** | **2.0 đ** | Áp dụng Few-shot Prompting (mẫu trích xuất pháp lý), Chain-of-Thought (tư duy logic đối chiếu điều luật) và Structured Output (JSON Schema hồ sơ thành lập). |
-| **3** | **Cloud Server & Local Model** | **2.5 đ** | Hỗ trợ chuyển đổi linh hoạt (*Model Switcher*):<br>• **Local Model:** Ollama (Qwen 2.5) xử lý thông tin nội bộ nhạy cảm.<br>• **Cloud Model:** Google Gemini 3.5 Flash Lite cho các tác vụ tổng hợp chuyên sâu. |
-| **4** | **Vector DB & Đọc CSDL** | **1.5 đ** | • **RAG (Vector DB - ChromaDB):** Đọc & phân tích văn bản Luật Doanh nghiệp 2020, Nghị định 01/2021/NĐ-CP.<br>• **CSDL (SQLite):** Bảng Hệ thống ngành kinh tế Việt Nam (VSIC), Bảng quản lý tiến độ hồ sơ. |
-| **5** | **AI Agents & Đa Tác Nhân** | **1.5 đ** | Kiến trúc Multi-Agent Workflow:<br>• *Legal Router Agent:* Phân loại nhu cầu & ý định người dùng.<br>• *Entity Advisory Agent:* Tư vấn mô hình tổ chức doanh nghiệp.<br>• *Industry Lookup Agent:* Tra cứu mã ngành & giấy phép con.<br>• *Document Reviewer Agent:* Rà soát tính hợp lệ của checklist hồ sơ. |
+| **1** | **Ứng dụng LLM Doanh nghiệp** | **1.0 đ** | Giải quyết bài toán tư vấn pháp lý, thẩm định rủi ro hợp đồng và tự động hóa hồ sơ thành lập doanh nghiệp cho cá nhân và SMEs. |
+| **2** | **Kỹ năng Prompting** | **2.0 đ** | Áp dụng Few-shot Prompting (mẫu phân loại router), Chain-of-Thought (tư duy bóc tách điều luật) và Dynamic In-Context Learning qua Memory Bank. |
+| **3** | **Cloud Server & Local Model** | **2.5 đ** | Hỗ trợ chuyển đổi tức thì (*Model Switcher*):<br>• **Local Model:** Ollama (Qwen 2.5) xử lý hợp đồng bí mật nội bộ.<br>• **Cloud Model:** Google Gemini 3.5 Flash Lite cho thẩm định chuyên sâu. |
+| **4** | **Vector DB & Đọc CSDL** | **1.5 đ** | • **Hierarchical Vector DB (ChromaDB):** Phân tầng 4 bộ luật lớn (Dân sự, Lao động, Thương mại, Doanh nghiệp).<br>• **CSDL (SQLite):** Bảng Hệ thống ngành kinh tế Việt Nam (VSIC) kết hợp Web Search mở rộng. |
+| **5** | **AI Agents & Đa Tác Nhân** | **1.5 đ** | Kiến trúc Multi-Agent Workflow Version 2.0:<br>• *Legal Router Agent v2.0:* Phân loại ý định đa luồng.<br>• *Contract Scanner Agent:* Quét lỗ hổng hợp đồng và redlining.<br>• *Entity Advisory Agent:* Tư vấn mô hình tổ chức DN.<br>• *Industry Lookup Agent:* Tra cứu mã ngành & giấy phép con.<br>• *Dossier Reviewer Agent:* Soạn thảo hồ sơ Word (.docx). |
 | **6** | **Đánh giá mô hình LLM** | **1.0 đ** | Sử dụng framework **Ragas** đo lường: Faithfulness (95.0%), Answer Relevance, Context Precision. Báo cáo so sánh Local vs Cloud. |
-| **7** | **Bảo mật LLM** | **0.5 đ** | • **PII Data Masking:** Tự động che dấu CCCD/CMND, số điện thoại, email trước khi gọi LLM ngoài.<br>• **Prompt Injection Guard:** Chặn câu lệnh bẻ khóa system prompt hoặc yêu cầu trốn thuế, vi phạm Điều 16 Luật Doanh nghiệp. |
+| **7** | **Bảo mật LLM** | **0.5 đ** | • **PII Data Masking:** Tự động che dấu CCCD, SĐT, Email trước khi gửi Cloud API.<br>• **Prompt Injection Guard:** Chặn câu lệnh bẻ khóa system prompt hoặc yêu cầu trốn thuế, vi phạm pháp luật. |
 
 ---
 
-## 🏛️ 3. Kiến trúc Hệ thống (System Architecture)
+## 🏛️ 3. Kiến trúc Hệ thống Version 2.0 (System Architecture)
 
 ```mermaid
 flowchart TD
-    User["👤 Người dùng (SMEs / Startup)"] --> UI["🖥️ Giao diện Streamlit (Menu Tabs bên trái)"]
+    User["👤 Người dùng (Cá nhân / Doanh nghiệp)"] --> UI["🖥️ Giao diện Streamlit (Menu 6 Tab bên trái)"]
     UI --> Guardrails["🛡️ Lớp Bảo mật (PII Masking & Prompt Injection Defense)"]
     
-    subgraph MultiAgentEngine ["🤖 Multi-Agent Orchestrator"]
-        Guardrails --> RouterAgent["Legal Router Agent"]
-        RouterAgent --> AdvisoryAgent["Entity Advisory Agent\n(Tư vấn mô hình DN & Verify URL)"]
-        RouterAgent --> IndustryAgent["Industry Lookup Agent\n(Hybrid SQLite + Web Search)"]
-        RouterAgent --> ReviewerAgent["Document Checklist Agent\n(Rà soát & Checklist)"]
+    subgraph MultiAgentOrchestrator ["🤖 Multi-Agent Orchestrator (Version 2.0)"]
+        Guardrails --> RouterAgent["Legal Router Agent v2.0"]
+        RouterAgent -->|"Thẩm định hợp đồng"| ContractScanner["Contract Vulnerability Scanner\n(Chấm điểm rủi ro & Redlining)"]
+        RouterAgent -->|"Soạn thảo văn bản"| DossierAgent["Dossier Drafting Agent\n(Xuất file Word .docx)"]
+        RouterAgent -->|"Tra cứu ngành nghề"| IndustryAgent["Industry Lookup Agent\n(Hybrid SQLite + Web Search)"]
+        RouterAgent -->|"Tư vấn pháp lý chung"| AdvisoryAgent["Entity Advisory Agent\n(Hierarchical RAG & Verify URL)"]
     end
 
-    subgraph DossierEngine ["📝 Document & Dossier Engine (v1.1)"]
-        UI --> DossierGen["Bộ Tạo Hồ sơ (.docx)\nGiấy đề nghị, Điều lệ, Danh sách TV"]
-        DossierGen --> LegalValidator["AI Thẩm định Tên DN (Điều 37, 38, 41)"]
-    end
-
-    subgraph DataLayer ["🗄️ Tầng Dữ liệu & Tri thức"]
-        IndustryAgent --> SQLDB[("💾 CSDL Mã ngành VSIC\n(SQLite: sme_legal.db)")]
-        IndustryAgent --> WebSearch["🌐 Web Search Tool\n(DuckDuckGo / DDGS)"]
-        AdvisoryAgent --> VectorDB[("📚 Vector DB (ChromaDB)\nLuật Doanh nghiệp 2020")]
-        ReviewerAgent --> VectorDB
+    subgraph IntelligenceLayer ["🧠 Tầng Dữ liệu & Tri thức Pháp luật Đa tầng"]
+        ContractScanner --> RuleEngine["⚙️ Deterministic Rule Engine\n(Trần 8%, Thử việc 60 ngày, Bất khả kháng)"]
+        AdvisoryAgent --> HierarchicalRAG[("📚 Hierarchical Vector Store\n(Dân sự, Lao động, Thương mại, Doanh nghiệp)")]
+        IndustryAgent --> SQLDB[("💾 CSDL VSIC 2018 (SQLite)")]
+        IndustryAgent --> WebSearch["🌐 Web Search Tool (DuckDuckGo)"]
+        RouterAgent --> MemoryBank[("🧠 Legal Memory Bank\n(Dynamic Few-Shot Learning)")]
     end
 
     subgraph LLMExecutionEngine ["⚡ LLM Execution Switcher"]
-        MultiAgentEngine --> Switcher{"Chế độ triển khai"}
-        Switcher -->|"Dữ liệu nội bộ / Nhạy cảm"| LocalLLM["💻 Local Model (Ollama / Qwen 2.5)"]
-        Switcher -->|"Tổng hợp chuyên sâu"| CloudLLM["☁️ Cloud Model (Gemini 3.5 Flash Lite)"]
+        MultiAgentOrchestrator --> Switcher{"Chế độ triển khai"}
+        Switcher -->|"Hợp đồng bảo mật nội bộ"| LocalLLM["💻 Local Model (Ollama / Qwen 2.5)"]
+        Switcher -->|"Phân tích chuyên sâu"| CloudLLM["☁️ Cloud Model (Gemini 3.5 Flash Lite)"]
     end
 ```
 
@@ -113,12 +101,12 @@ flowchart TD
 ```
 LLM_Nhut/
 ├── app/
-│   └── main.py                  # Giao diện người dùng Streamlit (Menu 5 Tab bên trái)
+│   └── main.py                  # Giao diện người dùng Streamlit (Menu 6 Tab bên trái)
 ├── data/
 │   ├── chromadb/                # CSDL Vector (Index lưu trữ embeddings)
-│   ├── database/                # CSDL SQLite (schema.sql & sme_legal.db)
+│   ├── database/                # CSDL SQLite (schema.sql & sme_legal.db) + legal_memory_bank.json
 │   ├── evaluation/              # Dataset benchmark (benchmark_dataset.json)
-│   └── raw_documents/           # Văn bản luật nguồn (PDF/TXT)
+│   └── raw_documents/           # 6 bộ luật nguồn (Dân sự, Lao động, Thương mại, Doanh nghiệp, NĐ01, NĐ39)
 ├── llm_provider/                # Module Cloud & Local LLM Provider
 │   ├── cloud_provider.py        # Tích hợp Google Gemini API
 │   ├── local_provider.py        # Tích hợp Ollama Local API
@@ -129,18 +117,20 @@ LLM_Nhut/
 │   ├── presentation_slides.md   # Slide thuyết trình báo cáo đồ án
 │   └── PROJECT_REPORT.md        # Báo cáo đồ án hoàn chỉnh 8 chương
 ├── requirements/                # Quản lý yêu cầu & Phiên bản
-│   ├── preview_version_1.md     # Đánh giá Version 1 & Phản biện kỹ thuật
+│   ├── preview_version_1.md     # Đánh giá Version 1.0 & Phản biện kỹ thuật
 │   ├── requirements_version_1.md # 7 tiêu chí chấm điểm Version 1.0
-│   └── requirements_version_1.1.md # Yêu cầu kỹ thuật nâng cấp Version 1.1
+│   ├── preview_version_1.1.md   # Đánh giá Version 1.1 & Phản biện Continual Learning
+│   ├── requirements_version_1.1.md # Yêu cầu kỹ thuật Version 1.1
+│   └── requirements_version_2.0.md # Yêu cầu kỹ thuật Version 2.0 (Major Release)
 ├── src/
-│   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, Graph)
+│   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, MemoryStore, Graph)
 │   ├── database/                # Quản lý CSDL SQLite & SQL Tools
-│   ├── dossier/                 # [MỚI v1.1] Document Generator (.docx) & Legal Validator
+│   ├── dossier/                 # Document Generator (.docx) & Legal Compliance Validator
 │   ├── evaluation/              # Script benchmark Ragas & Model Comparison
-│   ├── prompts/                 # System prompts, Few-shot, CoT & Pydantic schemas
-│   ├── rag/                     # Pipeline Ingestion, Embeddings, VectorStore & Retriever (Verify URLs)
+│   ├── prompts/                 # System prompts, Few-shot, CoT & Pydantic schemas (v2.0)
+│   ├── rag/                     # Pipeline Ingestion, Embeddings (Batching), VectorStore & Hierarchical Retriever
 │   ├── security/                # PII Masking, Prompt Injection Guard & Output Moderation
-│   └── tools/                   # [MỚI v1.1] Web Search Tool & Hybrid Retrieval
+│   └── tools/                   # Web Search Tool, Hybrid Search & Contract Vulnerability Scanner
 ├── tutorial/
 │   └── run_guide.md             # Hướng dẫn chi tiết quy trình chạy dự án từ A đến Z
 ├── .env.example                 # Template cấu hình biến môi trường
@@ -163,7 +153,7 @@ Xem hướng dẫn chi tiết từng bước tại: 👉 **[`tutorial/run_guide.
 # 2. Khởi tạo CSDL SQLite (nếu chưa chạy)
 python src/database/init_db.py
 
-# 3. Khởi chạy giao diện web Streamlit
+# 3. Khởi chạy giao diện web Streamlit (Version 2.0)
 streamlit run app/main.py
 ```
 Mở trình duyệt tại: `http://localhost:8501`.

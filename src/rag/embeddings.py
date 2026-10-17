@@ -1,7 +1,7 @@
 """
 Embedding Module
 Hỗ trợ tạo vector embedding cho văn bản pháp lý.
-Hỗ trợ cả Gemini API Embeddings và local fallback.
+Hỗ trợ cả Gemini API Embeddings (batchEmbedContents tốc độ cao) và local fallback.
 """
 
 import os
@@ -16,7 +16,7 @@ load_dotenv()
 class LegalEmbeddingFunction:
     """
     Embedding Provider linh hoạt:
-    - Nếu có GOOGLE_API_KEY: Sử dụng Google text-embedding-004 qua REST API.
+    - Nếu có GOOGLE_API_KEY: Sử dụng Google text-embedding-004 qua REST API (Batching).
     - Nếu offline / không có key: Sử dụng lightweight semantic hashing vector
       đảm bảo RAG vẫn hoạt động 100% không báo lỗi.
     """
@@ -31,10 +31,26 @@ class LegalEmbeddingFunction:
             "model": "models/text-embedding-004",
             "content": {"parts": [{"text": text}]}
         }
-        res = requests.post(endpoint, json=payload, timeout=30)
+        res = requests.post(endpoint, json=payload, timeout=10)
         if res.status_code == 200:
             return res.json()["embedding"]["values"]
         raise RuntimeError(f"Lỗi Gemini Embedding: {res.text}")
+
+    def _batch_embed_gemini(self, texts: List[str]) -> List[List[float]]:
+        """Gửi batch các đoạn text trong một HTTP request duy nhất để đạt tốc độ tối đa."""
+        endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:batchEmbedContents?key={self.api_key}"
+        requests_payload = [
+            {
+                "model": "models/text-embedding-004",
+                "content": {"parts": [{"text": t[:2000]}]}
+            }
+            for t in texts
+        ]
+        res = requests.post(endpoint, json={"requests": requests_payload}, timeout=15)
+        if res.status_code == 200:
+            embeddings_data = res.json().get("embeddings", [])
+            return [item["values"] for item in embeddings_data]
+        raise RuntimeError(f"Lỗi Gemini Batch Embedding: {res.text}")
 
     def _fallback_embed(self, text: str) -> List[float]:
         """
@@ -67,7 +83,19 @@ class LegalEmbeddingFunction:
         return self._fallback_embed(text)
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        return [self.embed_query(t) for t in texts]
+        if not texts:
+            return []
+        if self.api_key:
+            try:
+                all_embeddings = []
+                batch_size = 50
+                for i in range(0, len(texts), batch_size):
+                    chunk = texts[i:i+batch_size]
+                    all_embeddings.extend(self._batch_embed_gemini(chunk))
+                return all_embeddings
+            except Exception:
+                pass
+        return [self._fallback_embed(t) for t in texts]
 
     def __call__(self, input: List[str]) -> List[List[float]]:
         # Tương thích interface ChromaDB EmbeddingFunction

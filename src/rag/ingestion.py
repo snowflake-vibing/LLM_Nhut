@@ -18,6 +18,19 @@ LEGAL_SOURCE_URLS = {
     "Luat_Doanh_Nghiep_2020": "https://vanban.chinhphu.vn/?pageid=27160&docid=200676",
     "Nghi_Dinh_01_2021_ND_CP": "https://vanban.chinhphu.vn/?pageid=27160&docid=202613",
     "Nghi_Dinh_39_2018_ND_CP": "https://vanban.chinhphu.vn/?pageid=27160&docid=193188",
+    "Bo_Luat_Dan_Su_2015": "https://vanban.chinhphu.vn/?pageid=27160&docid=183188",
+    "Bo_Luat_Lao_Dong_2019": "https://vanban.chinhphu.vn/?pageid=27160&docid=198540",
+    "Luat_Thuong_Mai_2005": "https://vanban.chinhphu.vn/?pageid=27160&docid=21404",
+}
+
+# Ánh xạ lĩnh vực pháp lý (Legal Domain Taxonomy)
+LEGAL_DOMAINS = {
+    "Luat_Doanh_Nghiep_2020": "corporate",
+    "Nghi_Dinh_01_2021_ND_CP": "corporate",
+    "Nghi_Dinh_39_2018_ND_CP": "corporate",
+    "Bo_Luat_Dan_Su_2015": "civil",
+    "Bo_Luat_Lao_Dong_2019": "labor",
+    "Luat_Thuong_Mai_2005": "commercial",
 }
 
 
@@ -39,6 +52,7 @@ class LegalDocumentIngestor:
         base_name = os.path.splitext(filename)[0]
         doc_title = base_name.replace("_", " ")
         verify_url = LEGAL_SOURCE_URLS.get(base_name, "https://vanban.chinhphu.vn/")
+        domain = LEGAL_DOMAINS.get(base_name, "general")
 
         # Regex tìm các Điều
         pattern = r"(Điều\s+\d+[\.:]\s*[^\n]+)"
@@ -55,6 +69,7 @@ class LegalDocumentIngestor:
                         "law_title": doc_title,
                         "article": f"Đoạn {i+1}",
                         "verify_url": verify_url,
+                        "domain": domain,
                     }
                 })
             return chunks
@@ -79,6 +94,7 @@ class LegalDocumentIngestor:
                     "article": art_num,
                     "article_header": header,
                     "verify_url": verify_url,
+                    "domain": domain,
                 }
             })
             i += 2
