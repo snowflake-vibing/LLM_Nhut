@@ -18,12 +18,16 @@
 
 ## 🚀 QUẢN LÝ PHIÊN BẢN & LỘ TRÌNH (VERSIONING & ROADMAP)
 
-* **Yêu cầu Kỹ thuật Phiên bản 1 (Requirements Version 1.0):**
+* **Yêu cầu Kỹ thuật Phiên bản 1.0 (Requirements Version 1.0):**
   * Đặc tả 7 tiêu chí chấm điểm ban đầu của giảng viên: [`requirements/requirements_version_1.md`](./requirements/requirements_version_1.md).
-* **Đánh giá Phiên bản 1 (Preview Version 1):**
-  * Tổng hợp 4 nhận xét người dùng & phản biện chuyên sâu của AI Engineer: [`requirements/preview_version_1.md`](./requirements/preview_version_1.md).
-* **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1) - [ĐÃ HOÀN THÀNH]:**
+* **Đánh giá Phiên bản 1.0 (Preview Version 1):**
+  * Tổng hợp nhận xét người dùng & phản biện kỹ thuật sơ khởi: [`requirements/preview_version_1.md`](./requirements/preview_version_1.md).
+* **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1) - [ĐÃ HOÀN THÀNH 100%]:**
   * 4 nâng cấp thực chiến: Link kiểm chứng Cổng TT Chính phủ, Bộ tạo hồ sơ doanh nghiệp (.docx), Tra cứu Hybrid (CSDL + Web Search), Trực quan hóa PII: [`requirements/requirements_version_1.1.md`](./requirements/requirements_version_1.1.md).
+* **Đánh giá Phiên bản 1.1 (Preview Version 1.1):**
+  * Đánh giá v1.1, phân tích yêu cầu Tool Thẩm định Lỗ hổng Hợp đồng, In-Chat Generative UI, mở rộng phạm vi toàn bộ văn bản cho cá nhân/doanh nghiệp, và phản biện chuyên sâu về vấn đề "Train tool liên tục" trong LegalTech: [`requirements/preview_version_1.1.md`](./requirements/preview_version_1.1.md).
+* **Yêu cầu Kỹ thuật Phiên bản 1.2 (Requirements Version 1.2) - [ĐANG PHÁT TRIỂN]:**
+  * Lộ trình Version 1.2 (The Legal Intelligence & Vulnerability Suite): Quét cạm bẫy hợp đồng, chấm điểm rủi ro pháp lý (0-100), In-Chat Interactive Canvas và Hierarchical RAG (Dân sự, Lao động, Thương mại): [`requirements/requirements_version_1.2.md`](./requirements/requirements_version_1.2.md).
 
 ---
 
