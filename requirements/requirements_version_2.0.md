@@ -1,16 +1,17 @@
-# 📋 YÊU CẦU KỸ THUẬT PHIÊN BẢN 1.2 (REQUIREMENTS VERSION 1.2)
-### ⚖️ ĐỀ TÀI: LEGALTECH SME ASSISTANT • BỘ CÔNG CỤ TRÍ TUỆ PHÁP LÝ & THẨM ĐỊNH LỖ HỔNG HỢP ĐỒNG (THE LEGAL INTELLIGENCE & VULNERABILITY SUITE)
+# 📋 YÊU CẦU KỸ THUẬT PHIÊN BẢN 2.0 (REQUIREMENTS VERSION 2.0)
+### ⚖️ ĐỀ TÀI: LEGALTECH SME ASSISTANT • ĐẠI TU KIẾN TRÚC & NỀN TẢNG TRÍ TUỆ PHÁP LÝ TOÀN DIỆN (MAJOR RELEASE)
+#### 🚀 THE FULL-STACK LEGAL INTELLIGENCE & CONTRACT VULNERABILITY PLATFORM
 
 > 📌 **Tài liệu tham chiếu:** Kế thừa từ đánh giá và phản biện kỹ thuật tại [`requirements/preview_version_1.1.md`](./preview_version_1.1.md).
 
 ---
 
-## 🎯 1. Mục tiêu Phiên bản 1.2
-Chuyển đổi hệ thống từ một trợ lý hỏi-đáp RAG sang một **Bộ Công cụ Trí tuệ Pháp lý Toàn diện (Full-stack Legal Intelligence Suite)** có khả năng:
-* Tự động quét, phát hiện lỗ hổng và chấm điểm an toàn cho các loại văn bản/hợp đồng.
-* Tích hợp công cụ tương tác trực tiếp ngay trong khung chat (In-Chat Generative UI).
-* Mở rộng phạm vi tri thức sang toàn bộ hệ thống pháp luật chi phối cá nhân và tổ chức doanh nghiệp (Dân sự, Lao động, Thương mại, Sở hữu trí tuệ, Thuế).
-* Cơ chế tự hoàn thiện chất lượng qua Dynamic In-Context Learning và Deterministic Rule Checkers mà không gây ảo giác.
+## 🎯 1. Mục tiêu Đột phá của Phiên bản 2.0 (Major Release)
+Phiên bản 2.0 đánh dấu bước chuyển đổi bước ngoặt từ một trợ lý hỏi-đáp RAG cơ bản sang một **Nền tảng Trí tuệ Pháp lý Toàn diện (Full-stack Legal Intelligence Platform)**:
+1. **Thẩm định & Quét Lỗ hổng Hợp đồng:** Quét cạm bẫy pháp lý, cảnh báo điều khoản vi phạm điều cấm hoặc bất bình đẳng, chấm điểm an toàn (Legal Risk Score 0 - 100) và đề xuất điều khoản thay thế (Clause Redlining).
+2. **In-Chat Generative UI (Interactive Command Center):** Khung chat trở thành trung tâm tương tác tổng, tự động triệu hồi các widget/form tạo hồ sơ và quét hợp đồng trực tiếp trong luồng hội thoại.
+3. **Mở rộng Phạm vi Toàn diện (Hierarchical Multi-Domain RAG):** Bao quát toàn bộ hệ thống pháp luật chi phối cá nhân và tổ chức doanh nghiệp (*Bộ luật Dân sự 2015, Bộ luật Lao động 2019, Luật Thương mại 2005, Luật Sở hữu trí tuệ, Luật Quản lý Thuế...*).
+4. **Học liên tục Chuẩn Công nghiệp (Continual Learning without Weight Training):** Cơ chế Dynamic In-Context Learning + Continuous Vector Ingestion + Deterministic Rule Engine đảm bảo 100% không bị ảo giác hay quên lãng.
 
 ---
 
@@ -60,8 +61,8 @@ Chuyển đổi hệ thống từ một trợ lý hỏi-đáp RAG sang một **B
 
 ---
 
-## 📅 3. Lộ trình Triển khai Version 1.2
-1. [ ] **Sprint 1.2.1:** Thu thập, chunking và xây dựng Hierarchical Vector Collections cho Bộ luật Dân sự 2015, Bộ luật Lao động 2019 và Luật Thương mại 2005 (kèm link kiểm chứng vanban.chinhphu.vn).
-2. [ ] **Sprint 1.2.2:** Xây dựng Engine Thẩm định Lỗ hổng Hợp đồng (`src/tools/contract_scanner.py`) với hệ thống chấm điểm rủi ro (0-100) và gợi ý điều khoản thay thế.
-3. [ ] **Sprint 1.2.3:** Tích hợp In-Chat Interactive Canvas (Generative UI) cho phép tương tác tool trực tiếp trong luồng hội thoại Streamlit.
-4. [ ] **Sprint 1.2.4:** Tích hợp Dynamic Few-shot Memory Store, cập nhật kịch bản kiểm thử benchmark Ragas mở rộng và hoàn thiện tài liệu bàn giao.
+## 📅 3. Lộ trình Triển khai Version 2.0 (Major Release)
+1. [ ] **Sprint 2.0.1:** Thu thập, chunking và xây dựng Hierarchical Vector Collections cho Bộ luật Dân sự 2015, Bộ luật Lao động 2019 và Luật Thương mại 2005 (kèm link kiểm chứng vanban.chinhphu.vn).
+2. [ ] **Sprint 2.0.2:** Xây dựng Engine Thẩm định Lỗ hổng Hợp đồng (`src/tools/contract_scanner.py`) với hệ thống chấm điểm rủi ro (0-100) và gợi ý điều khoản thay thế.
+3. [ ] **Sprint 2.0.3:** Tích hợp In-Chat Interactive Canvas (Generative UI) cho phép tương tác tool trực tiếp trong luồng hội thoại Streamlit.
+4. [ ] **Sprint 2.0.4:** Tích hợp Dynamic Few-shot Memory Store, cập nhật kịch bản kiểm thử benchmark Ragas mở rộng và hoàn thiện tài liệu bàn giao.

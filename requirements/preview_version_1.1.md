@@ -106,13 +106,13 @@ Các hệ thống hàng đầu thế giới (*Harvey AI, Casetext CoCounsel, Lex
 
 ---
 
-## 🎯 III. KẾT LUẬN & ĐỀ XUẤT LỘ TRÌNH CHO PHIÊN BẢN 1.2
+## 🎯 III. KẾT LUẬN & ĐỀ XUẤT LỘ TRÌNH CHO PHIÊN BẢN 2.0 (MAJOR RELEASE)
 
-Dựa trên các phân tích kỹ thuật nghiêm ngặt trên, bản nâng cấp tiếp theo sẽ được định danh là **Phiên bản 1.2 (Version 1.2 - The Legal Intelligence & Vulnerability Suite)** với 4 trụ cột kỹ thuật:
+Dựa trên các phân tích kỹ thuật nghiêm ngặt và sự thay đổi tầm vóc kiến trúc toàn diện của dự án, bản nâng cấp tiếp theo được định danh chính thức là **Phiên bản 2.0 (Major Release: The Full-stack Legal Intelligence & Contract Vulnerability Platform)** với 4 trụ cột kỹ thuật:
 
 1. **Tool 1: Contract Vulnerability Scanner & Scorer:** Quét lỗ hổng hợp đồng, chấm điểm rủi ro (0-100) và gợi ý điều khoản thay thế chuẩn.
-2. **Tool 2: In-Chat Generative UI:** Cho phép kích hoạt form tương tác và tải file ngay trong tin nhắn chat.
+2. **Tool 2: In-Chat Generative UI (Command Center):** Cho phép kích hoạt form tương tác và tải file ngay trong tin nhắn chat.
 3. **Tool 3: Hierarchical Multi-Domain Legal RAG:** Mở rộng tri thức sang Bộ luật Dân sự 2015, Bộ luật Lao động 2019, Luật Thương mại 2005.
-4. **Tool 4: Dynamic In-Context Learning & Memory Feedback:** Lưu vết các case thẩm định hợp đồng thành công để tự động tối ưu chất lượng tư vấn theo thời gian mà không gây ảo giác.
+4. **Tool 4: Continual Optimization without Weight Training:** Dynamic In-Context Learning, Continuous Vector Ingestion và Deterministic Rules loại bỏ 100% rủi ro ảo giác.
 
-*Chi tiết thông số kỹ thuật được đặc tả đầy đủ tại file kế tiếp: [`requirements/requirements_version_1.2.md`](./requirements_version_1.2.md).*
+*Chi tiết thông số kỹ thuật được đặc tả đầy đủ tại file kế tiếp: [`requirements/requirements_version_2.0.md`](./requirements_version_2.0.md).*
