@@ -22,8 +22,8 @@
   * Checklist nghiệm thu: [`requirements/project_checklist.md`](./requirements/project_checklist.md).
 * **Đánh giá Phiên bản 1 (Preview Version 1):**
   * Tổng hợp 4 nhận xét người dùng & phản biện chuyên sâu của AI Engineer: [`requirements/preview_version_1.md`](./requirements/preview_version_1.md).
-* **Yêu cầu Kỹ thuật Phiên bản 2 (Requirements Version 2):**
-  * Lộ trình nâng cấp: Trích dẫn kèm Link kiểm chứng, Bộ tạo hồ sơ doanh nghiệp tự động (.docx), Tra cứu Hybrid (CSDL + Web Search): [`requirements/requirements_version_2.md`](./requirements/requirements_version_2.md).
+* **Yêu cầu Kỹ thuật Phiên bản 1.1 (Requirements Version 1.1):**
+  * Lộ trình nâng cấp: Trích dẫn kèm Link kiểm chứng, Bộ tạo hồ sơ doanh nghiệp tự động (.docx), Tra cứu Hybrid (CSDL + Web Search): [`requirements/requirements_version_1.1.md`](./requirements/requirements_version_1.1.md).
 
 ---
 
@@ -106,7 +106,7 @@ LLM_Nhut/
 │   ├── preview_version_1.md     # Đánh giá Version 1 & Phản biện kỹ thuật
 │   ├── project_checklist.md     # Checklist nghiệm thu Version 1 (100% [x])
 │   ├── project_requirements.md  # 7 tiêu chí chấm điểm ban đầu
-│   └── requirements_version_2.md # Yêu cầu kỹ thuật nâng cấp cho Version 2
+│   └── requirements_version_1.1.md # Yêu cầu kỹ thuật nâng cấp cho Version 1.1
 ├── src/
 │   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, Graph)
 │   ├── database/                # Quản lý CSDL SQLite & SQL Tools

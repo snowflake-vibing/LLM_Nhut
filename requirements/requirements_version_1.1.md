@@ -1,12 +1,12 @@
-# 📋 YÊU CẦU KỸ THUẬT PHIÊN BẢN 2.0 (REQUIREMENTS VERSION 2)
-### ⚖️ ĐỀ TÀI: LEGALTECH SME ASSISTANT • NÂNG CẤP HỆ THỐNG DOANH NGHIỆP THỰC CHIẾN
+# 📋 YÊU CẦU KỸ THUẬT PHIÊN BẢN 1.1 (REQUIREMENTS VERSION 1.1)
+### ⚖️ ĐỀ TÀI: LEGALTECH SME ASSISTANT • NÂNG CẤP TÍNH NĂNG THỰC CHIẾN (MINOR RELEASE)
 
 > 📌 **Tài liệu tham chiếu:** Kế thừa từ đánh giá và phản biện tại [`requirements/preview_version_1.md`](./preview_version_1.md).
 
 ---
 
-## 🎯 1. Mục tiêu Phiên bản 2.0
-Phiên bản 2.0 tập trung giải quyết 4 bài toán trọng tâm do người dùng phản hồi, nâng tầm hệ thống từ một chatbot tư vấn thông thường trở thành **Bộ giải pháp Tự động hóa Pháp lý Khởi nghiệp Toàn diện cho Doanh nghiệp Vừa & Nhỏ (SMEs)**.
+## 🎯 1. Mục tiêu Phiên bản 1.1
+Phiên bản 1.1 tập trung hoàn thiện 4 tính năng thực chiến dựa trên phản hồi của người dùng, nâng cấp trực tiếp trên nền tảng kiến trúc sẵn có của Version 1.0.
 
 ---
 
@@ -43,8 +43,8 @@ Phiên bản 2.0 tập trung giải quyết 4 bài toán trọng tâm do ngườ
 
 ---
 
-## 📅 3. Lộ trình Triển khai Version 2.0
-1. [ ] **Sprint 2.1:** Cập nhật Metadata Vector Store & Thẻ Citation có link kiểm chứng.
-2. [ ] **Sprint 2.2:** Xây dựng Tab "Tạo Hồ sơ Doanh nghiệp" & Engine xuất file văn bản `.docx`.
-3. [ ] **Sprint 2.3:** Tích hợp Web Search Tool vào Multi-Agent Workflow.
-4. [ ] **Sprint 2.4:** Benchmark đánh giá lại với Ragas và viết báo cáo Version 2.
+## 📅 3. Lộ trình Triển khai Version 1.1
+1. [ ] **Sprint 1.1.1:** Cập nhật Metadata Vector Store & Thẻ Citation có link kiểm chứng.
+2. [ ] **Sprint 1.1.2:** Xây dựng Tab "Tạo Hồ sơ Doanh nghiệp" & Engine xuất file văn bản `.docx`.
+3. [ ] **Sprint 1.1.3:** Tích hợp Web Search Tool vào Multi-Agent Workflow.
+4. [ ] **Sprint 1.1.4:** Benchmark đánh giá lại với Ragas và cập nhật báo cáo Version 1.1.

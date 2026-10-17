@@ -94,7 +94,7 @@ Dưới góc nhìn của một Kỹ sư AI và bám sát **7 tiêu chí chấm �
 
 ---
 
-## 🚀 III. KẾ HOẠCH NÂNG CẤP PHIÊN BẢN 2.0 (ROADMAP VERSION 2.0)
+## 🚀 III. KẾ HOẠCH NÂNG CẤP PHIÊN BẢN 1.1 (ROADMAP VERSION 1.1)
 
 | STT | Hạng mục nâng cấp | Mô tả kỹ thuật | Tiêu chí củng cố |
 | :---: | :--- | :--- | :---: |

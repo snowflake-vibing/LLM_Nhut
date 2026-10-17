@@ -12,21 +12,21 @@
 ## 🔄 ĐIỀU 2: QUY TẮC QUẢN LÝ PHIÊN BẢN (VERSION & PREVIEW MANAGEMENT)
 
 ### 2.1. Quy tắc Đặt tên File Chuẩn xác:
-Mọi file đánh giá (*Preview*) và file yêu cầu (*Requirements*) phải được đặt trong thư mục `requirements/` và tuân theo định dạng tên chính xác:
+Mọi file đánh giá (*Preview*) và file yêu cầu (*Requirements*) phải được đặt trong thư mục `requirements/` và tuân theo định dạng tên chính xác theo chuẩn SemVer:
 * **File Đánh giá / Phản hồi của Version hiện tại:**  
   `requirements/preview_version_<N>.md`  
-  *(Ví dụ: `preview_version_1.md`, `preview_version_2.md`...)*
+  *(Ví dụ: `preview_version_1.md` đánh giá cho bản Version 1.0)*
 * **File Yêu cầu kỹ thuật cho Version kế tiếp:**  
-  `requirements/requirements_version_<N+1>.md`  
-  *(Ví dụ: Khi tạo `preview_version_1.md` thì BẮT BUỘC phải tạo ngay `requirements_version_2.md`)*
+  `requirements/requirements_version_<X.Y>.md`  
+  *(Ví dụ: Khi tạo `preview_version_1.md` thì BẮT BUỘC phải tạo ngay `requirements_version_1.1.md`)*
 
 ### 2.2. Tính Đồng bộ Bắt buộc:
 1. **Mỗi khi tạo một file Preview (`preview_version_<N>.md`):**  
-   $\rightarrow$ BẮT BUỘC phải tạo đồng thời file **Requirements tương ứng cho version mới** (`requirements_version_<N+1>.md`) dựa trên các điểm đã đánh giá và phản biện.
+   $\rightarrow$ BẮT BUỘC phải tạo đồng thời file **Requirements tương ứng cho version mới** (`requirements_version_<X.Y>.md`) dựa trên các điểm đã đánh giá và phản biện.
 2. **Cập nhật `README.md` ngay lập tức:**  
    $\rightarrow$ BẮT BUỘC phải cập nhật file `README.md` tại thư mục gốc để:
    * Cập nhật số phiên bản hiện tại (*Current Version*) và lộ trình phiên bản tiếp theo.
-   * Dẫn link tới file `preview_version_<N>.md` và `requirements_version_<N+1>.md`.
+   * Dẫn link tới file `preview_version_<N>.md` và `requirements_version_<X.Y>.md`.
    * Ghi nhận ngắn gọn các tính năng mới đã hoàn thành hoặc đang được nâng cấp.
 
 ---
