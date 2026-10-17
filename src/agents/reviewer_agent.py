@@ -53,9 +53,29 @@ class DocumentReviewerAgent:
                 f"- [ ] **Bước 5: Hoàn tất góp vốn:** Đảm bảo góp đủ 100% vốn cam kết trong vòng 90 ngày [Điều 47 Luật Doanh nghiệp 2020].\n"
             )
 
+        citations = [
+            {
+                "law_title": "Nghị định 01/2021/NĐ-CP về đăng ký doanh nghiệp",
+                "article": "Điều 23, 24",
+                "header": "Hồ sơ, trình tự, thủ tục đăng ký doanh nghiệp",
+                "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=202613",
+                "text_snippet": "Quy định chi tiết về hồ sơ đăng ký doanh nghiệp, tiếp nhận và giải quyết hồ sơ qua Cổng thông tin quốc gia.",
+                "full_text": "Nghị định số 01/2021/NĐ-CP quy định chi tiết về hồ sơ, trình tự, thủ tục đăng ký doanh nghiệp, đăng ký hộ kinh doanh..."
+            },
+            {
+                "law_title": "Luật Doanh nghiệp 2020",
+                "article": "Điều 47, 75",
+                "header": "Thời hạn góp vốn thành lập công ty (90 ngày)",
+                "verify_url": "https://vanban.chinhphu.vn/?pageid=27160&docid=200676",
+                "text_snippet": "Chủ sở hữu, thành viên phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong thời hạn 90 ngày.",
+                "full_text": "Điều 47, 75 Luật Doanh nghiệp 2020: Thành viên phải góp vốn phần vốn góp cho công ty đủ và đúng loại tài sản đã cam kết trong thời hạn 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp."
+            }
+        ]
+
         return {
             "response": response,
             "entity_type": entity_type,
             "raw_steps": steps_data,
+            "citations": citations,
             "agent": "DocumentReviewerAgent",
         }

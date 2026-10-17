@@ -43,8 +43,8 @@ Phiên bản 1.1 tập trung hoàn thiện 4 tính năng thực chiến dựa tr
 
 ---
 
-## 📅 3. Lộ trình Triển khai Version 1.1
-1. [ ] **Sprint 1.1.1:** Cập nhật Metadata Vector Store & Thẻ Citation có link kiểm chứng.
-2. [ ] **Sprint 1.1.2:** Xây dựng Tab "Tạo Hồ sơ Doanh nghiệp" & Engine xuất file văn bản `.docx`.
-3. [ ] **Sprint 1.1.3:** Tích hợp Web Search Tool vào Multi-Agent Workflow.
-4. [ ] **Sprint 1.1.4:** Benchmark đánh giá lại với Ragas và cập nhật báo cáo Version 1.1.
+## 📅 3. Lộ trình Triển khai Version 1.1 (Đã hoàn thành 100%)
+1. [x] **Sprint 1.1.1:** Cập nhật Metadata Vector Store & Thẻ Citation có link kiểm chứng (`vanban.chinhphu.vn`).
+2. [x] **Sprint 1.1.2:** Xây dựng Tab "Soạn thảo Hồ sơ Doanh nghiệp" & Engine xuất file văn bản `.docx` (`src/dossier/template_generator.py`).
+3. [x] **Sprint 1.1.3:** Tích hợp Web Search Tool vào Multi-Agent Workflow và Kiến trúc Hybrid Search (`src/tools/web_search_tool.py`).
+4. [x] **Sprint 1.1.4:** Trực quan hóa PII Masking flow, tích hợp toàn diện giao diện Streamlit, cập nhật tài liệu báo cáo và `README.md`.

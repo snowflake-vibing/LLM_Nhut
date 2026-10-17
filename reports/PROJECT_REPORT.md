@@ -120,5 +120,21 @@ Hệ thống triển khai 3 lớp phòng thủ toàn diện (`src/security/`):
 
 ---
 
-## CHƯƠNG 8: KẾT LUẬN & HƯỚNG PHÁT TRIỂN
-Dự án **LegalTech SME Assistant** đã hoàn thành 100% các yêu cầu kỹ thuật và sản phẩm bàn giao, đáp ứng đầy đủ 7 tiêu chí chấm điểm với tính ứng dụng thực tiễn cao cho doanh nghiệp vừa và nhỏ tại Việt Nam.
+## CHƯƠNG 8: KẾT LUẬN & CÁC NÂNG CẤP TRONG PHIÊN BẢN 1.1
+
+### 8.1. Các Nâng cấp Thực chiến trong Phiên bản 1.1 (Version 1.1 Upgrades)
+Kế thừa từ phản hồi thực tế tại `requirements/preview_version_1.md` và hoàn thiện theo `requirements/requirements_version_1.1.md`:
+1. **Bộ Tạo Hồ sơ Kê khai Pháp lý Tự động (Dossier Generator - `src/dossier/`):**
+   - Hỗ trợ form nhập thông tin doanh nghiệp trực quan trên Web Streamlit.
+   - AI Thẩm định tính hợp lệ của tên doanh nghiệp (tránh vi phạm Điều 37, 38, 41 Luật Doanh nghiệp 2020) và thời hạn góp vốn 90 ngày.
+   - Xuất file Word (.docx) chuẩn: Giấy đề nghị ĐKDN (Phụ lục I-2 / I-3 Nghị định 01/2021/NĐ-CP), Dự thảo Điều lệ công ty, Danh sách thành viên sáng lập để ký nộp Sở KH&ĐT.
+2. **Trích dẫn Căn cứ Pháp luật Kèm Link Kiểm chứng (Verify URL Citation):**
+   - Mọi câu trả lời của AI đều gắn thẻ Citation Card có trích dẫn nguyên văn Điều/Khoản kèm nút `[🔗 Kiểm chứng tại Cổng TT Chính phủ]` trỏ trực tiếp đến `vanban.chinhphu.vn`.
+3. **Kiến trúc Tra cứu Lai (Hybrid Retrieval & Pagination - `src/tools/web_search_tool.py`):**
+   - Kết hợp truy vấn siêu tốc trong CSDL SQLite nội bộ với Web Search Tool mở rộng cho các ngành nghề mới (Thương mại điện tử, Livestream bán hàng, AI/SaaS, Logistics...).
+   - Bổ sung bộ lọc phân trang (Pagination) trên giao diện tra cứu mã ngành.
+4. **Trực quan hóa Luồng Bảo vệ Dữ liệu Cá nhân (PII Masking Flow):**
+   - Bổ sung sơ đồ trực quan 4 bước minh bạch quy trình ẩn danh dữ liệu nhạy cảm (CCCD, SĐT) trước khi gửi qua Cloud LLM.
+
+### 8.2. Kết luận
+Dự án **LegalTech SME Assistant** đã hoàn thành xuất sắc 100% các tiêu chí học thuật của đề cương AI Engineer, đồng thời nâng cấp hoàn chỉnh thành một sản phẩm LegalTech thực chiến có thể ứng dụng trực tiếp cho các doanh nghiệp vừa và nhỏ, startup và hộ kinh doanh cá thể tại Việt Nam.

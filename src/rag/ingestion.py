@@ -1,6 +1,7 @@
 """
 Ingestion & Document Chunker
-Bộ đọc văn bản pháp luật và cắt đoạn thông minh theo Điều / Khoản (Article-level chunking).
+Bộ đọc văn bản pháp luật và cắt đoạn thông minh theo Điều / Khoản (Article-level chunking)
+tích hợp đường link tra cứu chính thức tại Cổng thông tin Chính phủ (Verify URL).
 """
 
 import os
@@ -12,10 +13,18 @@ DOCS_DIR = os.path.join(
     "data", "raw_documents"
 )
 
+# Bảng ánh xạ link kiểm chứng văn bản quy phạm pháp luật chính thống
+LEGAL_SOURCE_URLS = {
+    "Luat_Doanh_Nghiep_2020": "https://vanban.chinhphu.vn/?pageid=27160&docid=200676",
+    "Nghi_Dinh_01_2021_ND_CP": "https://vanban.chinhphu.vn/?pageid=27160&docid=202613",
+    "Nghi_Dinh_39_2018_ND_CP": "https://vanban.chinhphu.vn/?pageid=27160&docid=193188",
+}
+
 
 class LegalDocumentIngestor:
     """
-    Trích xuất văn bản pháp lý và cắt thành các đoạn chunk có đầy đủ ngữ cảnh Điều / Khoản.
+    Trích xuất văn bản pháp lý và cắt thành các đoạn chunk có đầy đủ ngữ cảnh Điều / Khoản
+    kèm đường link kiểm chứng chính thức của nhà nước.
     """
 
     def __init__(self, docs_dir: str = None):
@@ -24,17 +33,18 @@ class LegalDocumentIngestor:
     def parse_legal_text(self, filename: str, content: str) -> List[Dict[str, Any]]:
         """
         Tách văn bản luật theo từng Điều (Ví dụ: 'Điều 4.', 'Điều 23.'...).
-        Gán metadata: tên văn bản, số Điều, tiêu đề Điều.
+        Gán metadata: tên văn bản, số Điều, tiêu đề Điều, và link kiểm chứng.
         """
         chunks = []
-        doc_title = filename.replace(".txt", "").replace("_", " ")
+        base_name = os.path.splitext(filename)[0]
+        doc_title = base_name.replace("_", " ")
+        verify_url = LEGAL_SOURCE_URLS.get(base_name, "https://vanban.chinhphu.vn/")
 
         # Regex tìm các Điều
         pattern = r"(Điều\s+\d+[\.:]\s*[^\n]+)"
         splits = re.split(pattern, content)
 
         if len(splits) <= 1:
-            # Fallback nếu không tách được theo Điều
             paragraphs = [p.strip() for p in content.split("\n\n") if len(p.strip()) > 40]
             for i, p in enumerate(paragraphs):
                 chunks.append({
@@ -44,12 +54,12 @@ class LegalDocumentIngestor:
                         "source": filename,
                         "law_title": doc_title,
                         "article": f"Đoạn {i+1}",
+                        "verify_url": verify_url,
                     }
                 })
             return chunks
 
         # Ghép cặp Header Điều và Nội dung Điều
-        current_article = "Mở đầu"
         i = 1
         while i < len(splits):
             header = splits[i].strip()
@@ -68,6 +78,7 @@ class LegalDocumentIngestor:
                     "law_title": doc_title,
                     "article": art_num,
                     "article_header": header,
+                    "verify_url": verify_url,
                 }
             })
             i += 2

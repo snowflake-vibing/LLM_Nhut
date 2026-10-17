@@ -68,9 +68,11 @@ class LegalMultiAgentWorkflow:
         if intent == "INDUSTRY_LOOKUP":
             agent_result = self.lookup_agent.lookup(masked_query)
             active_agent = "IndustryLookupAgent"
+            citations = agent_result.get("citations", [])
         elif intent == "REGISTRATION_STEPS":
             agent_result = self.reviewer_agent.generate_checklist(masked_query)
             active_agent = "DocumentReviewerAgent"
+            citations = agent_result.get("citations", [])
         else:
             agent_result = self.advisory_agent.advise(masked_query)
             active_agent = "EntityAdvisoryAgent"
