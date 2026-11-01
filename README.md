@@ -2,16 +2,53 @@
 ### Hệ thống Luật sư AI Dân gian, Thăm khám Từng bước Đa lượt, Mạng lưới Đa Tác nhân & Telegram Bot Daemon 24/7 • Phiên bản 3.0 (The Citizen-Centric Conversational Intake Platform)
 
 [![Version: 3.0](https://img.shields.io/badge/Version-3.0_(Major_Release_Citizen--Centric)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
-[![Scope](https://img.shields.io/badge/Focus-Individuals_%26_Citizens-blueviolet.svg)](#)
-[![Interaction](https://img.shields.io/badge/UX-Socratic_Step--by--Step_Intake-orange.svg)](#)
+[![Scope](https://img.shields.io/badge/Focus-Individuals_%26_Citizens-blueviolet.svg)](#tầm-nhìn-chiến-lược-project-vision)
+[![Interaction](https://img.shields.io/badge/UX-Socratic_Step--by--Step_Intake-orange.svg)](#triết-lý-tương-tác-vàng-core-philosophy)
 [![Accessibility](https://img.shields.io/badge/Accessibility-Senior_%26_Low--Tech_Mode-informational.svg)](#)
 [![Privacy](https://img.shields.io/badge/Security-Zero--Trust_Panic_Wipe-red.svg)](#)
+[![Audit Score](https://img.shields.io/badge/360°_Audit_Score-9.43%2F10.0-gold.svg)](#)
 [![Antigravity](https://img.shields.io/badge/Orchestrator-Google_Antigravity-blue.svg)](https://deepmind.google/)
 [![LangGraph](https://img.shields.io/badge/Multi--Agent-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![Telegram Daemon](https://img.shields.io/badge/Telegram_Bot-Real--time_Daemon_<1s-0088cc.svg)](https://telegram.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit_(2_Tabs_NotebookLM)-FF4B4B.svg)](https://streamlit.io/)
+
+---
+
+## 🎯 TẦM NHÌN CHIẾN LƯỢC (PROJECT VISION)
+
+> **"Dân chủ hóa và nhân văn hóa công nghệ pháp lý cho mọi người dân Việt Nam."**  
+> 
+> Một sản phẩm LegalTech thực sự có giá trị không phải là một "tech-demo" phô diễn công nghệ dễ dãi, mà phải là sản phẩm **phục vụ được những người yếu thế nhất trong xã hội**:
+> - **Người già & người ít thạo công nghệ:** Cần giao diện chữ lớn, tương phản cao, thao tác 1 chạm, không đòi hỏi kỹ năng số phức tạp.
+> - **Người dân bình thường khi gặp biến cố:** Khi bị quỵt nợ, tranh chấp đất đai với hàng xóm, trục trặc hôn nhân hay bị lừa đảo qua mạng thường rất hoang mang, uất ức và "nói không đâu vào đâu". Họ không thể hiểu và sẽ sợ hãi nếu AI lập tức "xả" một tràng dài điều luật khô khan.
+> - **Triết lý Thăm khám Từng bước (Socratic Intake):** AI đóng vai một **Vị Luật sư Dân gian Đồng hành** — biết lắng nghe, xoa dịu cảm xúc, hỏi từng bước (tối đa 1-2 câu ngắn) để nắm chắc tình tiết và bằng chứng trước khi kết luận, kèm các nút chọn nhanh (Quick-Reply Pills) để người dân chỉ cần bấm chọn.
+> - **Phạm vi Doanh nghiệp & Công ty:** Tạm thời được đưa vào chế độ chờ (Standby) tại Studio để dự án dồn 100% tâm huyết giải quyết bài toán dân sinh đời sống trước mắt.
+
+---
+
+## 💡 TRIẾT LÝ TƯƠNG TÁC VÀNG (CORE INTERACTION PRINCIPLES)
+
+```mermaid
+flowchart TD
+    A["👤 Người Dân Kể Câu Chuyện / Tâm Sự Hoang Mang"] --> B["👂 1. Lắng nghe & Trấn an cảm xúc (De-Noiser)"]
+    B --> C["❓ 2. Hỏi 1-2 câu xác thực then chốt (Không dồn dập)"]
+    C --> D["🔘 3. Gợi ý lựa chọn nhanh dạng A/B/C / Có-Không"]
+    D --> E["✅ Người dân chỉ cần 1 chạm để xác nhận"]
+    E --> F["📋 4. Đưa ra lộ trình 3 bước bình dân, thấu tình đạt lý"]
+    F -.-> G["⚖️ Điều luật trích dẫn & đơn từ được giấu gọn trong Expander"]
+```
+
+1. 🚫 **TUYỆT ĐỐI KHÔNG TRẢ LỜI DỒN DẬP:** Không trút tràng dài điều luật Bộ luật Dân sự hay Tố tụng vào tin nhắn chính khiến người dân bị ngợp hoặc bất an.
+2. ❓ **HỎI ĐỂ CHẮC CHẮN (Socratic Legal Intake):** Luôn hỏi 1-2 câu trọng tâm để làm rõ:
+   - *Thời điểm xảy ra sự việc?*
+   - *Bằng chứng hiện có (Giấy viết tay, sao kê ngân hàng, tin nhắn Zalo, hay chỉ nói miệng)?*
+   - *Mục tiêu ưu tiên (Hòa giải lấy lại tiền, báo Công an, hay khởi kiện ra Tòa)?*
+3. 🔘 **LỰA CHỌN TRẢ LỜI NHANH (Quick-Reply Pills):** Tự động sinh ra các nút bấm gợi ý để người già hoặc người dùng điện thoại chỉ cần bấm chọn thay vì phải gõ bàn phím dài dòng.
+4. 👵 **TRỢ NĂNG NGƯỜI CAO TUỔI (Senior Accessible Mode):** Nút bật/tắt tức thì trên thanh Sidebar phóng to font chữ lên **19px**, tăng line-height **1.85**, chống mỏi mắt.
+5. 🚨 **BẢO MẬT ZERO-TRUST & NÚT XÓA DẤU VẾT (Panic Wipe):** 1-click giải phóng sạch RAM, bảo vệ an toàn tính mạng cho nạn nhân bạo lực gia đình hoặc người bị theo dõi.
+6. 📱 **ĐA KÊNH THƯỜNG TRỰC (<1 GIÂY):** Hoạt động đồng bộ trên Web Streamlit và Bot Telegram Daemon 24/7 (`@SnowflakeVibingBot`).
 
 ---
 
@@ -86,7 +123,7 @@
 
 ---
 
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 3.0 (CITIZEN-CENTRIC CONVERSATIONAL INTAKE)
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 3.0 (CITIZEN-CENTRIC SOCRATIC INTAKE)
 
 1. 👨‍👩‍👧 **Tác Nhân Thăm Khám Pháp Lý Dân Sinh (`src/agents/citizen_intake_agent.py`):**
    - **Tuyệt đối không trả lời dồn dập:** Không xả hàng tràng điều luật khô khan vào tin nhắn chính khiến người dân bị ngợp hoặc hoang mang.
@@ -120,245 +157,114 @@
 
 ---
 
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.8 (HUMAN-CENTRIC LEGALTECH & ACCESSIBILITY)
-
-1. 👵 **Chế độ Trợ Năng Người Cao Tuổi & Người Không Thạo Công Nghệ (Elderly & Accessible Mode):**
-   - Nút bật/tắt tức thì trên thanh Sidebar: Tự động phóng to cỡ chữ lên `19px`, tăng line-height `1.85`, độ tương phản cao chống mỏi mắt.
-   - Ẩn bớt các thuật ngữ phức tạp, biến giao diện thành bản tin dễ đọc nhất cho người già và người mắt kém.
-
-2. 💬 **Bộ Lọc Cảm Xúc & Bóc Tách Sự Việc Hoang Mang (Emotional Rant De-Noiser):**
-   - Tự động nhận diện những tâm sự uất ức, lời nói bức xúc lộn xộn ("không đâu vào đâu") của người dân khi bị ức hiếp, lừa đảo, tranh chấp.
-   - **Quy trình 3 bước nhân văn:**
-     1. *Trấn an tâm lý & Đứng về phía người dân*: "Chào bạn, mình rất hiểu sự bức xúc và hoang mang của bạn lúc này..."
-     2. *Bóc tách 3 sự thật pháp lý cốt lõi*: Lọc bỏ cảm xúc, giữ lại tình tiết có giá trị tố tụng.
-     3. *Dẫn dắt bằng câu hỏi Có/Không cực kỳ đơn giản*: Giúp người yếu thế trả lời dễ dàng mà không bị ngợp.
-
-3. 🚨 **Bảo Mật Tuyệt Đối & Nút Xóa Dấu Vết Khẩn Cấp (Zero-Trust Ephemeral Panic Wipe):**
-   - Nút đỏ nổi bật trên Sidebar: `🚨 XÓA SẠCH DẤU VẾT (Panic Wipe)`.
-   - 1-click lập tức xóa sạch `session_state`, lịch sử chat, các văn bản vừa upload trong RAM và reload ứng dụng trắng tinh.
-   - Đặc biệt bảo vệ nạn nhân bạo lực gia đình, người bị theo dõi điện thoại, người tư vấn bí mật ly hôn hoặc tranh chấp nhạy cảm.
-
-4. ⚡ **Tối Ưu Tốc Độ Phản Hồi (Zero-Latency & Streaming Friendly):**
-   - Khởi tạo RAG Lazy Loading, xử lý De-Noiser bằng Fast Pattern Heuristics song song với LLM.
-   - Tốc độ tải và phản hồi đạt chuẩn tức thời, loại bỏ độ trễ gây ức chế cho người dùng.
-
----
-
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.7 (MULTI-AGENT SWARM & DUAL-PERSONA)
-
-1. 👥 **Hệ sinh thái Mạng lưới Đa Tác nhân Độc lập (Specialized Multi-Agent Swarm):**
-   - 🛠️ **Builder & Orchestrator Agent (`src/agents/graph.py`):** Lõi LangGraph Stateful Graph.
-   - 🕵️‍♂️ **Adversarial Dual-Persona Tester Agent (`src/agents/adversarial_tester_agent.py`):**
-     - *Persona 1 - Senior QA Tester:* Thẩm định lỗ hổng pháp lý, kiểm tra bảo mật Prompt Injection, stress-test lỗi.
-     - *Persona 2 - First-Time Customer:* Đóng vai người dân mới tinh đánh giá độ dễ dùng, ngôn ngữ bình dân, cảm giác an tâm.
-   - 📱 **Real-time Telegram Interactive Daemon Agent (`scripts/telegram_bot_daemon.py`):** Tiến trình nền 24/7 phản hồi tức thì (< 1 giây) cho cả lệnh điều khiển và câu hỏi pháp luật trực tiếp.
-   - ⏱️ **Cloud & Local Watchdog Agent (`scripts/hourly_agent_watchdog.py`):** Giám sát CI/CD định kỳ.
-
----
-
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.6 (TELEGRAM REMOTE & ANTIGRAVITY)
-
-1. 📱 **Điều khiển Tự hành 100% từ xa qua Tin nhắn Telegram:**
-   - Người dùng quản lý tiến trình của AI Agent ngay trên điện thoại:
-     - Gõ `/end` $\rightarrow$ Tạm dừng chu kỳ tự hành, bot phản hồi xác nhận.
-     - Gõ `/start` $\rightarrow$ Khởi động lại chu kỳ tự hành, bot tiếp tục code và test.
-     - Gõ `/status` $\rightarrow$ Báo cáo trạng thái trực tiếp của hệ thống.
-
-2. 🧠 **Phối hợp Toàn diện với Hệ sinh thái Google Antigravity:**
-   - Tận dụng Antigravity Scheduler ngầm, Slash Commands (`/goal`, `/schedule`, `/plan`) làm bộ não điều hành tự động hóa cao cấp.
-
-3. ☕ **Bộ Chuyển đổi Văn phong Song ngữ (Plain-Language Dual-Persona Switcher):**
-   - 1-click chuyển đổi giữa `Văn phong Tòa án` $\longleftrightarrow$ `Diễn giải Bình dân thấu tình đạt lý`.
-
-4. 🗺️ **Bản đồ Tiến trình Tố tụng (Visual Stepper) & Két Bằng Chứng (Smart Evidence Vault):**
-   - Thước đo giá trị chứng cứ 0 - 100% theo BLTTDS 2015.
-
----
-
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.5 (PLAIN-LANGUAGE DUAL-PERSONA)
-
-1. ☕ **Bộ Chuyển đổi Văn phong Song ngữ (Plain-Language Dual-Persona Switcher):**
-   - 1-click chuyển đổi tức thì bên dưới mỗi câu trả lời trong Chatbot:
-     - `🏛️ Văn phong Tòa án / Tư pháp`: Chuẩn mực tố tụng viện dẫn đầy đủ điều luật để nộp cơ quan chức năng.
-     - `☕ Diễn giải Bình dân / Thấu tình Đạt lý`: Diễn giải mộc mạc, ví von đời thường, chia làm 3 phần (Bản chất, 3 bước nên làm, Cạm bẫy cần tránh).
-
-2. 🗺️ **Bản đồ Tiến trình Tố tụng Trực quan (Interactive Legal Stepper):**
-   - Trực quan hóa quy trình xử lý từng bước cho 4 bài toán đời sống nhạy cảm: Đòi nợ khi con nợ bỏ trốn, Tranh chấp ranh giới Sổ đỏ, Bạo lực học đường, Ly hôn & Quyền nuôi con.
-
-3. 🗄️ **Két Bằng Chứng Thông Minh & Thước đo Trọng lượng Chứng cứ (Evidentiary Weight Meter):**
-   - Đánh giá hồ sơ chứng cứ theo Chương VII Bộ luật Tố tụng Dân sự 2015, thang đo từ 0 đến 100 điểm kèm cảnh báo lập Vi bằng Thừa phát lại.
-
-4. 📱 **Tự hành Liên tục & Báo cáo Tức thời về Điện thoại qua Telegram:**
-   - Hoạt động 24/7, tự động kiểm tra hệ thống và gửi bản tin nâng cấp chi tiết về Telegram sau mỗi chu kỳ.
-
----
-
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.4 (ROADMAP & EVIDENCE VAULT)
-
-1. 🗺️ **Bản đồ Tiến trình Tố tụng Trực quan (Interactive Legal Stepper):**
-   - Trực quan hóa quy trình xử lý từng bước cho 4 bài toán đời sống nhạy cảm: Đòi nợ khi con nợ bỏ trốn, Tranh chấp ranh giới Sổ đỏ, Bạo lực học đường, Ly hôn & Quyền nuôi con.
-   - Hiển thị rõ: **Cơ quan có thẩm quyền tiếp nhận**, **Mốc thời hạn luật định (Deadline Alert)**, và **Hành động cụ thể** của từng bước.
-
-2. 🗄️ **Két Bằng Chứng Thông Minh & Thước đo Trọng lượng Chứng cứ (Evidentiary Weight Meter):**
-   - Đánh giá hồ sơ chứng cứ theo Chương VII Bộ luật Tố tụng Dân sự 2015.
-   - Thang đo trực quan từ 0 đến 100 điểm: Phân loại chứng cứ (Văn bản công chứng, Vi bằng thừa phát lại, Sao kê ngân hàng, Giấy viết tay, Tin nhắn Zalo...).
-   - Đưa ra cảnh báo pháp lý khẩn cấp (ví dụ: *chỉ có ảnh chụp màn hình Zalo thì nguy cơ bị bác đơn, cần đi lập Vi bằng ngay*).
-
-3. ☁️ **Hệ thống Giám sát & Báo cáo Tự hành 24/7 về Telegram:**
-   - Hoạt động liên tục, tự động gửi báo cáo tóm tắt tiến độ và các thay đổi trực tiếp về tài khoản Telegram của bạn.
-
-4. 🌐 **Lõi Điều phối Đa tác nhân LangGraph (`langchain-ai/langgraph`):**
-   - Mô hình `StateGraph` với các Node chuyên môn độc lập và sơ đồ mạng lưới trực quan.
-
----
-
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.3 (THE CLOUD WATCHDOG & TELEGRAM)
-
-1. ☁️ **Tự hành 24/7 trên Cloud qua GitHub Actions (`deploy/hourly_watchdog.yml`):**
-   - Kích hoạt định kỳ mỗi 1 giờ trên hạ tầng máy chủ Cloud độc lập của GitHub/Microsoft.
-   - **Hoạt động 24/7 ngay cả khi máy tính cá nhân của người dùng đã tắt nguồn hoàn toàn**.
-   - Tự động kéo code, thiết lập môi trường Python 3.11, chạy kiểm thử hồi quy Model Cloud, Vector DB và luồng LangGraph.
-
-2. 📱 **Kênh Báo cáo Tức thời về Điện thoại qua Telegram Bot (`src/security/telegram_notifier.py`):**
-   - Tự động gửi tin nhắn báo cáo định dạng chuẩn mực về điện thoại sau mỗi chu kỳ kiểm tra:
-     - ⏱️ Timestamp thực thi.
-     - ☁️ Trạng thái Cloud Gemini API.
-     - 💻 Trạng thái Local Ollama Model.
-     - 📚 Số lượng Chunks Vector DB đã được lập chỉ mục an toàn.
-     - 🌐 Trạng thái toàn bộ luồng LangGraph Stateful Workflow.
-     - 📦 Trạng thái nhánh Git trên repository.
-
-3. 🌐 **Lõi Điều phối Đa tác nhân LangGraph (`langchain-ai/langgraph`):**
-   - Sử dụng chuẩn mực `StateGraph`, `START`, `END` và rẽ nhánh có điều kiện (*Conditional Routing Edges*).
-   - Xuất sơ đồ mạng lưới tác nhân dạng Mermaid trực tiếp trên Web.
-
-4. ⚖️ **Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis):**
-   - Bóc tách cạm bẫy từ góc nhìn Bên ra luật (bên mạnh) vs Bên theo luật (bên yếu), đề xuất điều khoản dung hòa (Neutral Balanced Clause) và xuất file Word (.docx).
-
-5. 🏛️ **4 Tình huống Pháp lý Đời sống Xã hội Thực tiễn:**
-   - Bạo lực học đường (Điều 599 BLDS 2015), Tranh chấp đất đai (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn (Điều 39, 40 BLTTDS, Điều 175 BLHS), Ly hôn & Quyền nuôi con dưới 36 tháng (Điều 81 Luật HNGĐ 2014).
-
-6. 📝 **Biểu mẫu Thông minh Điền sẵn Căn cứ Pháp luật (Placeholder Fallback Engine):**
-   - AI điền sẵn 100% căn cứ pháp luật và nội dung tranh tụng. Thông tin cá nhân để trống sẽ tự động chèn dòng kẻ `........................` để in ra ký tên hoặc nộp ngay.
-
-7. 💻 **Trải nghiệm 2 Tab Tối giản Phong cách NotebookLM:**
-   - **Tab 1: 💬 AI Legal Chatbot & Command Center:** In-Chat Everything.
-   - **Tab 2: 🧰 Legal Tools Studio:** Trưng bày 9 công cụ chuyên sâu bao gồm LangGraph Visualizer.
-
-4. 🏛️ **4 Tình huống Pháp lý Đời sống Xã hội Thực tiễn:**
-   - Bạo lực học đường (Điều 599 BLDS 2015), Tranh chấp đất đai (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn (Điều 39, 40 BLTTDS, Điều 175 BLHS), Ly hôn & Quyền nuôi con dưới 36 tháng (Điều 81 Luật HNGĐ 2014).
-
-5. 📝 **Biểu mẫu Thông minh Điền sẵn Căn cứ Pháp luật (Placeholder Fallback Engine):**
-   - AI điền sẵn 100% căn cứ pháp luật và nội dung tranh tụng. Thông tin cá nhân để trống sẽ tự động chèn dòng kẻ `........................` để in ra ký tên hoặc nộp ngay.
-
-6. 💻 **Trải nghiệm 2 Tab Tối giản Phong cách NotebookLM:**
-   - **Tab 1: 💬 AI Legal Chatbot & Command Center:** In-Chat Everything.
-   - **Tab 2: 🧰 Legal Tools Studio:** Trưng bày 9 công cụ chuyên sâu bao gồm LangGraph Visualizer.
-
----
-
-## 🏛️ 3. Kiến trúc Hệ thống Version 2.1 (System Architecture)
+## 🏛️ KIẾN TRÚC HỆ THỐNG PHIÊN BẢN 3.0 (SYSTEM ARCHITECTURE)
 
 ```mermaid
 flowchart TD
-    User["👤 Người dùng (Cá nhân & Doanh nghiệp)"] --> UI["🖥️ Giao diện Streamlit 2-Tab NotebookLM"]
+    Citizen["👤 Người Dân / Cá Nhân Yếu Thế / Người Cao Tuổi"] --> EntryPoint{"Kênh Tiếp Nhận"}
     
-    subgraph Tabs ["📑 Cấu trúc 2 Tab Tối giản"]
-        Tab1["💬 Tab 1: AI Legal Chatbot & Command Center\n(In-Chat Generative Actions & Widgets)"]
-        Tab2["🧰 Tab 2: Legal Tools Studio\n(8 Công cụ Độc lập Chuyên sâu)"]
-    end
+    EntryPoint -->|"Web App"| WebUI["🖥️ Streamlit NotebookLM (Chế độ Trợ Năng 19px)"]
+    EntryPoint -->|"Điện thoại"| TelegramBot["📱 Telegram Daemon 24/7 (<1s Response)"]
+
+    WebUI --> PanicWipe["🚨 Zero-Trust Panic Wipe (1-Click RAM Cleanup)"]
     
-    UI --> Tab1
-    UI --> Tab2
-    
-    Tab1 --> Guardrails["🛡️ Lớp Bảo mật (PII Masking & Prompt Injection Defense)"]
-    
-    subgraph MultiAgentOrchestrator ["🤖 Multi-Agent Orchestrator (Version 2.1)"]
-        Guardrails --> RouterAgent["Legal Router Agent v2.1"]
-        RouterAgent -->|"Thẩm định hợp đồng"| ContractScanner["Bilateral Contract Scanner\n(Phân tích 2 chiều & Redlining)"]
-        RouterAgent -->|"4 Case Xã hội"| SocialCasesEngine["Social Cases Advisory Agent\n(Bạo lực học đường, Đất đai, Trốn nợ, Ly hôn)"]
-        RouterAgent -->|"Soạn thảo đơn từ"| DynamicDrafter["Dynamic Legal Drafter\n(Smart Pre-filled Form & Placeholders)"]
-        RouterAgent -->|"Tra cứu ngành nghề"| IndustryLookup["Hybrid Industry Lookup Agent\n(SQLite VSIC + Web Search)"]
-        RouterAgent -->|"Tư vấn doanh nghiệp"| EntityAdvisory["Entity Advisory Agent\n(Hierarchical RAG 53 Chunks)"]
+    subgraph HumanCentricLayer ["💖 Tầng Tiếp Nhận & Thăm Khám Dân Sinh (Citizen Intake)"]
+        WebUI --> EmotionalParser["💬 Emotional Rant De-Noiser\n(Xoa dịu uất ức & bóc tách sự việc)"]
+        TelegramBot --> EmotionalParser
+        EmotionalParser --> SocraticIntake["👨‍👩‍👧 Citizen Socratic Intake Agent\n(Hỏi 1-2 câu để chắc chắn sự việc • Quick-Reply Pills)"]
     end
 
-    subgraph IntelligenceLayer ["🧠 Tầng Dữ liệu & Tri thức Pháp luật Đa tầng"]
-        ContractScanner --> RuleEngine["⚙️ Deterministic Rule Engine\n(Trần 8%, Thử việc 60 ngày, Bất khả kháng)"]
-        AdvisoryAgent --> HierarchicalRAG[("📚 Hierarchical Vector Store\n(Dân sự, Lao động, Thương mại, Doanh nghiệp)")]
-        IndustryAgent --> SQLDB[("💾 CSDL VSIC 2018 (SQLite)")]
-        IndustryAgent --> WebSearch["🌐 Web Search Tool (DuckDuckGo)"]
-        RouterAgent --> MemoryBank[("🧠 Legal Memory Bank\n(Dynamic Few-Shot Learning)")]
+    subgraph LangGraphCore ["🤖 Lõi Điều Phối Đa Tác Nhân (Official LangGraph)"]
+        SocraticIntake --> Guardrails["🛡️ Guardrails (PII Masking & Anti-Jailbreak)"]
+        Guardrails --> RouterNode["Stateful Router Node"]
+        RouterNode -->|"Tranh chấp đất đai / Đòi nợ / Ly hôn"| SocialCases["🏛️ Social Cases Engine"]
+        RouterNode -->|"Kiểm tra hợp đồng cá nhân"| ContractAudit["🛡️ Bilateral Contract Scanner"]
+        RouterNode -->|"Cần nộp đơn cơ quan chức năng"| SmartDrafter["📝 Smart Legal Drafter (.docx)"]
     end
 
-    subgraph LLMExecutionEngine ["⚡ LLM Execution Switcher"]
-        MultiAgentOrchestrator --> Switcher{"Chế độ triển khai"}
-        Switcher -->|"Hợp đồng bảo mật nội bộ"| LocalLLM["💻 Local Model (Ollama / Qwen 2.5)"]
-        Switcher -->|"Phân tích chuyên sâu"| CloudLLM["☁️ Cloud Model (Gemini 3.5 Flash Lite)"]
+    subgraph KnowledgeLayer ["📚 Tầng Tri Thức Pháp Luật & Căn Cứ Thực Địa"]
+        SocialCases --> HierarchicalRAG[("Hierarchical RAG (Dân sự, Đất đai, HNGĐ)")]
+        ContractAudit --> RuleEngine["Deterministic Rule Engine"]
+        SmartDrafter --> TemplateBank[("Biểu mẫu chuẩn hóa & Dòng kẻ giữ chỗ")]
+        HierarchicalRAG --> GovPortal["🔗 Cổng TT Điện Tử Chính Phủ (vanban.chinhphu.vn)"]
+    end
+
+    subgraph AuditTesting ["🧪 Bộ Máy Đánh Giá Đa Chiều 360°"]
+        LangGraphCore --> DualPersona["Adversarial Critic (Senior QA & Khách hàng mới tinh)"]
+        DualPersona --> HolisticAudit["360° Holistic Audit Matrix (UI • UX • Backend • Testing: 9.43/10)"]
     end
 ```
 
 ---
 
-## 📂 4. Cấu trúc Thư mục Dự án
+## 🎓 MINH CHỨNG 7 TIÊU CHÍ ĐÁNH GIÁ CỦA GIẢNG VIÊN (UIT CRITERIA)
+
+| Tiêu Chí UIT | Trọng Số | Hiện Thực Hóa Xuất Sắc Trong Phiên Bản 3.0 | Module Code Tham Chiếu |
+| :--- | :---: | :--- | :--- |
+| **1. Ứng dụng LLM** | 1.0đ | Giải quyết trọn vẹn 4 bài toán dân sinh đời sống nhạy cảm: Đòi nợ khi con nợ bỏ trốn, tranh chấp đất đai ranh giới, thuận tình/đơn phương ly hôn và bạo lực học đường; kèm module soạn thảo hợp đồng thương mại cho doanh nghiệp ở Tab 2. | [`src/tools/social_cases_knowledge.py`](./src/tools/social_cases_knowledge.py)<br>[`src/dossier/dynamic_drafter.py`](./src/dossier/dynamic_drafter.py) |
+| **2. Kỹ năng Prompting** | 2.0đ | Kỹ thuật Few-Shot, Chain-of-Thought (CoT), Socratic Clarification, trích xuất Structured Output JSON, và bộ chuyển đổi ngôn ngữ bình dân (Plain-Language). | [`src/agents/citizen_intake_agent.py`](./src/agents/citizen_intake_agent.py)<br>[`src/tools/plain_language_engine.py`](./src/tools/plain_language_engine.py) |
+| **3. Cloud & Local LLM** | 2.5đ | Bộ chuyển mạch Model Switcher linh hoạt giữa Google Gemini Cloud API (`gemini-3.5-flash-lite`) và Local Ollama (`qwen2.5`), tự động fallback khi mất kết nối. | [`llm_provider/model_factory.py`](./llm_provider/model_factory.py)<br>[`llm_provider/cloud_provider.py`](./llm_provider/cloud_provider.py) |
+| **4. Vector DB & RAG** | 1.5đ | Hierarchical RAG đa bộ luật (Dân sự, Lao động, Thương mại, Đất đai, HNGĐ, Doanh nghiệp) với 53 chunks được lập chỉ mục, kết hợp tra cứu CSDL SQLite VSIC 2018. | [`src/rag/hierarchical_rag.py`](./src/rag/hierarchical_rag.py)<br>[`src/database/db_manager.py`](./src/database/db_manager.py) |
+| **5. AI Agents & LangGraph** | 1.5đ | Xây dựng đồ thị có trạng thái chuẩn `langchain-ai/langgraph` (`StateGraph`, `START`, `END`, Conditional Routing), phân rã 6 tác nhân độc lập kèm sơ đồ Mermaid trực quan. | [`src/agents/graph.py`](./src/agents/graph.py)<br>[`src/agents/citizen_intake_agent.py`](./src/agents/citizen_intake_agent.py) |
+| **6. Đánh giá Mô hình** | 1.0đ | Benchmark Ragas (Faithfulness, Relevance, Context Precision, Recall) kết hợp Bộ Máy Kiểm Định Đa Chiều 360° (UI, UX, Backend, Testing) đạt 9.43/10 điểm. | [`src/evaluation/ragas_evaluator.py`](./src/evaluation/ragas_evaluator.py)<br>[`src/agents/holistic_evaluator.py`](./src/agents/holistic_evaluator.py) |
+| **7. Bảo mật LLM** | 0.5đ | Mặt nạ hóa PII Masking, Prompt Injection Guard chống jailbreak, Output Moderation, và cơ chế Zero-Trust Panic Wipe dọn sạch session trong RAM. | [`src/security/pii_masker.py`](./src/security/pii_masker.py)<br>[`src/security/ephemeral_privacy.py`](./src/security/ephemeral_privacy.py) |
+
+---
+
+## 🚀 HƯỚNG DẪN KHỞI CHẠY NHANH
+
+### 1. Khởi động Giao diện Web Streamlit (Version 3.0):
+```powershell
+# Di chuyển vào thư mục dự án
+Set-Location D:\LLM\LLM_Nhut
+
+# Khởi chạy ứng dụng
+.\venv\Scripts\streamlit.exe run app\main.py
+```
+👉 Truy cập trình duyệt tại: `http://localhost:8501`.
+
+### 2. Khởi động Tiến trình Telegram Bot Daemon (24/7):
+```powershell
+Set-Location D:\LLM\LLM_Nhut
+.\venv\Scripts\python.exe scripts\telegram_bot_daemon.py
+```
+👉 Mở ứng dụng Telegram và nhắn tin trực tiếp với bot: `@SnowflakeVibingBot`.
+
+---
+
+## 📂 CẤU TRÚC THƯ MỤC DỰ ÁN
 
 ```
 LLM_Nhut/
 ├── app/
-│   └── main.py                  # Giao diện Streamlit 2 Tab chuẩn NotebookLM (AI Chatbot & Tools Studio)
+│   └── main.py                  # Giao diện Streamlit 2-Tab NotebookLM (Chatbot Dân Sinh & Tools Studio)
 ├── data/
-│   ├── chromadb/                # CSDL Vector (Index lưu trữ 53 chunks đa luật)
-│   ├── database/                # CSDL SQLite (schema.sql & sme_legal.db) + legal_memory_bank.json
-│   ├── evaluation/              # Dataset benchmark (benchmark_dataset.json)
-│   └── raw_documents/           # 8 bộ luật nguồn (Dân sự, Lao động, Thương mại, Doanh nghiệp, Đất đai, Hôn nhân gia đình...)
-├── llm_provider/                # Module Cloud & Local LLM Provider
-│   ├── cloud_provider.py        # Tích hợp Google Gemini API
-│   ├── local_provider.py        # Tích hợp Ollama Local API
-│   └── model_factory.py         # Factory Switcher & Auto-fallback
-├── reports/                     # Báo cáo và kết quả đo lường
-│   ├── evaluation_results.csv   # Kết quả benchmark Ragas chi tiết
-│   ├── model_comparison_report.md # Báo cáo so sánh Cloud vs Local
-│   ├── presentation_slides.md   # Slide thuyết trình báo cáo đồ án
-│   └── PROJECT_REPORT.md        # Báo cáo đồ án hoàn chỉnh 8 chương
-├── requirements/                # Quản lý yêu cầu & Phiên bản (Quy chuẩn RULES.md)
-│   ├── preview_version_1.md     # Đánh giá Version 1.0 & Phản biện kỹ thuật
-│   ├── requirements_version_1.md # 7 tiêu chí chấm điểm Version 1.0
-│   ├── preview_version_1.1.md   # Đánh giá Version 1.1 & Phản biện Continual Learning
-│   ├── requirements_version_1.1.md # Yêu cầu kỹ thuật Version 1.1
-│   ├── preview_version_2.0.md   # Đánh giá Version 2.0 (Luật sư 2 chiều & 4 case xã hội)
-│   ├── requirements_version_2.0.md # Yêu cầu kỹ thuật Version 2.0 (Major Release)
-│   └── requirements_version_2.1.md # Yêu cầu kỹ thuật Version 2.1 (The AI Lawyer & Studio)
+│   ├── chromadb/                # CSDL Vector (53 chunks đa luật)
+│   ├── database/                # SQLite (schema.sql & sme_legal.db) + legal_memory_bank.json
+│   ├── evaluation/              # Dataset benchmark Ragas
+│   └── raw_documents/           # 8 bộ luật nguồn chính thống
+├── deploy/
+│   └── hourly_watchdog.yml      # Cấu hình GitHub Actions tự hành 24/7 trên Cloud
+├── llm_provider/                # Quản lý Cloud Gemini & Local Ollama
+├── requirements/                # Quản lý lộ trình phiên bản từ v1.0 đến v3.0 theo chuẩn RULES.md
+├── scripts/
+│   ├── hourly_agent_watchdog.py # Giám sát sức khỏe hệ thống định kỳ
+│   └── telegram_bot_daemon.py   # Daemon Telegram tương tác thời gian thực (<1s)
 ├── src/
-│   ├── agents/                  # Multi-Agent Workflow (Router, Advisory, Lookup, Reviewer, MemoryStore, Graph)
-│   ├── database/                # Quản lý truy vấn SQLite (db_manager.py)
-│   ├── dossier/                 # Tạo lập hồ sơ doanh nghiệp & Soạn thảo văn bản thông minh (dynamic_drafter.py)
-│   ├── evaluation/              # Framework đánh giá Ragas (ragas_evaluator.py)
-│   ├── rag/                     # Hierarchical RAG (embeddings, ingestion, retriever, vector_store)
-│   ├── security/                # Guardrails (pii_masker, prompt_injection, moderator)
-│   └── tools/                   # Web search tool, Contract scanner, Social cases knowledge
-└── tutorial/                    # Hướng dẫn kiểm thử thực tế (run_guide_version_2.1.md)
-├── .env.example                 # Template cấu hình biến môi trường
-├── .gitignore                   # Loại trừ cache, venv, .env
-├── LICENSE                      # Giấy phép MIT
-├── README.md                    # Tài liệu tổng quan dự án
+│   ├── agents/                  # Multi-Agent LangGraph, CitizenIntakeAgent, HolisticAuditEngine
+│   ├── database/                # Quản lý CSDL SQLite
+│   ├── dossier/                 # Tạo lập hồ sơ & biểu mẫu pháp lý thông minh (.docx)
+│   ├── evaluation/              # Ragas benchmark & Model comparison
+│   ├── rag/                     # Hierarchical RAG engine
+│   ├── security/                # PII Masker, Prompt Injection, Ephemeral Panic Wipe, Telegram Notifier
+│   └── tools/                   # Plain-Language Switcher, Emotional Rant De-Noiser, Contract Scanner
+├── tutorial/                    # Hướng dẫn kiểm thử chi tiết từng phiên bản
+├── .env.example                 # Mẫu khai báo biến môi trường (an toàn bảo mật)
+├── LICENSE                      # Giấy phép mã nguồn mở MIT
+├── README.md                    # Tài liệu tổng quan & Tầm nhìn chiến lược dự án
 └── RULES.md                     # Quy định hoạt động bắt buộc cho AI
 ```
 
 ---
 
-## 🚀 5. Hướng dẫn Khởi chạy Nhanh
-
-Xem hướng dẫn chi tiết từng bước & bộ test cases tại:  
-👉 **[`tutorial/run_guide_version_2.0.md`](./tutorial/run_guide_version_2.0.md)** *(Hướng dẫn & Test Cases thực chiến cho Version 2.0)*  
-👉 **[`tutorial/run_guide.md`](./tutorial/run_guide.md)** *(Hướng dẫn nền tảng các phiên bản trước)*
-
-```bash
-# 1. Kích hoạt môi trường ảo
-.\venv\Scripts\Activate.ps1
-
-# 2. Khởi tạo CSDL SQLite (nếu chưa chạy)
-python src/database/init_db.py
-
-# 3. Khởi chạy giao diện web Streamlit (Version 2.0)
-streamlit run app/main.py
-```
-Mở trình duyệt tại: `http://localhost:8501`.
+*© 2026 LegalTech Platform. Phát triển vì sự công bằng và an toàn pháp lý cho mọi người dân Việt Nam.*
