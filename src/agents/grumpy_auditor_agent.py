@@ -124,7 +124,7 @@ class GrumpyQualityAuditorAgent:
         # Thử gọi LLM để tăng thêm tính tự nhiên và sắc bén nếu có API
         factory = self._get_llm()
         ai_personalized_note = ""
-        if factory and factory.is_available():
+        if factory:
             try:
                 sys_prompt = (
                     "Bạn là 'Lão Giám Khảo Khó Tính' - Trưởng ban Kiểm định Chất lượng Tư pháp Dân sự. "
