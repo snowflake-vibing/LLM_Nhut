@@ -1,11 +1,11 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, Điều khiển Tự hành từ xa qua Telegram & Antigravity Engine • Phiên bản 2.6 (The Telegram Remote Control & Antigravity Platform)
+### Hệ thống Luật sư AI Trực tuyến, Mạng lưới Đa Tác nhân, Dual-Persona Tester & Telegram Bot Daemon 24/7 • Phiên bản 2.7 (The Specialized Multi-Agent Swarm Platform)
 
-[![Version: 2.6](https://img.shields.io/badge/Version-2.6_(Telegram_Remote_%26_Antigravity)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.7](https://img.shields.io/badge/Version-2.7_(Multi--Agent_Swarm_%26_Dual--Persona)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![Antigravity](https://img.shields.io/badge/Orchestrator-Google_Antigravity-blue.svg)](https://deepmind.google/)
 [![LangGraph](https://img.shields.io/badge/Multi--Agent-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
-[![Telegram](https://img.shields.io/badge/Remote_Control-%2Fstart_%26_%2Fend-0088cc.svg)](https://telegram.org/)
+[![Telegram Daemon](https://img.shields.io/badge/Telegram_Bot-Real--time_Daemon_<1s-0088cc.svg)](https://telegram.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit_(2_Tabs_NotebookLM)-FF4B4B.svg)](https://streamlit.io/)
@@ -60,6 +60,23 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.6 (Requirements Version 2.6) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Telegram Remote Control & Antigravity Platform: Điều khiển chu kỳ tự hành 100% từ xa trên điện thoại qua lệnh `/start` và `/end`, phối hợp Antigravity Scheduler & Watchdog: [`requirements/requirements_version_2.6.md`](./requirements/requirements_version_2.6.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.6.md`](./tutorial/run_guide_version_2.6.md).
+* **Đánh giá Phiên bản 2.6 (Preview Version 2.6):**
+  * Đánh giá v2.6, phân tích nguyên nhân Telegram chậm phản hồi và yêu cầu hệ thống Đa Tác Nhân chuyên trách + Phản biện 2 vai (QA Tester & First-Time Customer): [`requirements/preview_version_2.6.md`](./requirements/preview_version_2.6.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.7 (Requirements Version 2.7) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Specialized Multi-Agent Swarm Platform: Phân rã 4 Tác nhân chuyên trách, Adversarial Dual-Persona Tester Agent (Senior QA & Khách hàng mới tinh), và Real-time Telegram Daemon Agent phản hồi tức thì < 1s: [`requirements/requirements_version_2.7.md`](./requirements/requirements_version_2.7.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.7.md`](./tutorial/run_guide_version_2.7.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.7 (MULTI-AGENT SWARM & DUAL-PERSONA)
+
+1. 👥 **Hệ sinh thái Mạng lưới Đa Tác nhân Độc lập (Specialized Multi-Agent Swarm):**
+   - 🛠️ **Builder & Orchestrator Agent (`src/agents/graph.py`):** Lõi LangGraph Stateful Graph.
+   - 🕵️‍♂️ **Adversarial Dual-Persona Tester Agent (`src/agents/adversarial_tester_agent.py`):**
+     - *Persona 1 - Senior QA Tester:* Thẩm định lỗ hổng pháp lý, kiểm tra bảo mật Prompt Injection, stress-test lỗi.
+     - *Persona 2 - First-Time Customer:* Đóng vai người dân mới tinh đánh giá độ dễ dùng, ngôn ngữ bình dân, cảm giác an tâm.
+   - 📱 **Real-time Telegram Interactive Daemon Agent (`scripts/telegram_bot_daemon.py`):** Tiến trình nền 24/7 phản hồi tức thì (< 1 giây) cho cả lệnh điều khiển và câu hỏi pháp luật trực tiếp.
+   - ⏱️ **Cloud & Local Watchdog Agent (`scripts/hourly_agent_watchdog.py`):** Giám sát CI/CD định kỳ.
 
 ---
 
