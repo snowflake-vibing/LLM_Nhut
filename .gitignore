@@ -22,3 +22,4 @@ data/database/*.db-journal
 
 # Logs
 *.log
+reports/watchdog_log.txt

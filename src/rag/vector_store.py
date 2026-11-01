@@ -42,6 +42,10 @@ class LegalVectorStore:
         with open(self.index_file, "w", encoding="utf-8") as f:
             json.dump(self.documents, f, ensure_ascii=False, indent=2)
 
+    def count(self) -> int:
+        """Trả về tổng số tài liệu/chunks đã được lập chỉ mục."""
+        return len(self.documents)
+
     def add_documents(self, chunks: List[Dict[str, Any]]):
         """
         Nhúng vector và thêm tài liệu vào Vector Store.
