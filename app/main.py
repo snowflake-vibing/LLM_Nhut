@@ -1,5 +1,5 @@
 """
-LegalTech Platform - Streamlit Application - Version 2.1 (The AI Lawyer & Studio Platform)
+LegalTech Platform - Streamlit Application - Version 2.7 (The Specialized Multi-Agent Swarm Platform)
 Giao diện 2 Tab chuẩn phong cách NotebookLM:
 - TAB 1: 💬 AI Legal Chatbot & Command Center (In-Chat Everything & Interactive Widgets)
 - TAB 2: 🧰 Legal Tools Studio (Trưng bày & Thực thi Độc lập Toàn bộ Công cụ)
@@ -39,7 +39,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v2.1",
+    page_title="LegalTech Platform - v2.7",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -72,7 +72,7 @@ if "messages" not in st.session_state:
         {
             "role": "assistant",
             "content": (
-                "👋 **Xin chào! Tôi là Luật sư Trực tuyến AI (LegalTech Platform v2.1 - The AI Lawyer & Studio).**\n\n"
+                "👋 **Xin chào! Tôi là Luật sư Trực tuyến AI (LegalTech Platform v2.7 - The Specialized Multi-Agent Swarm Platform).**\n\n"
                 "Tôi đã sẵn sàng hỗ trợ bạn toàn diện về mặt pháp lý với các năng lực nổi bật:\n"
                 "- 🛡️ **Thẩm định Hợp đồng Đối kháng 2 Chiều:** Bóc tách kẽ hở bên ra luật có thể lợi dụng và bên theo luật có thể bị ép ra sao.\n"
                 "- 🏛️ **Tư vấn 4 Tình huống Pháp lý Đời sống Phức tạp:** Bạo lực học đường (Điều 599 BLDS), Tranh chấp ranh giới Sổ đỏ (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn, Ly hôn tranh chấp quyền nuôi con & tài sản.\n"
@@ -89,7 +89,7 @@ if "messages" not in st.session_state:
 # ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
 with st.sidebar:
     st.title("⚖️ LegalTech Platform")
-    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v2.1**")
+    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v2.7**")
     st.markdown("---")
 
     # 📌 ĐIỀU HƯỚNG CHÍNH: CHỈ ĐÚNG 2 TAB THEO PHONG CÁCH NOTEBOOKLM
