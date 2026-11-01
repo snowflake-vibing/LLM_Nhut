@@ -24,6 +24,7 @@ from src.security import PIIMasker, PromptInjectionGuard
 from src.tools.web_search_tool import hybrid_industry_search
 from src.tools.contract_scanner import ContractVulnerabilityScanner
 from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
+from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALOG
 from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
@@ -694,21 +695,85 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
             key="btn_dl_studio_drafter"
         )
 
-    # 3. SOCIAL CASES LEGAL CENTER
+    # 3. SOCIAL CASES LEGAL CENTER & SMART EVIDENCE VAULT
     elif studio_tool.startswith("3."):
-        st.subheader("🏛️ Social Cases Legal Center (4 Tình huống Đời sống Xã hội Phức tạp)")
-        st.caption("Cẩm nang Giải pháp & Cơ sở Tri thức Trực quan cho 4 Vấn đề Dân sự - Xã hội Nhạy cảm")
+        st.subheader("🏛️ Social Cases Legal Center & Smart Evidence Vault")
+        st.caption("Bản đồ Tiến trình Tố tụng Trực quan (Roadmap Stepper) • Thước đo Giá trị Bằng chứng (Evidentiary Weight Meter)")
 
-        for case_k, case_v in SOCIAL_CASES_DATA.items():
-            with st.expander(f"📌 {case_v['title']}", expanded=True):
-                st.markdown(f"**📖 Căn cứ pháp luật trọng tâm:**")
-                for law in case_v["key_laws"]:
-                    st.markdown(f"- `{law}`")
-                st.markdown(f"**💡 Góc nhìn phân tích của Luật sư:**")
-                st.info(case_v["core_doctrine"])
-                st.markdown(f"**🚀 Lộ trình 3 bước xử lý thực tế:**")
-                for s in case_v["practical_steps"]:
-                    st.markdown(f"- {s}")
+        case_options = {
+            "DEBT_COLLECTION": "1. 💰 Đòi nợ khi con nợ bỏ trốn / cắt liên lạc",
+            "LAND_BOUNDARY": "2. 🏡 Tranh chấp ranh giới Sổ đỏ & Lấn chiếm đất đai",
+            "SCHOOL_BULLYING": "3. 🏫 Bạo lực học đường & Trách nhiệm của nhà trường",
+            "DIVORCE_CUSTODY": "4. 💔 Ly hôn, chia tài sản & quyền nuôi con dưới 36 tháng"
+        }
+
+        selected_case_id = st.selectbox(
+            "Chọn Tình huống Pháp lý Đời sống cần tra cứu tiến trình:",
+            options=list(case_options.keys()),
+            format_func=lambda k: case_options[k]
+        )
+
+        st.markdown("---")
+
+        # Tab con bên trong: 1. Bản đồ Tiến trình | 2. Két Bằng chứng & Đánh giá | 3. Cơ sở Tri thức
+        sc_tab1, sc_tab2, sc_tab3 = st.tabs([
+            "🗺️ Bản đồ Tiến trình Tố tụng (Visual Stepper)",
+            "🗄️ Két Bằng Chứng (Smart Evidence Vault)",
+            "📚 Căn cứ Pháp luật & Án lệ Trọng tâm"
+        ])
+
+        roadmap_data = EvidenceVaultEngine.get_roadmap(selected_case_id)
+
+        with sc_tab1:
+            st.markdown(f"### 📍 {roadmap_data['title']}")
+            st.caption(f"Căn cứ pháp lý: `{roadmap_data['legal_basis']}`")
+
+            for s in roadmap_data["steps"]:
+                with st.container():
+                    c_badge, c_body = st.columns([1, 4])
+                    with c_badge:
+                        st.markdown(f"#### Bước {s['step_number']}")
+                        st.badge(s['status_badge'])
+                        st.caption(f"⏱️ {s['timeframe']}")
+                    with c_body:
+                        st.markdown(f"**{s['step_name']}**")
+                        st.markdown(f"- **Cơ quan thẩm quyền:** `{s['authority']}`")
+                        st.markdown(f"- **Nhiệm vụ cụ thể:** {s['action']}")
+                    st.divider()
+
+        with sc_tab2:
+            st.markdown("### 🗄️ Thẩm định Độ mạnh Hồ sơ Chứng cứ (Evidentiary Weight Meter)")
+            st.caption("Đối chiếu quy định Chương VII Bộ luật Tố tụng Dân sự 2015 về Nguồn chứng cứ và Giá trị chứng minh")
+
+            st.markdown("**Tick chọn các tài liệu / chứng cứ bạn hiện đang sở hữu:**")
+            selected_ev_keys = []
+            for ev_k, ev_v in EVIDENCE_CATALOG.items():
+                if st.checkbox(f"{ev_v['name']} ({ev_v['category']})", key=f"ev_chk_{selected_case_id}_{ev_k}"):
+                    selected_ev_keys.append(ev_k)
+
+            ev_result = EvidenceVaultEngine.evaluate_evidence_portfolio(selected_ev_keys)
+
+            col_ev1, col_ev2 = st.columns([1, 2])
+            with col_ev1:
+                st.metric("Điểm Trọng lượng Chứng cứ", f"{ev_result['score']} / 100")
+                st.progress(ev_result["score"] / 100)
+                st.markdown(f"**Đánh giá:** `{ev_result['rating']}`")
+            with col_ev2:
+                st.markdown(f"**Kết luận Pháp lý:**\n{ev_result['summary']}")
+
+            if ev_result["actionable_tips"]:
+                st.markdown("#### 💡 Khuyến nghị Củng cố Chứng cứ khẩn cấp:")
+                for tip in ev_result["actionable_tips"]:
+                    st.warning(tip)
+
+        with sc_tab3:
+            case_detail = SOCIAL_CASES_DATA.get(selected_case_id, {})
+            st.markdown(f"### 📖 {case_detail.get('title', 'Thông tin chi tiết')}")
+            st.markdown("**Điều luật áp dụng trực tiếp:**")
+            for kl in case_detail.get("key_laws", []):
+                st.markdown(f"- `{kl}`")
+            st.markdown("**Góc nhìn Luật sư chuyên sâu:**")
+            st.info(case_detail.get("core_doctrine", ""))
 
     # 4. ENTERPRISE DOSSIER GENERATOR
     elif studio_tool.startswith("4."):

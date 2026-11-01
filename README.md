@@ -1,7 +1,7 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, LangGraph Multi-Agent & Giám sát Tự hành 24/7 • Phiên bản 2.3 (The Cloud Autonomous & 24/7 Telegram Alert Platform)
+### Hệ thống Luật sư AI Trực tuyến, Tiến trình Tố tụng & Két Bằng chứng Thông minh • Phiên bản 2.4 (The Interactive Legal Roadmap & Smart Evidence Vault Platform)
 
-[![Version: 2.3](https://img.shields.io/badge/Version-2.3_(Cloud_Watchdog_%26_Telegram)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.4](https://img.shields.io/badge/Version-2.4_(Roadmap_%26_Evidence_Vault)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![LangGraph](https://img.shields.io/badge/Orchestrator-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
 [![Telegram](https://img.shields.io/badge/Alerts-Telegram_Bot_API-0088cc.svg)](https://telegram.org/)
@@ -44,6 +44,30 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.3 (Requirements Version 2.3) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Cloud Autonomous Watchdog & 24/7 Telegram Alert Platform: GitHub Actions Cron mỗi 1 giờ, Telegram Bot Notifier tự động gửi báo cáo sức khỏe hệ thống về điện thoại: [`requirements/requirements_version_2.3.md`](./requirements/requirements_version_2.3.md).
   * Hướng dẫn thiết lập Telegram Bot & GitHub Secrets: [`tutorial/run_guide_version_2.3.md`](./tutorial/run_guide_version_2.3.md).
+* **Đánh giá Phiên bản 2.3 (Preview Version 2.3):**
+  * Đánh giá v2.3, bước chuyển mình sang chế độ phát triển tự hành liên tục (Continuous Autonomous Development Loop) và báo cáo thay đổi qua Telegram: [`requirements/preview_version_2.3.md`](./requirements/preview_version_2.3.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.4 (Requirements Version 2.4) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Interactive Legal Roadmap & Smart Evidence Vault: Bản đồ tiến trình tố tụng trực quan (Visual Stepper), Két bằng chứng & Thước đo giá trị chứng cứ (Evidentiary Weight Meter 0-100%): [`requirements/requirements_version_2.4.md`](./requirements/requirements_version_2.4.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.4.md`](./tutorial/run_guide_version_2.4.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.4 (ROADMAP & EVIDENCE VAULT)
+
+1. 🗺️ **Bản đồ Tiến trình Tố tụng Trực quan (Interactive Legal Stepper):**
+   - Trực quan hóa quy trình xử lý từng bước cho 4 bài toán đời sống nhạy cảm: Đòi nợ khi con nợ bỏ trốn, Tranh chấp ranh giới Sổ đỏ, Bạo lực học đường, Ly hôn & Quyền nuôi con.
+   - Hiển thị rõ: **Cơ quan có thẩm quyền tiếp nhận**, **Mốc thời hạn luật định (Deadline Alert)**, và **Hành động cụ thể** của từng bước.
+
+2. 🗄️ **Két Bằng Chứng Thông Minh & Thước đo Trọng lượng Chứng cứ (Evidentiary Weight Meter):**
+   - Đánh giá hồ sơ chứng cứ theo Chương VII Bộ luật Tố tụng Dân sự 2015.
+   - Thang đo trực quan từ 0 đến 100 điểm: Phân loại chứng cứ (Văn bản công chứng, Vi bằng thừa phát lại, Sao kê ngân hàng, Giấy viết tay, Tin nhắn Zalo...).
+   - Đưa ra cảnh báo pháp lý khẩn cấp (ví dụ: *chỉ có ảnh chụp màn hình Zalo thì nguy cơ bị bác đơn, cần đi lập Vi bằng ngay*).
+
+3. ☁️ **Hệ thống Giám sát & Báo cáo Tự hành 24/7 về Telegram:**
+   - Hoạt động liên tục, tự động gửi báo cáo tóm tắt tiến độ và các thay đổi trực tiếp về tài khoản Telegram của bạn.
+
+4. 🌐 **Lõi Điều phối Đa tác nhân LangGraph (`langchain-ai/langgraph`):**
+   - Mô hình `StateGraph` với các Node chuyên môn độc lập và sơ đồ mạng lưới trực quan.
 
 ---
 
