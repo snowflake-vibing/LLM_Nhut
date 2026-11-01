@@ -30,6 +30,7 @@ from src.tools.emotional_rant_parser import EmotionalRantParser
 from src.tools.citizen_legal_tools import CitizenLegalTools
 from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.tools.instant_petition_generator import InstantPetitionGenerator
+from src.tools.litigation_simulator import LegalLitigationSimulator
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
@@ -45,7 +46,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v4.1",
+    page_title="LegalTech Platform - v5.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -254,12 +255,13 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 )
 
     # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn Khởi Kiện • Kiểm Tra Thời Hiệu • Thẩm Quyền)", expanded=False):
-        tool_tab1, tool_tab2, tool_tab3, tool_tab4 = st.tabs([
+    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn Khởi Kiện • Kiểm Tra Thời Hiệu • Thẩm Quyền • Giả Lập Tố Tụng)", expanded=False):
+        tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5 = st.tabs([
             "💰 1. Tính Án Phí Tòa Án (NQ 326)",
             "📝 2. Xuất Đơn Khởi Kiện (.docx)",
             "⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện",
-            "🏛️ 4. Xác Định Thẩm Quyền Tiếp Nhận Đơn"
+            "🏛️ 4. Xác Định Thẩm Quyền Tiếp Nhận Đơn",
+            "⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều"
         ])
         with tool_tab1:
             st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
@@ -337,6 +339,37 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 st.warning(f"⚖️ **Bước 2 (Giải quyết tiếp theo):** {auth_res['stage_2']}")
                 st.caption(auth_res['stage_2_desc'])
                 st.info(f"💡 **Mẹo dân sinh:** {auth_res['hotline_tip']}")
+
+        with tool_tab5:
+            st.markdown("##### ⚖️ Giả Lập Bàn Cờ Đối Kháng & Dự Báo Tỷ Lệ Thắng Kiện")
+            st.caption("AI giả lập phiên Tòa: Bên khởi kiện tấn công gì, đối phương sẽ phản đòn gì và kế sách hóa giải:")
+            sim_c1, sim_c2 = st.columns(2)
+            with sim_c1:
+                sim_case = st.selectbox("Dạng tranh chấp cần giả lập:", ["Đòi nợ vay tiền (Dân sự)", "Tranh chấp đất đai ranh giới (Đất đai)", "Ly hôn tranh chấp tài sản & con (HNGĐ)"], key="sim_case_in")
+            with sim_c2:
+                sim_ev = st.selectbox("Chứng cứ hiện có của bạn:", ["Có hợp đồng / giấy viết tay chính chủ", "Có Vi bằng / Công chứng nhà nước", "Chỉ có tin nhắn Zalo / chuyển khoản", "Chỉ có lời nói miệng"], key="sim_ev_in")
+
+            if st.button("🚀 Bắt Đầu Giả Lập Phiên Tòa Đối Kháng", key="btn_run_sim"):
+                simulator = LegalLitigationSimulator()
+                sim_res = simulator.simulate_case(sim_case, "Tranh chấp dân sự thực tế", sim_ev)
+                
+                # Hiển thị tỷ lệ thắng
+                st.metric("🎯 Dự Báo Tỷ Lệ Thắng Kiện Tại Tòa", f"{sim_res['win_rate']}%", delta="Khả thi tố tụng")
+                st.markdown(f"> 🏛️ **Dự báo phán quyết của Tòa:** *{sim_res['court_forecast']}*")
+
+                col_att, col_def = st.columns(2)
+                with col_att:
+                    st.success("⚔️ **MŨI TẤN CÔNG CỦA NGUYÊN ĐƠN (BẠN):**")
+                    for atk in sim_res["plaintiff_attack"]:
+                        st.markdown(f"• {atk}")
+                with col_def:
+                    st.error("🛡️ **CHIÊU BÀI PHẢN ĐÒN CỦA ĐỐI PHƯƠNG (CON NỢ/BỊ ĐƠN):**")
+                    for d_cnt in sim_res["defendant_counter"]:
+                        st.markdown(f"• {d_cnt}")
+
+                st.info("💡 **KẾ SÁCH HÓA GIẢI & CHIẾN THUẬT NẮM CHẮC CHIẾN THẮNG:**")
+                for tac in sim_res["winning_tactics"]:
+                    st.markdown(f"👉 **{tac}**")
 
     # GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ DÂN SINH
     st.markdown("💡 **Lối tắt tình huống đời sống thường gặp:**")

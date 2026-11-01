@@ -1,8 +1,10 @@
 # ⚖️ LegalTech Platform
-### Trạm Làm Việc Pháp Lý Đa Năng In-Chat, Giám Định Chứng Cứ Đa Phương Tiện & Sinh Đơn Khởi Kiện Chuẩn Mẫu 23-DS • Phiên bản 4.1 (The Breakthrough Judicial Workstation)
+### Giả Lập Bàn Cờ Tố Tụng 2 Chiều, Dự Báo Tỷ Lệ Thắng Kiện & Trạm Làm Việc Pháp Lý Dân Sinh Đột Phá • Phiên bản 5.0 (The 2-Way Adversarial Courtroom Simulator & Strategic Litigation Forecaster)
 
-[![Version: 4.1](https://img.shields.io/badge/Version-4.1_(Breakthrough_Judicial_Workstation)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
-[![Petition Generator](https://img.shields.io/badge/Judicial_Docs-Form_23--DS_TANDTC-success.svg)](#)
+[![Version: 5.0](https://img.shields.io/badge/Version-5.0_(Courtroom_Simulator_%26_Forecaster)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Courtroom Simulator](https://img.shields.io/badge/Litigation-2--Way_Adversarial_Simulator-gold.svg)](#)
+[![Win-Rate Forecaster](https://img.shields.io/badge/Forecaster-Win--Rate_Meter_0--100%25-success.svg)](#)
+[![Petition Generator](https://img.shields.io/badge/Judicial_Docs-Form_23--DS_TANDTC-blue.svg)](#)
 [![Multimodal](https://img.shields.io/badge/Evidence-Multimodal_OCR_%26_Risk_Score-indigo.svg)](#)
 [![In-Chat Tools](https://img.shields.io/badge/Tools-Court_Fee_%26_Statute_Checker-blue.svg)](#)
 [![Dual Suggestions](https://img.shields.io/badge/UX-Dual_Action_Suggestions-orange.svg)](#)
@@ -139,6 +141,32 @@ flowchart TD
 * **Yêu cầu Kỹ thuật Phiên bản 4.1 (Requirements Version 4.1) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Evolutionary Breakthrough & Instant Judicial Petition Platform: Sinh Đơn khởi kiện chuẩn Mẫu số 23-DS của TANDTC (`InstantPetitionGenerator`), tích hợp xuất đơn Word 1-chạm vào In-Chat Toolbar, và Evolutionary Breakthrough Pipeline: [`requirements/requirements_version_4.1.md`](./requirements/requirements_version_4.1.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_4.1.md`](./tutorial/run_guide_version_4.1.md).
+* **Đánh giá Phiên bản 4.1 (Preview Version 4.1):**
+  * Đánh giá v4.1, phân tích yêu cầu Bàn cờ tố tụng đối kháng 2 chiều, Dự báo tỷ lệ thắng kiện (0-100%) và Bóc tách chiêu phản đòn của Bị đơn: [`requirements/preview_version_4.1.md`](./requirements/preview_version_4.1.md).
+* **Yêu cầu Kỹ thuật Phiên bản 5.0 (Requirements Version 5.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The 2-Way Adversarial Courtroom Simulator & Strategic Litigation Forecaster: Mô phỏng kịch bản phiên tòa đối kháng 2 chiều (`LegalLitigationSimulator`), dự báo tỷ lệ thắng kiện (0-100%), bóc tách 3 chiêu phản đòn bị đơn thường dùng và 3 kế sách hóa giải tuyệt đối: [`requirements/requirements_version_5.0.md`](./requirements/requirements_version_5.0.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_5.0.md`](./tutorial/run_guide_version_5.0.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 5.0 (2-WAY ADVERSARIAL COURTROOM SIMULATOR & WIN-RATE FORECASTER)
+
+1. ⚖️ **Mô Phỏng Bàn Cờ Tố Tụng 2 Chiều Đối Kháng (`src/tools/litigation_simulator.py`):**
+   - Biến AI từ một tư vấn viên bị động thành **Bộ Tham Mưu Tranh Tụng Thực Chiến**:
+     - **3 Đòn Tấn Công Của Bạn (Nguyên Đơn):** Xác lập quan hệ pháp luật, dẫn chiếu chứng cứ cốt lõi (hợp đồng vay, sao kê ngân hàng, giấy nhận nợ), và yêu cầu bồi thường thiệt hại/tiền lãi chậm trả theo Điều 468 BLDS.
+     - **3 Chiêu Bài Phản Đòn Của Đối Phương (Bị Đơn):** Lường trước các mưu mẹo đối phương sẽ áp dụng trước Tòa: viện cớ giấy nợ ép buộc/không có chữ ký gốc, nại lý do tiền góp vốn làm ăn bị lỗ chứ không vay, cố tình câu giờ để quá thời hiệu 3 năm.
+     - **3 Kế Sách Hóa Giải Tuyệt Đối:** Hướng dẫn nộp đơn yêu cầu Tòa án Trưng cầu giám định chữ ký, xuất trình vi bằng Zalo/sao kê ngân hàng đối chiếu, và lập tức nộp Đơn áp dụng **Biện pháp khẩn cấp tạm thời** (phong tỏa tài khoản, kê biên tài sản) để tránh đối phương tẩu tán tài sản.
+
+2. 📊 **Thước Đo Dự Báo Tỷ Lệ Thắng Kiện (Win-Rate Forecaster 0-100%):**
+   - Đánh giá trọng số pháp lý theo từng loại tài liệu chứng cứ:
+     - Hợp đồng công chứng / Vi bằng Thừa phát lại: **90% - Rủi ro Thấp**.
+     - Giấy viết tay có chữ ký nhận tiền: **75% - Rủi ro Thấp-Trung bình**.
+     - Tin nhắn Zalo / SMS / Ghi âm: **60% - Cần bổ sung vi bằng hoặc sao kê liên kết**.
+     - Thỏa thuận bằng lời nói / Không có văn bản: **45% - Rủi ro Cao, cảnh báo nguy cơ bị bác đơn**.
+   - Dự báo trước xu hướng phán quyết của Hội đồng Xét xử dựa trên án lệ và quy định tố tụng hiện hành.
+
+3. 🖥️ **Tích Hợp Tab 5 Hoàn Hảo Vào Hộp Công Cụ Dân Sinh Streamlit:**
+   - Trực quan hóa 2 cột màu sắc: Xanh (Mũi tấn công) vs Đỏ (Chiêu phản đòn), thanh tiến trình xanh mượt hiển thị trực quan tỷ lệ thắng kiện, giúp người dân nắm thế chủ động 100% trước khi bước chân vào Tòa án.
 
 ---
 

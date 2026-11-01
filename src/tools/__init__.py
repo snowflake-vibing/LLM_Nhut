@@ -9,6 +9,7 @@ from .social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DAT
 from .citizen_legal_tools import CitizenLegalTools
 from .multimodal_evidence_parser import MultimodalEvidenceParser
 from .instant_petition_generator import InstantPetitionGenerator
+from .litigation_simulator import LegalLitigationSimulator
 
 __all__ = [
     "search_web_legal",
@@ -19,4 +20,5 @@ __all__ = [
     "CitizenLegalTools",
     "MultimodalEvidenceParser",
     "InstantPetitionGenerator",
+    "LegalLitigationSimulator",
 ]
