@@ -24,3 +24,4 @@ data/database/*.db-journal
 *.log
 reports/watchdog_log.txt
 data/autonomous_state.json
+data/last_telegram_message.json
