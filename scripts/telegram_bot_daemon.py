@@ -25,6 +25,7 @@ load_dotenv()
 from src.security.telegram_remote_controller import TelegramRemoteController
 from src.agents.graph import LegalMultiAgentWorkflow
 from src.agents.holistic_evaluator import HolisticAuditEngine
+from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.tools.emotional_rant_parser import EmotionalRantParser
 
 
@@ -132,45 +133,29 @@ def run_telegram_daemon():
                     controller.set_state(controller.get_state().get("status", "running"), "audit_query", update_id)
                     continue
 
-                # 2. XỬ LÝ CÂU HỎI TƯ VẤN PHÁP LÝ TRỰC TIẾP TRÊN TELEGRAM
-                rant_parser = EmotionalRantParser()
-                is_rant = rant_parser.is_emotional_rant(text)
+                # 2. XỬ LÝ TƯ VẤN PHÁP LÝ CHO CÁ NHÂN & NGƯỜI DÂN (THĂM KHÁM TỪNG BƯỚC, KHÔNG DỒN DẬP)
+                controller.send_reply("👂 *Luật sư Dân gian đang lắng nghe và suy ngẫm tình huống của bạn...*")
 
-                if is_rant:
-                    controller.send_reply("💬 *Phát hiện tâm sự uất ức / hoang mang. Đang bóc tách sự việc và trấn an tâm lý...*")
-                else:
-                    controller.send_reply("⚖️ *Luật sư AI đang tra cứu và xử lý qua mạng lưới LangGraph...*")
+                intake_agent = CitizenIntakeAgent()
+                intake_res = intake_agent.respond(text)
+                intake_text = intake_res.get("response", "")
+                quick_opts = intake_res.get("quick_options", [])
 
-                if workflow is None:
-                    workflow = LegalMultiAgentWorkflow()
-
-                res = workflow.process(text)
-                resp_content = res.get("response", "Đã xử lý xong.")
-                agent_name = res.get("active_agent", "LegalMultiAgent")
-
-                if is_rant:
-                    empathy_res = rant_parser.parse_and_soothe(text)
-                    reply_msg = (
-                        f"🤝 *[LỜI TRẤN AN & BÓC TÁCH TÌNH HUỐNG]*\n\n"
-                        f"{empathy_res['comfort_message']}\n\n"
-                        f"📋 *3 Điểm Cốt Lõi:*\n" +
-                        "\n".join([f"• {f}" for f in empathy_res['facts']]) + "\n\n"
-                        f"❓ *Câu hỏi giúp tháo gỡ (Trả lời Có / Không):*\n" +
-                        "\n".join([f"{i+1}. {q}" for i, q in enumerate(empathy_res['yes_no_questions'])]) + "\n\n"
-                        f"━━━━━━━━━━━━━━━━━━━━\n"
-                        f"⚖️ *Căn Cứ Pháp Lý & Phương Án:*\n"
-                        f"{resp_content}\n\n"
-                        f"🤖 *Xử lý bởi:* `{agent_name}` + `EmotionalRantDeNoiser`"
+                opts_str = ""
+                if quick_opts:
+                    opts_str = "\n\n👉 *Bạn có thể trả lời nhanh bằng cách gõ:*\n" + "\n".join(
+                        [f"• `{opt}`" for opt in quick_opts]
                     )
-                else:
-                    reply_msg = (
-                        f"{resp_content}\n\n"
-                        f"━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🤖 *Xử lý bởi:* `{agent_name}`\n"
-                        f"💡 *Gõ /audit để xem bảng đánh giá 360° hoặc /end để tạm dừng.*"
-                    )
+
+                reply_msg = (
+                    f"{intake_text}"
+                    f"{opts_str}\n\n"
+                    f"━━━━━━━━━━━━━━━━━━━━\n"
+                    f"👨‍👩‍👧 *Phạm vi:* `Cá nhân & Đời sống Dân sinh`\n"
+                    f"💡 *Gõ câu trả lời của bạn, hoặc /audit để xem bảng đánh giá hệ thống.*"
+                )
                 controller.send_reply(reply_msg)
-                controller.set_state(controller.get_state().get("status", "running"), "chat", update_id)
+                controller.set_state(controller.get_state().get("status", "running"), "citizen_chat", update_id)
 
         except Exception as e:
             print(f"[Telegram Daemon Exception] {e}")

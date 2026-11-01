@@ -5,6 +5,7 @@ from .reviewer_agent import DocumentReviewerAgent
 from .graph import LegalMultiAgentWorkflow
 from .adversarial_tester_agent import AdversarialTesterAgent
 from .holistic_evaluator import HolisticAuditEngine
+from .citizen_intake_agent import CitizenIntakeAgent
 
 __all__ = [
     "RouterAgent",
@@ -14,4 +15,5 @@ __all__ = [
     "LegalMultiAgentWorkflow",
     "AdversarialTesterAgent",
     "HolisticAuditEngine",
+    "CitizenIntakeAgent",
 ]

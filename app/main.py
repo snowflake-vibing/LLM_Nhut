@@ -28,6 +28,7 @@ from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALO
 from src.tools.plain_language_engine import PlainLanguageEngine
 from src.tools.emotional_rant_parser import EmotionalRantParser
 from src.agents.holistic_evaluator import HolisticAuditEngine
+from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
@@ -77,19 +78,23 @@ if "messages" not in st.session_state:
         {
             "role": "assistant",
             "content": (
-                "👋 **Xin chào! Tôi là Luật sư Trực tuyến AI (LegalTech Platform v2.7 - The Specialized Multi-Agent Swarm Platform).**\n\n"
-                "Tôi đã sẵn sàng hỗ trợ bạn toàn diện về mặt pháp lý với các năng lực nổi bật:\n"
-                "- 🛡️ **Thẩm định Hợp đồng Đối kháng 2 Chiều:** Bóc tách kẽ hở bên ra luật có thể lợi dụng và bên theo luật có thể bị ép ra sao.\n"
-                "- 🏛️ **Tư vấn 4 Tình huống Pháp lý Đời sống Phức tạp:** Bạo lực học đường (Điều 599 BLDS), Tranh chấp ranh giới Sổ đỏ (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn, Ly hôn tranh chấp quyền nuôi con & tài sản.\n"
-                "- 📝 **Soạn thảo Văn bản Pháp lý Thông minh:** Điền sẵn 100% căn cứ pháp luật, thông tin cá nhân bạn có thể điền hoặc để trống để tự động chèn dòng kẻ giữ chỗ (................) và tải file Word (.docx) dùng ngay.\n\n"
-                "👉 *Bạn có thể bấm vào các gợi ý nhanh bên dưới hoặc nhập câu hỏi, dán văn bản cần xử lý vào ô chat!*"
+                "👋 **Xin chào bạn! Tôi là Luật sư Dân gian Đồng hành (LegalTech Platform v3.0 - Citizen-Centric Diagnostic Platform).**\n\n"
+                "🎯 **Định hướng trọng tâm:** Tôi chuyên sâu hỗ trợ **Cá nhân & Người dân** trong các vấn đề đời sống thiết thực:\n"
+                "- 🏡 **Đất đai & Ranh giới:** Hàng xóm lấn đất, tranh chấp lối đi chung, sổ đỏ cha ông.\n"
+                "- 💸 **Đòi nợ & Vay mượn:** Nợ khó đòi, con nợ cắt liên lạc, giấy viết tay hoặc chỉ có tin nhắn Zalo.\n"
+                "- 💔 **Hôn nhân & Gia đình:** Thuận tình hoặc đơn phương ly hôn, tranh chấp nuôi con và chia tài sản.\n"
+                "- 🛡️ **Lừa đảo & Bạo lực:** Lừa đảo qua mạng, chuyển khoản, bạo lực học đường, xâm phạm danh dự.\n\n"
+                "💡 **Nguyên tắc hỗ trợ:** Tôi sẽ **hỏi thăm từng bước để nắm chắc sự việc, tuyệt đối không trả lời dồn dập** khiến bạn bị ngợp. Bạn có thể gõ câu chuyện hoặc bấm các lựa chọn nhanh!"
             ),
-            "agent": "LegalOnlineLawyer",
+            "agent": "CitizenIntakeAgent",
             "citations": [],
             "action_type": None,
             "action_data": None
         }
     ]
+
+if "citizen_intake" not in st.session_state:
+    st.session_state.citizen_intake = CitizenIntakeAgent(st.session_state.factory)
 
 # ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
 with st.sidebar:
@@ -203,8 +208,15 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
     st.header("💬 AI Legal Chatbot & Command Center")
     st.caption("Vị Luật sư AI Trực tuyến Toàn năng • Tích hợp & Triệu hồi Trực tiếp Mọi Công cụ trong Bong bóng Chat")
 
-    # GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ
-    st.markdown("💡 **Lối tắt thao tác nhanh (Quick Legal Actions):**")
+    # BANNER ĐỊNH HƯỚNG TRỌNG TÂM CÁ NHÂN & NGƯỜI DÂN
+    st.info(
+        "🎯 **Định Hướng Trọng Tâm:** 👨‍👩‍👧 **Dành Cho Cá Nhân & Người Dân** — "
+        "*Luật sư đồng hành lắng nghe, hỏi từng bước để nắm chắc sự việc, tuyệt đối không trả lời dồn dập. "
+        "(Phạm vi Doanh nghiệp & Công ty đang được đặt ở chế độ chờ)*"
+    )
+
+    # GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ DÂN SINH
+    st.markdown("💡 **Lối tắt tình huống đời sống thường gặp:**")
     r1_col1, r1_col2, r1_col3 = st.columns(3)
     r2_col1, r2_col2, r2_col3 = st.columns(3)
 
@@ -470,6 +482,13 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                             st.session_state[plain_cached_key] = st.session_state.plain_engine.translate_to_plain_language(msg["content"])
                     st.markdown(st.session_state[plain_cached_key])
 
+            if msg.get("quick_options") and idx == len(st.session_state.messages) - 1:
+                st.markdown("👉 **Lựa chọn nhanh để trả lời:**")
+                q_cols = st.columns(min(len(msg["quick_options"]), 4))
+                for q_i, opt in enumerate(msg["quick_options"]):
+                    with q_cols[q_i % len(q_cols)]:
+                        st.caption(f"`{opt}`")
+
             if msg.get("agent") and msg["role"] == "assistant":
                 st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
 
@@ -484,63 +503,64 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
             st.markdown(user_input)
 
         with st.chat_message("assistant"):
-            if st.session_state.rant_parser.is_emotional_or_disjointed(user_input):
-                with st.spinner("Luật sư AI đang lắng nghe và chia sẻ câu chuyện của bạn..."):
-                    empathy_res = st.session_state.rant_parser.parse_and_clarify(user_input)
-                st.markdown(empathy_res["response"])
-                st.markdown("---")
+            with st.spinner("Luật sư Dân gian đang lắng nghe và suy ngẫm tình huống của bạn..."):
+                intake_res = st.session_state.citizen_intake.respond(user_input, st.session_state.messages)
 
-            with st.spinner("Luật sư AI đang tra cứu đa luật, rà soát điều khoản và chuẩn bị văn bản..."):
-                result = st.session_state.workflow.process(user_input)
-
-            resp_text = result["response"]
+            resp_text = intake_res["response"]
+            quick_opts = intake_res.get("quick_options", [])
             st.markdown(resp_text)
 
-            citations = result.get("citations", [])
-            action_type = result.get("action_type")
-            action_data = result.get("action_data")
+            # Lựa chọn trả lời nhanh
+            if quick_opts:
+                st.markdown("👉 **Gợi ý lựa chọn nhanh (Bạn có thể bấm trực tiếp):**")
+                btn_cols = st.columns(len(quick_opts))
+                for q_i, opt in enumerate(quick_opts):
+                    with btn_cols[q_i]:
+                        st.caption(f"`{opt}`")
 
-            # Hiển thị Interactive Widget ngay lập tức
-            if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
-                with st.expander("🛡️ Thẻ Phân tích Đối kháng 2 Chiều & Báo cáo Thẩm định (.docx)", expanded=True):
+            # Tra cứu sâu điều luật & giải pháp tố tụng (Ẩn trong Expander để không làm rối mắt người dân)
+            with st.expander("⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm (Tra Cứu Sâu)", expanded=False):
+                with st.spinner("Đang liên kết mạng lưới LangGraph để rà soát quy phạm..."):
+                    result = st.session_state.workflow.process(user_input)
+
+                full_legal_text = result["response"]
+                st.markdown(full_legal_text)
+
+                citations = result.get("citations", [])
+                action_type = result.get("action_type")
+                action_data = result.get("action_data")
+
+                if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
                     sc1, sc2 = st.columns([1, 2])
                     with sc1:
                         st.metric("Điểm An toàn Pháp lý", f"{action_data.get('score', 0)} / 100")
-                        st.markdown(f"**Xếp hạng:** {action_data.get('status_label', '')}")
                     with sc2:
                         docx_audit = st.session_state.contract_scanner.export_audit_report_docx(action_data)
                         st.download_button(
                             label="📥 Tải Báo cáo Thẩm định Đối kháng (.docx)",
                             data=docx_audit,
-                            file_name="Bao_Cao_Tham_Dinh_Doi_Khang_Moi.docx",
+                            file_name="Bao_Cao_Tham_Dinh_Doi_Khang.docx",
                             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                         )
 
-            elif action_type == "DYNAMIC_DRAFT_ACTION":
-                st.info("👉 Bạn có thể tương tác với biểu mẫu điền sẵn và tải file Word (.docx) ở khung phía trên hoặc chuyển sang Tab Studio!")
-
-            if citations:
-                with st.expander(f"📖 Căn cứ pháp luật trích dẫn ({len(citations)} tài liệu kiểm chứng)"):
+                if citations:
+                    st.markdown("#### 📖 Văn bản quy phạm pháp luật kiểm chứng:")
                     for c in citations:
                         if isinstance(c, dict):
                             st.markdown(f"**📌 {c.get('law_title', 'Văn bản quy phạm')} - {c.get('article', '')}**")
                             verify_url = c.get("verify_url", "https://vanban.chinhphu.vn/")
                             st.markdown(f"[🔗 Kiểm chứng tại Cổng Thông tin điện tử Chính phủ]({verify_url})")
 
-            with st.expander("☕ Xem Diễn giải sang Ngôn ngữ Bình dân (Dễ hiểu cho người dân)", expanded=False):
-                with st.spinner("Đang chuyển hóa sang văn phong bình dân gần gũi..."):
-                    plain_new = st.session_state.plain_engine.translate_to_plain_language(resp_text)
-                st.markdown(plain_new)
-
-            st.caption(f"🤖 Xử lý bởi Agent: **{result['active_agent']}**")
+            st.caption("🤖 Xử lý bởi: **CitizenIntakeAgent (Luật sư Thăm khám Dân gian)** • Định hướng: Cá nhân & Người dân")
 
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": resp_text,
-                "agent": result["active_agent"],
-                "citations": citations,
-                "action_type": action_type,
-                "action_data": action_data
+                "agent": "CitizenIntakeAgent",
+                "quick_options": quick_opts,
+                "citations": citations if 'citations' in locals() else [],
+                "action_type": action_type if 'action_type' in locals() else None,
+                "action_data": action_data if 'action_data' in locals() else None
             })
 
 

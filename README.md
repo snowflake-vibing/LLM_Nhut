@@ -1,8 +1,9 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, Mạng lưới Đa Tác nhân, Bộ Máy Đánh Giá Đa Chiều 360° (UI • UX • Backend • Testing) & Telegram Bot Daemon 24/7 • Phiên bản 2.9 (The Holistic 360° Audit Platform)
+### Hệ thống Luật sư AI Dân gian, Thăm khám Từng bước Đa lượt, Mạng lưới Đa Tác nhân & Telegram Bot Daemon 24/7 • Phiên bản 3.0 (The Citizen-Centric Conversational Intake Platform)
 
-[![Version: 2.9](https://img.shields.io/badge/Version-2.9_(Holistic_360°_Audit)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
-[![Audit Score](https://img.shields.io/badge/360°_Audit_Score-9.43%2F10.0-gold.svg)](#)
+[![Version: 3.0](https://img.shields.io/badge/Version-3.0_(Major_Release_Citizen--Centric)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Scope](https://img.shields.io/badge/Focus-Individuals_%26_Citizens-blueviolet.svg)](#)
+[![Interaction](https://img.shields.io/badge/UX-Socratic_Step--by--Step_Intake-orange.svg)](#)
 [![Accessibility](https://img.shields.io/badge/Accessibility-Senior_%26_Low--Tech_Mode-informational.svg)](#)
 [![Privacy](https://img.shields.io/badge/Security-Zero--Trust_Panic_Wipe-red.svg)](#)
 [![Antigravity](https://img.shields.io/badge/Orchestrator-Google_Antigravity-blue.svg)](https://deepmind.google/)
@@ -77,6 +78,27 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.9 (Requirements Version 2.9) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Holistic 360° Multi-Dimensional Audit & Benchmark Suite: Ma trận kiểm định 4 trụ cột x 5 tiêu chí vi mô (= 20 chỉ số), tích hợp công cụ thứ 10 trong Studio và lệnh `/audit` trực tiếp trên Telegram: [`requirements/requirements_version_2.9.md`](./requirements/requirements_version_2.9.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.9.md`](./tutorial/run_guide_version_2.9.md).
+* **Đánh giá Phiên bản 2.9 (Preview Version 2.9):**
+  * Phân tích chỉ đạo chiến lược của User: Chuyển toàn bộ trọng tâm sang Cá nhân & Người dân; loại bỏ thói quen trả lời dồn dập, chuyển sang đối thoại thăm khám từng bước để nắm chắc sự việc: [`requirements/preview_version_2.9.md`](./requirements/preview_version_2.9.md).
+* **Yêu cầu Kỹ thuật Phiên bản 3.0 (Requirements Version 3.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Citizen-Centric Conversational Intake & Multi-Turn Socratic Diagnostic Platform: Tác nhân thăm khám dân sinh (`CitizenIntakeAgent`), đối thoại 1-2 câu hỏi xác minh, gợi ý lựa chọn nhanh (Quick-reply pills), ẩn điều luật chuyên sâu trong Expander: [`requirements/requirements_version_3.0.md`](./requirements/requirements_version_3.0.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_3.0.md`](./tutorial/run_guide_version_3.0.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 3.0 (CITIZEN-CENTRIC CONVERSATIONAL INTAKE)
+
+1. 👨‍👩‍👧 **Tác Nhân Thăm Khám Pháp Lý Dân Sinh (`src/agents/citizen_intake_agent.py`):**
+   - **Tuyệt đối không trả lời dồn dập:** Không xả hàng tràng điều luật khô khan vào tin nhắn chính khiến người dân bị ngợp hoặc hoang mang.
+   - **Hỏi để nắm chắc sự việc:** Chỉ hỏi tối đa 1 đến 2 câu hỏi trọng tâm nhất nhằm xác minh: Thời gian, chứng cứ (Giấy viết tay / Sao kê Zalo), và mục tiêu mong muốn (Hòa giải, đòi tiền, tố giác, kiện tụng).
+   - **Gợi ý lựa chọn nhanh (Quick-Reply Pills):** Tự động sinh ra 3-4 nút bấm A/B/C hoặc Có/Không để người già và người ít dùng công nghệ chỉ cần bấm chọn.
+
+2. 💬 **Đại Tu Giao Diện Tab 1 Chatbot Streamlit:**
+   - Banner thông báo định hướng: `🎯 Định Hướng Trọng Tâm: 👨‍👩‍👧 Dành Cho Cá Nhân & Người Dân`.
+   - Toàn bộ điều luật phức tạp, thẩm định hợp đồng đối kháng và biểu mẫu được thu gọn trong Expander `⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm` để người dân dễ thở.
+
+3. 📱 **Trò Chuyện Thăm Khám Từng Bước trên Telegram Bot Daemon:**
+   - Bot lắng nghe câu chuyện của người dân và phản hồi ngắn gọn, hỏi 1 câu xác minh then chốt kèm danh sách lựa chọn nhanh.
 
 ---
 
