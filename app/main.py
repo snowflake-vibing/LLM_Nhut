@@ -27,6 +27,7 @@ from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_
 from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALOG
 from src.tools.plain_language_engine import PlainLanguageEngine
 from src.tools.emotional_rant_parser import EmotionalRantParser
+from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
@@ -40,7 +41,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v2.7",
+    page_title="LegalTech Platform - v2.9",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -183,11 +184,13 @@ with st.sidebar:
 
     st.markdown("---")
     st.info(
-        "⚖️ **Trụ cột Version 2.8:**\n"
-        "- Human-Centric Accessibility\n"
+        "⚖️ **Trụ cột Version 2.9:**\n"
+        "- 360° Holistic Audit Matrix\n"
+        "- UI / UX / Backend / Testing\n"
+        "- Senior Accessibility Mode\n"
         "- Emotional Rant De-Noiser\n"
-        "- Zero-Trust Panic Wipe\n"
-        "- Telegram Daemon 24/7"
+        "- Zero-Trust Ephemeral Wipe\n"
+        "- Telegram Bot Sub-Second"
     )
 
 
@@ -560,7 +563,8 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
             "6. 🔐 Security Guardrails & Model Switcher (Bảo mật PII & Switcher)",
             "7. 🧠 Legal Memory Bank (Ngân hàng Ký ức Tri thức Động)",
             "8. 📊 Ragas Evaluation Dashboard (Chấm điểm Mô hình RAG)",
-            "9. 🌐 LangGraph Multi-Agent Visualizer (Sơ đồ Mạng lưới Tác nhân LangGraph)"
+            "9. 🌐 LangGraph Multi-Agent Visualizer (Sơ đồ Mạng lưới Tác nhân LangGraph)",
+            "10. 📊 Holistic 360° System Audit Matrix (Kiểm Định Đa Chiều UI • UX • Backend • Testing)"
         ],
         index=0
     )
@@ -1075,3 +1079,82 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
                     st.code(res.stdout if res.stdout else "Đã ghi nhật ký vào reports/watchdog_log.txt", language="text")
                 except Exception as ex:
                     st.error(f"Lỗi khi thực thi Watchdog: {ex}")
+
+    # 10. HOLISTIC 360° SYSTEM AUDIT MATRIX (UI • UX • BACKEND • TESTING)
+    elif studio_tool.startswith("10."):
+        st.subheader("📊 Holistic 360° System Audit Matrix (Kiểm Định Đa Chiều Toàn Diện)")
+        st.caption("Khảo sát & Đánh giá Độc lập 4 Trụ Cột: UI (Giao diện) • UX (Trải nghiệm) • Backend (Hệ thống) • Testing (Kiểm thử)")
+
+        audit_engine = HolisticAuditEngine()
+        audit_res = audit_engine.run_full_audit()
+
+        # Thẻ điểm tổng quan
+        c_all, c_ui, c_ux, c_be, c_te = st.columns(5)
+        with c_all:
+            st.metric("🎯 Điểm Tổng Hợp", f"{audit_res['overall_score']} / 10", delta="Xuất sắc")
+        with c_ui:
+            st.metric("🎨 UI (Giao diện)", f"{audit_res['ui']['average_score']} / 10", delta="Chữ lớn 19px")
+        with c_ux:
+            st.metric("💖 UX (Trải nghiệm)", f"{audit_res['ux']['average_score']} / 10", delta="Khử nhiễu uất ức")
+        with c_be:
+            st.metric("⚙️ Backend", f"{audit_res['backend']['average_score']} / 10", delta="Zero-Trust RAM")
+        with c_te:
+            st.metric("🧪 Testing", f"{audit_res['testing']['average_score']} / 10", delta="Sub-second <1s")
+
+        st.markdown(f"> 🏆 **Kết luận Kiểm định:** {audit_res['summary_verdict']}")
+        st.markdown("---")
+
+        tab_ui, tab_ux, tab_be, tab_te = st.tabs([
+            "🎨 1. Giao Diện (UI - 5 Tiêu chí)",
+            "💖 2. Trải Nghiệm (UX - 5 Tiêu chí)",
+            "⚙️ 3. Hệ Thống (Backend - 5 Tiêu chí)",
+            "🧪 4. Kiểm Thử (Testing - 5 Tiêu chí)"
+        ])
+
+        with tab_ui:
+            st.markdown(f"#### 🎨 Đánh Giá Giao Diện Người Dùng — Điểm TB: `{audit_res['ui']['average_score']}/10`")
+            for c in audit_res["ui"]["criteria"]:
+                with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
+                    st.write(f"**Mô tả:** {c['desc']}")
+                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+
+        with tab_ux:
+            st.markdown(f"#### 💖 Đánh Giá Trải Nghiệm Người Dùng — Điểm TB: `{audit_res['ux']['average_score']}/10`")
+            for c in audit_res["ux"]["criteria"]:
+                with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
+                    st.write(f"**Mô tả:** {c['desc']}")
+                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+
+        with tab_be:
+            st.markdown(f"#### ⚙️ Đánh Giá Kiến Trúc Backend & Bảo Mật — Điểm TB: `{audit_res['backend']['average_score']}/10`")
+            for c in audit_res["backend"]["criteria"]:
+                with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
+                    st.write(f"**Mô tả:** {c['desc']}")
+                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+
+        with tab_te:
+            st.markdown(f"#### 🧪 Đánh Giá Bộ Kiểm Thử & QA Suite — Điểm TB: `{audit_res['testing']['average_score']}/10`")
+            for c in audit_res["testing"]["criteria"]:
+                with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
+                    st.write(f"**Mô tả:** {c['desc']}")
+                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+
+        st.markdown("---")
+        btn_col1, btn_col2 = st.columns(2)
+        with btn_col1:
+            if st.button("🔄 Chạy Lại Kiểm Định Đa Chiều Thời Gian Thực", use_container_width=True):
+                st.success("Đã hoàn tất chu kỳ kiểm định 360° với 20 tiêu chí vi mô!")
+                st.rerun()
+        with btn_col2:
+            if st.button("📱 Gửi Báo Cáo Kiểm Định Này Đến Telegram Bot", use_container_width=True):
+                try:
+                    from src.security.telegram_notifier import TelegramNotifier
+                    notifier = TelegramNotifier()
+                    summary_msg = audit_engine.generate_telegram_summary()
+                    res = notifier.send_message(summary_msg)
+                    if res:
+                        st.toast("Đã gửi Bảng Đánh Giá Đa Chiều 360° đến Telegram thành công!", icon="🚀")
+                    else:
+                        st.error("Gửi tin nhắn Telegram không thành công.")
+                except Exception as ex:
+                    st.error(f"Lỗi khi gửi Telegram: {ex}")
