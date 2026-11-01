@@ -31,6 +31,8 @@ from src.tools.citizen_legal_tools import CitizenLegalTools
 from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.tools.instant_petition_generator import InstantPetitionGenerator
 from src.tools.litigation_simulator import LegalLitigationSimulator
+from src.tools.voice_narrator import VoiceNarrator
+from src.tools.litigation_dossier_generator import LitigationDossierGenerator
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
@@ -46,7 +48,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v5.0",
+    page_title="LegalTech Platform - v5.1",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -255,13 +257,14 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 )
 
     # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn Khởi Kiện • Kiểm Tra Thời Hiệu • Thẩm Quyền • Giả Lập Tố Tụng)", expanded=False):
-        tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5 = st.tabs([
+    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn • Thời Hiệu • Thẩm Quyền • Giả Lập Tố Tụng • Trọn Bộ Hồ Sơ)", expanded=False):
+        tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6 = st.tabs([
             "💰 1. Tính Án Phí Tòa Án (NQ 326)",
             "📝 2. Xuất Đơn Khởi Kiện (.docx)",
             "⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện",
             "🏛️ 4. Xác Định Thẩm Quyền Tiếp Nhận Đơn",
-            "⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều"
+            "⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều",
+            "📦 6. Xuất Trọn Bộ Hồ Sơ Tố Tụng (.docx)"
         ])
         with tool_tab1:
             st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
@@ -370,6 +373,49 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 st.info("💡 **KẾ SÁCH HÓA GIẢI & CHIẾN THUẬT NẮM CHẮC CHIẾN THẮNG:**")
                 for tac in sim_res["winning_tactics"]:
                     st.markdown(f"👉 **{tac}**")
+
+        with tool_tab6:
+            st.markdown("##### 📦 Xuất Trọn Gói Bộ Hồ Sơ Tố Tụng Hoàn Chỉnh (Nộp TAND)")
+            st.caption("Tự động kết hợp: Đơn khởi kiện chuẩn Mẫu 23-DS + Bảng tạm tính án phí NQ 326 + Báo cáo bàn cờ đối kháng 2 chiều + Danh mục chứng cứ vào 1 file Word .docx duy nhất:")
+            
+            dos_c1, dos_c2 = st.columns(2)
+            with dos_c1:
+                dos_court = st.text_input("Tòa án thụ lý:", value="Tòa án nhân dân Quận 1, TP. Hồ Chí Minh", key="dos_court_in")
+                dos_plaintiff = st.text_input("Họ tên Người khởi kiện (Bạn):", value="Nguyễn Văn A", key="dos_plaintiff_in")
+                dos_year = st.text_input("Năm sinh:", value="1985", key="dos_year_in")
+                dos_id = st.text_input("Số CCCD:", value="079085012345", key="dos_id_in")
+                dos_addr = st.text_input("Nơi cư trú người khởi kiện:", value="Số 123 Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM", key="dos_addr_in")
+                dos_phone = st.text_input("Điện thoại liên hệ:", value="0901234567", key="dos_phone_in")
+            with dos_c2:
+                dos_defendant = st.text_input("Họ tên Người bị kiện (Con nợ/Bên vi phạm):", value="Trần Thị B", key="dos_def_in")
+                dos_def_addr = st.text_input("Nơi cư trú người bị kiện:", value="Số 456 Hai Bà Trưng, Phường Tân Định, Quận 1, TP.HCM", key="dos_def_addr_in")
+                dos_amount = st.number_input("Tổng số tiền yêu cầu đòi (VNĐ):", min_value=1000000, value=150000000, step=10000000, key="dos_amt_in")
+                dos_summary = st.text_area("Tóm tắt nội dung khởi kiện:", value="Bên bị kiện đã vay của tôi số tiền 150.000.000 VNĐ vào ngày 15/03/2023, có viết giấy nhận nợ hẹn trả vào ngày 15/09/2023. Tuy nhiên đến nay bên bị kiện cố tình trốn tránh, chặn liên lạc và không thực hiện nghĩa vụ trả nợ.", key="dos_sum_in")
+
+            if st.button("🚀 Đóng Gói Toàn Diện & Xuất File Word Bộ Hồ Sơ (.docx)", key="btn_gen_full_dossier"):
+                with st.spinner("Đang biên soạn trọn bộ hồ sơ tư pháp chuyên nghiệp..."):
+                    calc_fee = CitizenLegalTools.calculate_court_fee(dos_amount)
+                    dossier_stream = LitigationDossierGenerator.generate_dossier_docx(
+                        court_name=dos_court,
+                        plaintiff_name=dos_plaintiff,
+                        plaintiff_year=dos_year,
+                        plaintiff_id=dos_id,
+                        plaintiff_address=dos_addr,
+                        plaintiff_phone=dos_phone,
+                        defendant_name=dos_defendant,
+                        defendant_address=dos_def_addr,
+                        claim_amount=float(dos_amount),
+                        dispute_summary=dos_summary,
+                        court_fee_details=calc_fee
+                    )
+                    st.success("✅ Đã hoàn tất biên soạn Bộ Hồ Sơ Tố Tụng Hoàn Chỉnh chuẩn quy cách tư pháp!")
+                    st.download_button(
+                        label="📥 Tải Ngay Bộ Hồ Sơ Tố Tụng Trọn Gói (.docx)",
+                        data=dossier_stream,
+                        file_name=f"Bo_Ho_So_To_Tung_Tron_Goi_TAND_{dos_plaintiff.replace(' ', '_')}.docx",
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        key="dl_full_litigation_dossier"
+                    )
 
     # GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ DÂN SINH
     st.markdown("💡 **Lối tắt tình huống đời sống thường gặp:**")
@@ -635,6 +681,20 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                         with st.spinner("Đang chuyển hóa sang văn phong bình dân gần gũi..."):
                             st.session_state[plain_cached_key] = st.session_state.plain_engine.translate_to_plain_language(msg["content"])
                     st.markdown(st.session_state[plain_cached_key])
+
+                # 🔊 TÍCH HỢP TRỢ LÝ PHÁT THANH ÂM THANH (TTS) CHO NGƯỜI CAO TUỔI / MẮT KÉM
+                tts_cache_key = f"tts_audio_{idx}"
+                tts_btn_key = f"tts_btn_{idx}"
+                if tts_cache_key not in st.session_state:
+                    if st.button("🔊 Đọc to lời giải thích bằng giọng nói (Tiếng Việt)", key=tts_btn_key, help="Dành cho người già, người khiếm thị hoặc người mắt kém"):
+                        with st.spinner("Đang chuyển đổi câu trả lời thành giọng đọc truyền cảm..."):
+                            audio_fp = VoiceNarrator.generate_speech(msg["content"])
+                            if audio_fp:
+                                st.session_state[tts_cache_key] = audio_fp.read()
+                                st.rerun()
+                else:
+                    st.markdown("🔊 **Giọng đọc phát thanh viên Luật sư:**")
+                    st.audio(st.session_state[tts_cache_key], format="audio/mp3")
 
             if msg.get("quick_options") and idx == len(st.session_state.messages) - 1:
                 st.markdown("👉 **Lựa chọn nhanh (Bấm 1 chạm để trả lời ngay):**")

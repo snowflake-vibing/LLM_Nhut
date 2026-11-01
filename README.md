@@ -1,9 +1,11 @@
 # ⚖️ LegalTech Platform
-### Giả Lập Bàn Cờ Tố Tụng 2 Chiều, Dự Báo Tỷ Lệ Thắng Kiện & Trạm Làm Việc Pháp Lý Dân Sinh Đột Phá • Phiên bản 5.0 (The 2-Way Adversarial Courtroom Simulator & Strategic Litigation Forecaster)
+### Trợ Lý Phát Thanh Âm Thanh Song Phương (TTS), Đóng Gói Bộ Hồ Sơ Tố Tụng Trọn Gói & Bàn Cờ Đối Kháng 2 Chiều • Phiên bản 5.1 (The Voice-First Two-Way Assistant & Judicial Litigation Dossier Platform)
 
-[![Version: 5.0](https://img.shields.io/badge/Version-5.0_(Courtroom_Simulator_%26_Forecaster)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 5.1](https://img.shields.io/badge/Version-5.1_(Voice_TTS_%26_Litigation_Dossier)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Voice Assistant](https://img.shields.io/badge/Voice_TTS-Vietnamese_Speech_Audio-red.svg)](#)
+[![Litigation Dossier](https://img.shields.io/badge/Judicial_Dossier-Complete_4--Part_Package_(.docx)-success.svg)](#)
 [![Courtroom Simulator](https://img.shields.io/badge/Litigation-2--Way_Adversarial_Simulator-gold.svg)](#)
-[![Win-Rate Forecaster](https://img.shields.io/badge/Forecaster-Win--Rate_Meter_0--100%25-success.svg)](#)
+[![Win-Rate Forecaster](https://img.shields.io/badge/Forecaster-Win--Rate_Meter_0--100%25-blue.svg)](#)
 [![Petition Generator](https://img.shields.io/badge/Judicial_Docs-Form_23--DS_TANDTC-blue.svg)](#)
 [![Multimodal](https://img.shields.io/badge/Evidence-Multimodal_OCR_%26_Risk_Score-indigo.svg)](#)
 [![In-Chat Tools](https://img.shields.io/badge/Tools-Court_Fee_%26_Statute_Checker-blue.svg)](#)
@@ -146,6 +148,29 @@ flowchart TD
 * **Yêu cầu Kỹ thuật Phiên bản 5.0 (Requirements Version 5.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
   * The 2-Way Adversarial Courtroom Simulator & Strategic Litigation Forecaster: Mô phỏng kịch bản phiên tòa đối kháng 2 chiều (`LegalLitigationSimulator`), dự báo tỷ lệ thắng kiện (0-100%), bóc tách 3 chiêu phản đòn bị đơn thường dùng và 3 kế sách hóa giải tuyệt đối: [`requirements/requirements_version_5.0.md`](./requirements/requirements_version_5.0.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_5.0.md`](./tutorial/run_guide_version_5.0.md).
+* **Đánh giá Phiên bản 5.0 (Preview Version 5.0):**
+  * Đánh giá v5.0, phân tích rào cản người cao tuổi/người khiếm thị ngại đọc chữ và nhu cầu đóng gói Trọn bộ Hồ sơ Tố tụng 4 phần nộp Tòa: [`requirements/preview_version_5.0.md`](./requirements/preview_version_5.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 5.1 (Requirements Version 5.1) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Voice-First Two-Way Assistant & Complete Judicial Litigation Dossier Platform: Trợ lý âm thanh phát thanh viên tiếng Việt (`VoiceNarrator`), Động cơ đóng gói bộ hồ sơ tố tụng trọn gói (`LitigationDossierGenerator`) gom Đơn Mẫu 23-DS + Án phí NQ 326 + Bàn cờ tố tụng + Danh mục chứng cứ thành 1 file Word duy nhất: [`requirements/requirements_version_5.1.md`](./requirements/requirements_version_5.1.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_5.1.md`](./tutorial/run_guide_version_5.1.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 5.1 (VOICE-FIRST TWO-WAY TTS & COMPLETE LITIGATION DOSSIER)
+
+1. 🔊 **Hệ Thống Trợ Lý Phát Thanh Âm Thanh Tiếng Việt (Text-to-Speech - TTS) (`src/tools/voice_narrator.py`):**
+   - Giải quyết triệt để rào cản tiếp cận của **Người cao tuổi, người mắt kém và người khiếm thị**: Không cần phải căng mắt đọc tràng dài văn bản trên màn hình điện thoại.
+   - Nút **`🔊 Đọc to lời giải thích bằng giọng nói`** xuất hiện dưới mỗi phản hồi của AI. Tự động làm sạch các thẻ định dạng markdown, sinh giọng đọc truyền cảm, ấm áp, nhịp điệu tự nhiên như một luật sư đang trực tiếp trò chuyện, giải thích tận tình.
+   - Kết hợp hoàn hảo với cổng ghi âm giọng nói (`st.audio_input`): Người dân **nói bằng giọng nói $\rightarrow$ AI lắng nghe $\rightarrow$ AI trả lời bằng giọng nói** (Tương tác Voice-to-Voice 2 chiều toàn diện).
+
+2. 📦 **Động Cơ Đóng Gói Bộ Hồ Sơ Tố Tụng Trọn Gói (.docx) (`src/tools/litigation_dossier_generator.py`):**
+   - Tòa án không thụ lý một lá đơn trơ trọi; Thư ký Tòa án luôn đòi hỏi bộ hồ sơ đầy đủ căn cứ và danh mục chứng cứ.
+   - 1-Chạm xuất ngay file Word (.docx) chuyên nghiệp gồm 4 Phần cấu thành chặt chẽ:
+     - **Phần I:** Đơn khởi kiện chuẩn Mẫu số 23-DS của Hội đồng Thẩm phán TANDTC.
+     - **Phần II:** Bảng giải trình & Dự trù án phí sơ thẩm tạm ứng theo Nghị quyết 326/2016/UBTVQH14.
+     - **Phần III:** Báo cáo Chiến lược Bàn cờ Tố tụng 2 Chiều & Đề xuất Đơn yêu cầu Biện pháp khẩn cấp tạm thời (phong tỏa tài khoản, kê biên).
+     - **Phần IV:** Danh mục tài liệu chứng cứ kèm theo có xác nhận và chữ ký của Người khởi kiện.
+   - Tích hợp trực tiếp tại **Tab 6 Hộp Công Cụ Dân Sinh 1-Chạm**, người dân chỉ việc bấm tải về, in ra và nộp thẳng đến Bộ phận Một cửa TAND Cấp Huyện.
 
 ---
 

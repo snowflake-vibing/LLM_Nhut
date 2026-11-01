@@ -10,6 +10,8 @@ from .citizen_legal_tools import CitizenLegalTools
 from .multimodal_evidence_parser import MultimodalEvidenceParser
 from .instant_petition_generator import InstantPetitionGenerator
 from .litigation_simulator import LegalLitigationSimulator
+from .voice_narrator import VoiceNarrator
+from .litigation_dossier_generator import LitigationDossierGenerator
 
 __all__ = [
     "search_web_legal",
@@ -21,4 +23,6 @@ __all__ = [
     "MultimodalEvidenceParser",
     "InstantPetitionGenerator",
     "LegalLitigationSimulator",
+    "VoiceNarrator",
+    "LitigationDossierGenerator",
 ]
