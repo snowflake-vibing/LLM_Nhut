@@ -113,15 +113,15 @@ def run_evolutionary_pipeline():
             # Nếu tin nhắn này so với tin trước không có gì bứt phá khác biệt -> Tự động bỏ qua!
             sent = notifier.send_message(report_msg, check_similarity=True, similarity_threshold=0.75)
             if sent:
-                print(f"✅ [SESSION #{session_count}] Có sự thay đổi bứt phá -> Đã báo cáo Telegram thành công.")
+                print(f"✅ [SESSION #{session_count}] Có sự thay đổi bứt phá -> Đã báo cáo Telegram thành công.", flush=True)
             else:
-                print(f"⏭️ [SESSION #{session_count}] Hoàn tất phiên. Không nhắn Telegram vì không có thay đổi bứt phá so với phiên trước (tránh spam).")
+                print(f"⏭️ [SESSION #{session_count}] Hoàn tất phiên. Không nhắn Telegram vì không có thay đổi bứt phá so với phiên trước (tránh spam).", flush=True)
 
             # Nghỉ ngắn 45 giây trước phiên tiếp theo
             time.sleep(45)
 
         except Exception as e:
-            print(f"[Pipeline Exception] {e}")
+            print(f"[Pipeline Exception] {e}", flush=True)
             time.sleep(10)
 
 
