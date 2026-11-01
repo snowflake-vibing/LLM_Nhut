@@ -25,6 +25,7 @@ from src.tools.web_search_tool import hybrid_industry_search
 from src.tools.contract_scanner import ContractVulnerabilityScanner
 from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
 from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALOG
+from src.tools.plain_language_engine import PlainLanguageEngine
 from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
@@ -62,6 +63,9 @@ if "dynamic_drafter" not in st.session_state:
 
 if "memory_store" not in st.session_state:
     st.session_state.memory_store = LegalMemoryStore()
+
+if "plain_engine" not in st.session_state:
+    st.session_state.plain_engine = PlainLanguageEngine(st.session_state.factory)
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -419,6 +423,14 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                         else:
                             st.markdown(f"- `{c}`")
 
+            if msg["role"] == "assistant" and msg.get("content") and not msg.get("content", "").startswith("👋"):
+                with st.expander("☕ Xem Diễn giải sang Ngôn ngữ Bình dân (Dễ hiểu cho người dân)", expanded=False):
+                    plain_cached_key = f"plain_cache_{idx}"
+                    if plain_cached_key not in st.session_state:
+                        with st.spinner("Đang chuyển hóa sang văn phong bình dân gần gũi..."):
+                            st.session_state[plain_cached_key] = st.session_state.plain_engine.translate_to_plain_language(msg["content"])
+                    st.markdown(st.session_state[plain_cached_key])
+
             if msg.get("agent") and msg["role"] == "assistant":
                 st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
 
@@ -469,6 +481,11 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                             st.markdown(f"**📌 {c.get('law_title', 'Văn bản quy phạm')} - {c.get('article', '')}**")
                             verify_url = c.get("verify_url", "https://vanban.chinhphu.vn/")
                             st.markdown(f"[🔗 Kiểm chứng tại Cổng Thông tin điện tử Chính phủ]({verify_url})")
+
+            with st.expander("☕ Xem Diễn giải sang Ngôn ngữ Bình dân (Dễ hiểu cho người dân)", expanded=False):
+                with st.spinner("Đang chuyển hóa sang văn phong bình dân gần gũi..."):
+                    plain_new = st.session_state.plain_engine.translate_to_plain_language(resp_text)
+                st.markdown(plain_new)
 
             st.caption(f"🤖 Xử lý bởi Agent: **{result['active_agent']}**")
 

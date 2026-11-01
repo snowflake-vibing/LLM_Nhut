@@ -1,7 +1,7 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, Tiến trình Tố tụng & Két Bằng chứng Thông minh • Phiên bản 2.4 (The Interactive Legal Roadmap & Smart Evidence Vault Platform)
+### Hệ thống Luật sư AI Trực tuyến, Tiến trình Tố tụng, Két Bằng chứng & Bộ Chuyển đổi Văn phong Bình dân • Phiên bản 2.5 (The Plain-Language Dual-Persona Platform)
 
-[![Version: 2.4](https://img.shields.io/badge/Version-2.4_(Roadmap_%26_Evidence_Vault)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.5](https://img.shields.io/badge/Version-2.5_(Plain--Language_Dual--Persona)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![LangGraph](https://img.shields.io/badge/Orchestrator-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
 [![Telegram](https://img.shields.io/badge/Alerts-Telegram_Bot_API-0088cc.svg)](https://telegram.org/)
@@ -49,6 +49,29 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.4 (Requirements Version 2.4) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Interactive Legal Roadmap & Smart Evidence Vault: Bản đồ tiến trình tố tụng trực quan (Visual Stepper), Két bằng chứng & Thước đo giá trị chứng cứ (Evidentiary Weight Meter 0-100%): [`requirements/requirements_version_2.4.md`](./requirements/requirements_version_2.4.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.4.md`](./tutorial/run_guide_version_2.4.md).
+* **Đánh giá Phiên bản 2.4 (Preview Version 2.4):**
+  * Đánh giá v2.4, phân tích rào cản thuật ngữ tố tụng và giải pháp bộ chuyển đổi văn phong song ngữ (Plain-Language Dual-Persona Switcher): [`requirements/preview_version_2.4.md`](./requirements/preview_version_2.4.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.5 (Requirements Version 2.5) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Plain-Language Dual-Persona Platform: Chuyển đổi văn phong tư pháp sang ngôn ngữ bình dân gần gũi như bạn bè, thấu tình đạt lý với 1-click in-chat: [`requirements/requirements_version_2.5.md`](./requirements/requirements_version_2.5.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.5.md`](./tutorial/run_guide_version_2.5.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.5 (PLAIN-LANGUAGE DUAL-PERSONA)
+
+1. ☕ **Bộ Chuyển đổi Văn phong Song ngữ (Plain-Language Dual-Persona Switcher):**
+   - 1-click chuyển đổi tức thì bên dưới mỗi câu trả lời trong Chatbot:
+     - `🏛️ Văn phong Tòa án / Tư pháp`: Chuẩn mực tố tụng viện dẫn đầy đủ điều luật để nộp cơ quan chức năng.
+     - `☕ Diễn giải Bình dân / Thấu tình Đạt lý`: Diễn giải mộc mạc, ví von đời thường, chia làm 3 phần (Bản chất, 3 bước nên làm, Cạm bẫy cần tránh).
+
+2. 🗺️ **Bản đồ Tiến trình Tố tụng Trực quan (Interactive Legal Stepper):**
+   - Trực quan hóa quy trình xử lý từng bước cho 4 bài toán đời sống nhạy cảm: Đòi nợ khi con nợ bỏ trốn, Tranh chấp ranh giới Sổ đỏ, Bạo lực học đường, Ly hôn & Quyền nuôi con.
+
+3. 🗄️ **Két Bằng Chứng Thông Minh & Thước đo Trọng lượng Chứng cứ (Evidentiary Weight Meter):**
+   - Đánh giá hồ sơ chứng cứ theo Chương VII Bộ luật Tố tụng Dân sự 2015, thang đo từ 0 đến 100 điểm kèm cảnh báo lập Vi bằng Thừa phát lại.
+
+4. 📱 **Tự hành Liên tục & Báo cáo Tức thời về Điện thoại qua Telegram:**
+   - Hoạt động 24/7, tự động kiểm tra hệ thống và gửi bản tin nâng cấp chi tiết về Telegram sau mỗi chu kỳ.
 
 ---
 
