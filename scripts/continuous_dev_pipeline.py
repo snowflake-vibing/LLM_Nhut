@@ -26,6 +26,7 @@ if ROOT_DIR not in sys.path:
 
 from llm_provider.model_factory import ModelFactory
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
+from src.agents.grumpy_auditor_agent import GrumpyQualityAuditorAgent
 from src.tools.citizen_legal_tools import CitizenLegalTools
 from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.tools.instant_petition_generator import InstantPetitionGenerator
@@ -90,32 +91,39 @@ def run_evolutionary_pipeline():
             git_changes = get_git_changes()
             git_summary = f"Mã nguồn ổn định ({git_changes.splitlines()[0] if git_changes else 'Clean'})"
 
-            # 6. Chuẩn bị báo cáo
+            # 6. Kích hoạt Lão Giám Khảo Khó Tính (Grumpy Quality Auditor AI)
+            # Giám khảo này luôn bắt lỗi khắt khe và neo điểm tổng thể ở mức 6.0 điểm
+            harsh_auditor = GrumpyQualityAuditorAgent()
+            harsh_res = harsh_auditor.audit_session({
+                "session_number": session_count,
+                "doc_size_bytes": doc_size_bytes,
+                "git_summary": git_summary,
+            })
+            mandates = harsh_res.get("strict_requirements_for_next_session", [])
+            mandates_str = "\n".join([f"   • {m}" for m in mandates[:3]])
+
+            # 7. Chuẩn bị báo cáo phiên thẩm định khắt khe
             report_msg = (
-                f"🌟 *[BREAKTHROUGH SESSION #{session_count} HOÀN TẤT]*\n"
+                f"🧐 *[SESSION #{session_count} - THẨM ĐỊNH KHÓ TÍNH]*\n"
                 f"━━━━━━━━━━━━━━━━━━━━\n"
                 f"⏰ *Thời điểm:* `{timestamp}`\n"
-                f"🚀 *Hiện trạng Trụ cột Dân sinh (V3.0):*\n\n"
-                f"1. 📎 *Giám Định Chứng Cứ Đa Phương Tiện (Multimodal):*\n"
-                f"   • Trích xuất biên lai, giấy nợ viết tay, vi bằng ảnh chuẩn BLTTDS.\n\n"
-                f"2. 🧮 *Bộ Công Cụ Pháp Lý Dân Sinh:*\n"
-                f"   • Án phí NQ 326: `{fee_res['formatted_fee']}`, tạm ứng `{fee_res['formatted_advance']}`.\n"
-                f"   • Thời hiệu BLDS: `{sol_res['status_label']}`.\n"
-                f"   • Thẩm quyền: `{auth_res['stage_1']}`.\n\n"
-                f"3. 📝 *Sinh Đơn Khởi Kiện Chuẩn Mẫu 23-DS:*\n"
-                f"   • File Word hoàn chỉnh ({doc_size_bytes} bytes).\n\n"
+                f"⚖️ *Điểm Khắt Khe:* `{harsh_res['overall_score']}/10.0` *(Neo ở Mức 6.0 - Chuẩn Mực Cao)*\n\n"
+                f"💬 *Lời Phê Bình Thẳng Thắn:*\n"
+                f"> \"{harsh_res['editorial_critique']}\"\n\n"
+                f"📋 *Yêu Cầu Tỉ Mỉ Cho Session Kế Tiếp:*\n"
+                f"{mandates_str}\n\n"
                 f"📦 *Git State:* `{git_summary}`\n"
                 f"━━━━━━━━━━━━━━━━━━━━\n"
                 f"💡 *Gõ /end để tạm dừng bất kỳ lúc nào.*"
             )
 
-            # 7. Gửi báo cáo Telegram với bộ lọc tương đồng thông minh
+            # 8. Gửi báo cáo Telegram với bộ lọc tương đồng thông minh
             # Nếu tin nhắn này so với tin trước không có gì bứt phá khác biệt -> Tự động bỏ qua!
             sent = notifier.send_message(report_msg, check_similarity=True, similarity_threshold=0.75)
             if sent:
-                print(f"✅ [SESSION #{session_count}] Có sự thay đổi bứt phá -> Đã báo cáo Telegram thành công.", flush=True)
+                print(f"✅ [SESSION #{session_count}] Giám khảo phát hiện bứt phá mới -> Đã báo cáo Telegram.", flush=True)
             else:
-                print(f"⏭️ [SESSION #{session_count}] Hoàn tất phiên. Không nhắn Telegram vì không có thay đổi bứt phá so với phiên trước (tránh spam).", flush=True)
+                print(f"⏭️ [SESSION #{session_count}] Hoàn tất phiên. Không nhắn Telegram vì yêu cầu/kết quả chưa có thay đổi bứt phá (chống spam).", flush=True)
 
             # Nghỉ ngắn 45 giây trước phiên tiếp theo
             time.sleep(45)

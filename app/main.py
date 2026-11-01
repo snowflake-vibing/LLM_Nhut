@@ -1437,6 +1437,17 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
                     f"- 🚀 *Đột phá bắt buộc:* **{item['breakthrough_action']}**"
                 )
 
+        with st.expander("🧐 Lão Giám Khảo Khó Tính Thẩm Định (The Grumpy Quality Auditor AI)", expanded=True):
+            from src.agents.grumpy_auditor_agent import GrumpyQualityAuditorAgent
+            grumpy_auditor = GrumpyQualityAuditorAgent()
+            harsh_audit = grumpy_auditor.load_latest_audit()
+            st.markdown(f"**Vai trò:** {harsh_audit.get('grumpy_auditor_title')}")
+            st.markdown(f"> 💬 *\"{harsh_audit.get('editorial_critique')}\"*")
+            st.write(f"⚖️ **Khung điểm neo khắt khe:** `{harsh_audit.get('overall_score')}/10.0` — *{harsh_audit.get('rating_tier')}*")
+            st.markdown("**📋 5 Nhiệm Vụ Bắt Buộc Chuẩn Chỉnh Cho Session Kế Tiếp:**")
+            for idx, req in enumerate(harsh_audit.get("strict_requirements_for_next_session", []), 1):
+                st.markdown(f"{idx}. `{req}`")
+
         st.markdown("---")
         btn_col1, btn_col2 = st.columns(2)
         with btn_col1:

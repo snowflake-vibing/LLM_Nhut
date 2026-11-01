@@ -25,3 +25,4 @@ data/database/*.db-journal
 reports/watchdog_log.txt
 data/autonomous_state.json
 data/last_telegram_message.json
+data/latest_harsh_audit.json

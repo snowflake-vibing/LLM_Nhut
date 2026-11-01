@@ -26,6 +26,7 @@ from src.security.telegram_remote_controller import TelegramRemoteController
 from src.agents.graph import LegalMultiAgentWorkflow
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
+from src.agents.grumpy_auditor_agent import GrumpyQualityAuditorAgent
 from src.tools.emotional_rant_parser import EmotionalRantParser
 
 
@@ -121,6 +122,14 @@ def run_telegram_daemon():
                     summary_report = audit_engine.generate_telegram_summary()
                     controller.send_reply(summary_report)
                     controller.set_state(controller.get_state().get("status", "running"), "/audit", update_id)
+                    continue
+
+                elif text in ["/critic", "/grumpy", "/khotinh", "critic", "khotinh"]:
+                    controller.send_reply("🧐 *Đang mời Lão Giám Khảo Khó Tính vào soi lỗi và chấm điểm khắt khe...*")
+                    grumpy_agent = GrumpyQualityAuditorAgent()
+                    critic_report = grumpy_agent.generate_telegram_report()
+                    controller.send_reply(critic_report)
+                    controller.set_state(controller.get_state().get("status", "running"), "/critic", update_id)
                     continue
 
                 # Kiểm tra nếu người dùng yêu cầu đánh giá tự nhiên
