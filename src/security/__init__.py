@@ -3,6 +3,7 @@ from .prompt_injection_guard import PromptInjectionGuard
 from .output_moderation import OutputModerator
 from .telegram_notifier import TelegramNotifier
 from .telegram_remote_controller import TelegramRemoteController
+from .ephemeral_privacy import EphemeralPrivacyManager
 
 __all__ = [
     "PIIMasker",
@@ -10,4 +11,5 @@ __all__ = [
     "OutputModerator",
     "TelegramNotifier",
     "TelegramRemoteController",
+    "EphemeralPrivacyManager",
 ]

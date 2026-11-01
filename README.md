@@ -1,10 +1,11 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, Mạng lưới Đa Tác nhân, Dual-Persona Tester & Telegram Bot Daemon 24/7 • Phiên bản 2.7 (The Specialized Multi-Agent Swarm Platform)
+### Hệ thống Luật sư AI Trực tuyến, Mạng lưới Đa Tác nhân, Trợ Năng Người Cao Tuổi, Bộ Lọc Tâm Sự Uất Ức & Bảo Mật Ephemeral Panic Wipe • Phiên bản 2.8 (Human-Centric LegalTech & Zero-Trust Privacy)
 
-[![Version: 2.7](https://img.shields.io/badge/Version-2.7_(Multi--Agent_Swarm_%26_Dual--Persona)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.8](https://img.shields.io/badge/Version-2.8_(Human--Centric_%26_Zero--Trust)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Accessibility](https://img.shields.io/badge/Accessibility-Senior_%26_Low--Tech_Mode-informational.svg)](#)
+[![Privacy](https://img.shields.io/badge/Security-Zero--Trust_Panic_Wipe-red.svg)](#)
 [![Antigravity](https://img.shields.io/badge/Orchestrator-Google_Antigravity-blue.svg)](https://deepmind.google/)
 [![LangGraph](https://img.shields.io/badge/Multi--Agent-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
-[![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
 [![Telegram Daemon](https://img.shields.io/badge/Telegram_Bot-Real--time_Daemon_<1s-0088cc.svg)](https://telegram.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
@@ -65,6 +66,35 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.7 (Requirements Version 2.7) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Specialized Multi-Agent Swarm Platform: Phân rã 4 Tác nhân chuyên trách, Adversarial Dual-Persona Tester Agent (Senior QA & Khách hàng mới tinh), và Real-time Telegram Daemon Agent phản hồi tức thì < 1s: [`requirements/requirements_version_2.7.md`](./requirements/requirements_version_2.7.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.7.md`](./tutorial/run_guide_version_2.7.md).
+* **Đánh giá Phiên bản 2.7 (Preview Version 2.7):**
+  * Phản biện gắt gao của User về thái độ "dễ dãi" của tech-demo, đặt con người yếu thế làm trọng tâm: Người cao tuổi, người không hiểu luật nói hoang mang lộn xộn, tốc độ tải trang và bảo mật dữ liệu tuyệt đối: [`requirements/preview_version_2.7.md`](./requirements/preview_version_2.7.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.8 (Requirements Version 2.8) - [ĐÃ HOÀN THÀNH 100%]:**
+  * Human-Centric LegalTech & Zero-Trust Ephemeral Privacy: Chế độ trợ năng Người cao tuổi (Chữ lớn 19px, độ tương phản cao), Bộ lọc tâm sự hoang mang/uất ức (Emotional Rant De-Noiser), Nút Xóa Sạch Dấu Vết Khẩn Cấp (Panic Wipe): [`requirements/requirements_version_2.8.md`](./requirements/requirements_version_2.8.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.8.md`](./tutorial/run_guide_version_2.8.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.8 (HUMAN-CENTRIC LEGALTECH & ACCESSIBILITY)
+
+1. 👵 **Chế độ Trợ Năng Người Cao Tuổi & Người Không Thạo Công Nghệ (Elderly & Accessible Mode):**
+   - Nút bật/tắt tức thì trên thanh Sidebar: Tự động phóng to cỡ chữ lên `19px`, tăng line-height `1.85`, độ tương phản cao chống mỏi mắt.
+   - Ẩn bớt các thuật ngữ phức tạp, biến giao diện thành bản tin dễ đọc nhất cho người già và người mắt kém.
+
+2. 💬 **Bộ Lọc Cảm Xúc & Bóc Tách Sự Việc Hoang Mang (Emotional Rant De-Noiser):**
+   - Tự động nhận diện những tâm sự uất ức, lời nói bức xúc lộn xộn ("không đâu vào đâu") của người dân khi bị ức hiếp, lừa đảo, tranh chấp.
+   - **Quy trình 3 bước nhân văn:**
+     1. *Trấn an tâm lý & Đứng về phía người dân*: "Chào bạn, mình rất hiểu sự bức xúc và hoang mang của bạn lúc này..."
+     2. *Bóc tách 3 sự thật pháp lý cốt lõi*: Lọc bỏ cảm xúc, giữ lại tình tiết có giá trị tố tụng.
+     3. *Dẫn dắt bằng câu hỏi Có/Không cực kỳ đơn giản*: Giúp người yếu thế trả lời dễ dàng mà không bị ngợp.
+
+3. 🚨 **Bảo Mật Tuyệt Đối & Nút Xóa Dấu Vết Khẩn Cấp (Zero-Trust Ephemeral Panic Wipe):**
+   - Nút đỏ nổi bật trên Sidebar: `🚨 XÓA SẠCH DẤU VẾT (Panic Wipe)`.
+   - 1-click lập tức xóa sạch `session_state`, lịch sử chat, các văn bản vừa upload trong RAM và reload ứng dụng trắng tinh.
+   - Đặc biệt bảo vệ nạn nhân bạo lực gia đình, người bị theo dõi điện thoại, người tư vấn bí mật ly hôn hoặc tranh chấp nhạy cảm.
+
+4. ⚡ **Tối Ưu Tốc Độ Phản Hồi (Zero-Latency & Streaming Friendly):**
+   - Khởi tạo RAG Lazy Loading, xử lý De-Noiser bằng Fast Pattern Heuristics song song với LLM.
+   - Tốc độ tải và phản hồi đạt chuẩn tức thời, loại bỏ độ trễ gây ức chế cho người dùng.
 
 ---
 

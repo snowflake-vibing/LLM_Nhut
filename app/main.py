@@ -20,12 +20,13 @@ if ROOT_DIR not in sys.path:
 from llm_provider.model_factory import ModelFactory, ProviderType
 from src.agents import LegalMultiAgentWorkflow
 from src.database import DatabaseManager
-from src.security import PIIMasker, PromptInjectionGuard
+from src.security import PIIMasker, PromptInjectionGuard, EphemeralPrivacyManager
 from src.tools.web_search_tool import hybrid_industry_search
 from src.tools.contract_scanner import ContractVulnerabilityScanner
 from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
 from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALOG
 from src.tools.plain_language_engine import PlainLanguageEngine
+from src.tools.emotional_rant_parser import EmotionalRantParser
 from src.agents.memory_store import LegalMemoryStore
 from src.dossier import (
     generate_registration_request_docx,
@@ -66,6 +67,9 @@ if "memory_store" not in st.session_state:
 
 if "plain_engine" not in st.session_state:
     st.session_state.plain_engine = PlainLanguageEngine(st.session_state.factory)
+
+if "rant_parser" not in st.session_state:
+    st.session_state.rant_parser = EmotionalRantParser(st.session_state.factory)
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -145,13 +149,45 @@ with st.sidebar:
         st.session_state.health = st.session_state.factory.check_health()
         st.rerun()
 
+    # 👓 CHẾ ĐỘ TRỢ NĂNG DÀNH CHO NGƯỜI CAO TUỔI
+    st.markdown("---")
+    st.subheader("👓 Trợ Năng & Dễ Tiếp Cận")
+    elderly_mode = st.toggle("Chế độ Chữ Lớn (Người Cao Tuổi)", value=False, key="elderly_mode_toggle")
+    if elderly_mode:
+        st.markdown("""
+        <style>
+            html, body, [class*="css"], .stMarkdown, p, span, label, div {
+                font-size: 19px !important;
+                line-height: 1.8 !important;
+            }
+            .stButton>button {
+                font-size: 19px !important;
+                padding: 10px 20px !important;
+                font-weight: bold !important;
+            }
+            .stTextInput>div>div>input, .stTextArea textarea {
+                font-size: 19px !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+        st.caption("🟢 Đã bật giao diện phóng to chữ, giãn dòng thoáng và tương phản cao.")
+
+    # 🛡️ BẢO MẬT & XÓA DẤU VẾT KHẨN CẤP (PANIC WIPE)
+    st.markdown("---")
+    st.subheader("🛡️ Quyền Riêng Tư Tuyệt Đối")
+    st.caption("Dữ liệu chỉ nằm trong bộ nhớ tạm (RAM) của bạn, không lưu vĩnh viễn.")
+    if st.button("🚨 XÓA SẠCH DẤU VẾT (Panic Wipe)", use_container_width=True, type="primary"):
+        EphemeralPrivacyManager.panic_wipe_session_state(st.session_state)
+        st.toast("Đã xóa sạch 100% lịch sử và dữ liệu phiên làm việc!", icon="🛡️")
+        st.rerun()
+
     st.markdown("---")
     st.info(
-        "⚖️ **Trụ cột Version 2.1:**\n"
-        "- Bilateral Adversarial Analysis\n"
-        "- 4 Real-world Civil/Social Cases\n"
-        "- Smart Pre-filled Forms & Placeholders\n"
-        "- The 2-Tab NotebookLM Experience"
+        "⚖️ **Trụ cột Version 2.8:**\n"
+        "- Human-Centric Accessibility\n"
+        "- Emotional Rant De-Noiser\n"
+        "- Zero-Trust Panic Wipe\n"
+        "- Telegram Daemon 24/7"
     )
 
 
@@ -445,6 +481,12 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
             st.markdown(user_input)
 
         with st.chat_message("assistant"):
+            if st.session_state.rant_parser.is_emotional_or_disjointed(user_input):
+                with st.spinner("Luật sư AI đang lắng nghe và chia sẻ câu chuyện của bạn..."):
+                    empathy_res = st.session_state.rant_parser.parse_and_clarify(user_input)
+                st.markdown(empathy_res["response"])
+                st.markdown("---")
+
             with st.spinner("Luật sư AI đang tra cứu đa luật, rà soát điều khoản và chuẩn bị văn bản..."):
                 result = st.session_state.workflow.process(user_input)
 
