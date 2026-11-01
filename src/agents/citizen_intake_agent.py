@@ -117,16 +117,54 @@ class CitizenIntakeAgent:
                     "👉 **Sự việc này xảy ra cách đây bao lâu rồi, và bạn có đang giữ giấy tờ, hình ảnh hay tin nhắn gì làm chứng không?**"
                 )
 
-        # Trích xuất hoặc gán options trả lời nhanh
+        # Trích xuất options trả lời nhanh và câu hỏi đào sâu gợi ý
         quick_options = self._extract_quick_options(topic, query)
+        suggested_followups = self._extract_suggested_followups(topic, query)
 
         return {
             "agent": "CitizenIntakeAgent (Luật sư Thăm khám Dân gian)",
             "response": ai_reply,
             "topic": topic,
             "quick_options": quick_options,
+            "suggested_followups": suggested_followups,
             "scope": "CITIZEN_INDIVIDUAL"
         }
+
+    def _extract_suggested_followups(self, topic: str, query: str) -> List[str]:
+        """Tạo danh sách các câu hỏi pháp lý gợi ý để người dân có thể hỏi thêm Luật sư trong 1 chạm."""
+        if topic == "DEBT_COLLECTION":
+            return [
+                "💰 Án phí Tòa án đòi khoản nợ này tính hết bao nhiêu?",
+                "❄️ Làm sao yêu cầu Tòa phong tỏa tài khoản con nợ tránh tẩu tán?",
+                "🏃 Nếu con nợ bỏ trốn khỏi địa phương thì Tòa có xử vắng mặt không?",
+                "📜 Chi phí và thủ tục lập Vi bằng tin nhắn Zalo ra sao?"
+            ]
+        elif topic == "LAND_DISPUTE":
+            return [
+                "🏛️ Nộp đơn yêu cầu hòa giải ở bộ phận nào tại UBND xã/phường?",
+                "🛑 Làm sao yêu cầu đình chỉ hàng xóm đang xây lấn chiếm ranh giới?",
+                "📐 Chi phí đo đạc lại hiện trạng ranh giới đất hết bao nhiêu?",
+                "⏳ Thời hạn UBND xã hòa giải tranh chấp đất đai tối đa bao lâu?"
+            ]
+        elif topic == "FAMILY_DIVORCE":
+            return [
+                "👶 Con dưới 36 tháng tuổi mẹ có đương nhiên được quyền nuôi không?",
+                "🏠 Nhà đất chung đứng tên 2 người nhưng tiền bố mẹ tôi cho thì chia sao?",
+                "💸 Mức cấp dưỡng nuôi con thông thường Tòa án ấn định là bao nhiêu?",
+                "⚡ Nếu một bên kiên quyết không ký thì nộp đơn ly hôn đơn phương ở đâu?"
+            ]
+        elif topic == "ONLINE_FRAUD":
+            return [
+                "👮 Đơn tố giác tội phạm lừa đảo qua mạng gồm những tài liệu gì?",
+                "🏦 Ngân hàng có được phép đóng băng tài khoản người nhận tiền không?",
+                "⏳ Công an nhận đơn tố giác thì bao lâu sẽ phản hồi kết quả?"
+            ]
+        else:
+            return [
+                "💰 Vụ việc này nếu kiện ra Tòa án thì hết bao nhiêu án phí?",
+                "⏳ Thời hiệu khởi kiện vụ việc của tôi còn lại bao nhiêu thời gian?",
+                "🏛️ Tôi cần nộp đơn đến cơ quan cụ thể nào có thẩm quyền giải quyết?"
+            ]
 
     def _extract_quick_options(self, topic: str, query: str) -> List[str]:
         """Tạo danh sách các nút bấm trả lời nhanh phù hợp từng tình huống."""

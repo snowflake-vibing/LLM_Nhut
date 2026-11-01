@@ -140,19 +140,27 @@ def run_telegram_daemon():
                 intake_res = intake_agent.respond(text)
                 intake_text = intake_res.get("response", "")
                 quick_opts = intake_res.get("quick_options", [])
+                suggested_followups = intake_res.get("suggested_followups", [])
 
                 opts_str = ""
                 if quick_opts:
-                    opts_str = "\n\n👉 *Bạn có thể trả lời nhanh bằng cách gõ:*\n" + "\n".join(
+                    opts_str = "\n\n👉 *Lựa chọn trả lời nhanh:*\n" + "\n".join(
                         [f"• `{opt}`" for opt in quick_opts]
+                    )
+
+                follow_str = ""
+                if suggested_followups:
+                    follow_str = "\n\n💡 *Gợi ý câu hỏi bạn có thể hỏi tiếp:*\n" + "\n".join(
+                        [f"• {fq}" for fq in suggested_followups[:3]]
                     )
 
                 reply_msg = (
                     f"{intake_text}"
-                    f"{opts_str}\n\n"
+                    f"{opts_str}"
+                    f"{follow_str}\n\n"
                     f"━━━━━━━━━━━━━━━━━━━━\n"
                     f"👨‍👩‍👧 *Phạm vi:* `Cá nhân & Đời sống Dân sinh`\n"
-                    f"💡 *Gõ câu trả lời của bạn, hoặc /audit để xem bảng đánh giá hệ thống.*"
+                    f"💡 *Gõ câu trả lời, hoặc gõ /audit để xem bảng đánh giá hệ thống.*"
                 )
                 controller.send_reply(reply_msg)
                 controller.set_state(controller.get_state().get("status", "running"), "citizen_chat", update_id)

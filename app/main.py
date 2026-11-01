@@ -27,6 +27,8 @@ from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_
 from src.tools.evidence_vault_engine import EvidenceVaultEngine, EVIDENCE_CATALOG
 from src.tools.plain_language_engine import PlainLanguageEngine
 from src.tools.emotional_rant_parser import EmotionalRantParser
+from src.tools.citizen_legal_tools import CitizenLegalTools
+from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
@@ -42,7 +44,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v3.0",
+    page_title="LegalTech Platform - v4.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -96,10 +98,13 @@ if "messages" not in st.session_state:
 if "citizen_intake" not in st.session_state:
     st.session_state.citizen_intake = CitizenIntakeAgent(st.session_state.factory)
 
+if "evidence_parser" not in st.session_state:
+    st.session_state.evidence_parser = MultimodalEvidenceParser(st.session_state.factory)
+
 # ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
 with st.sidebar:
     st.title("⚖️ LegalTech Platform")
-    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v3.0**")
+    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v4.0**")
     st.markdown("---")
 
     # 📌 ĐIỀU HƯỚNG CHÍNH: CHỈ ĐÚNG 2 TAB THEO PHONG CÁCH NOTEBOOKLM
@@ -216,12 +221,93 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
         "(Phạm vi Doanh nghiệp & Công ty đang được đặt ở chế độ chờ)*"
     )
 
+    quick_prompt = None
+
+    # 📎 1. KHUNG NẠP TÀI LIỆU & ẢNH CHỨNG CỨ TRỰC TIẾP TRONG CHAT
+    with st.expander("📎 Nạp Tài Liệu & Ảnh Chứng Cứ (PDF, Word, Ảnh Giấy Nợ Viết Tay, Sổ Đỏ, Zalo)", expanded=False):
+        st.caption("Tải lên hình ảnh hoặc tài liệu để AI bóc tách nội dung và chấm điểm giá trị chứng cứ theo BLTTDS 2015:")
+        uploaded_ev_file = st.file_uploader(
+            "Chọn file tài liệu hoặc ảnh chụp chứng cứ:",
+            type=["pdf", "docx", "txt", "png", "jpg", "jpeg"],
+            key="in_chat_file_uploader"
+        )
+        if uploaded_ev_file is not None:
+            with st.spinner("Đang bóc tách văn bản và giám định giá trị chứng cứ..."):
+                parse_res = st.session_state.evidence_parser.parse_uploaded_file(uploaded_ev_file)
+
+            ev_col1, ev_col2 = st.columns([1, 2])
+            with ev_col1:
+                st.metric("Điểm Giá Trị Chứng Cứ", f"{parse_res['evidence_score']} / 100")
+                st.markdown(f"**Xếp hạng:** `{parse_res['evidence_grade']}`")
+            with ev_col2:
+                st.info(f"💡 **Lời khuyên tố tụng:** {parse_res['action_advice']}")
+
+            with st.expander("📄 Xem Nội dung Văn bản Bóc tách được từ tệp:", expanded=False):
+                st.text_area("Trích xuất nội dung:", value=parse_res["extracted_text"][:2000], height=120)
+
+            if st.button("💬 Đưa Tài Liệu Này Vào Cuộc Trò Chuyện Với Luật Sư", key="btn_send_file_to_chat"):
+                quick_prompt = (
+                    f"Tôi vừa tải lên tài liệu/chứng cứ: '{parse_res['file_name']}'. "
+                    f"Nội dung bóc tách được tóm lược như sau:\n\"{parse_res['extracted_text'][:800]}\"\n"
+                    f"Xin Luật sư giám định và tư vấn quyền lợi pháp lý cho tôi dựa trên tài liệu này."
+                )
+
+    # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
+    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Tra Cứu Thẩm Quyền • Kiểm Tra Thời Hiệu)", expanded=False):
+        tool_tab1, tool_tab2, tool_tab3 = st.tabs([
+            "💰 1. Tính Án Phí Tòa Án (NQ 326)",
+            "⏳ 2. Kiểm Tra Thời Hiệu Khởi Kiện",
+            "🏛️ 3. Xác Định Thẩm Quyền Tiếp Nhận Đơn"
+        ])
+        with tool_tab1:
+            st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
+            c_fee_input = st.number_input("Nhập số tiền tranh chấp (VNĐ):", min_value=0, value=100000000, step=10000000, key="calc_fee_in")
+            if st.button("Tính Án Phí Ngay", key="btn_calc_fee"):
+                calc_res = CitizenLegalTools.calculate_court_fee(c_fee_input)
+                cf_c1, cf_c2 = st.columns(2)
+                with cf_c1:
+                    st.metric("Tiền Tạm Ứng Án Phí (Nộp trước 50%)", calc_res["formatted_advance"])
+                with cf_c2:
+                    st.metric("Tổng Án Phí Sơ Thẩm Toàn Bộ", calc_res["formatted_fee"])
+                st.caption(f"📌 **Khung áp dụng:** {calc_res['bracket']}")
+
+        with tool_tab2:
+            st.markdown("##### ⏳ Kiểm Tra Thời Hiệu Khởi Kiện (Điều 429, 588, 623 BLDS 2015)")
+            sol_c1, sol_c2 = st.columns(2)
+            with sol_c1:
+                sol_date = st.text_input("Ngày phát sinh sự việc / Ngày hết hạn trả nợ (DD/MM/YYYY):", value="15/05/2023", key="sol_date_in")
+            with sol_c2:
+                sol_domain = st.selectbox("Lĩnh vực tranh chấp:", ["Hợp đồng / Nợ vay (3 năm)", "Bồi thường thiệt hại (3 năm)", "Thừa kế đất đai (30 năm)"], key="sol_domain_in")
+            if st.button("Kiểm Tra Thời Hiệu", key="btn_check_sol"):
+                d_key = "CONTRACT" if "Hợp đồng" in sol_domain else ("INHERITANCE_LAND" if "Thừa kế" in sol_domain else "TORT")
+                sol_res = CitizenLegalTools.check_statute_of_limitations(sol_date, d_key)
+                if sol_res.get("is_valid_date"):
+                    st.markdown(f"**Trạng thái:** `{sol_res['status_label']}`")
+                    st.info(f"💡 {sol_res['warning']} *(Căn cứ: {sol_res['legal_article']})*")
+                else:
+                    st.error(sol_res.get("message"))
+
+        with tool_tab3:
+            st.markdown("##### 🏛️ Tra Cứu Cơ Quan Thẩm Quyền Giải Quyết")
+            auth_c1, auth_c2, auth_c3 = st.columns(3)
+            with auth_c1:
+                auth_type = st.selectbox("Dạng vụ việc:", ["Tranh chấp đất đai", "Đòi nợ / Hợp đồng", "Lừa đảo qua mạng"], key="auth_type_in")
+            with auth_c2:
+                auth_dist = st.text_input("Quận / Huyện của bên kia / nơi có đất:", value="Quận 1", key="auth_dist_in")
+            with auth_c3:
+                auth_prov = st.text_input("Tỉnh / Thành phố:", value="TP. Hồ Chí Minh", key="auth_prov_in")
+            if st.button("Xác Định Cơ Quan Có Thẩm Quyền", key="btn_check_auth"):
+                auth_res = CitizenLegalTools.locate_competent_authority(auth_type, auth_dist, auth_prov)
+                st.success(f"📍 **Bước 1 (Tiếp nhận đầu tiên):** {auth_res['stage_1']}")
+                st.caption(auth_res['stage_1_desc'])
+                st.warning(f"⚖️ **Bước 2 (Giải quyết tiếp theo):** {auth_res['stage_2']}")
+                st.caption(auth_res['stage_2_desc'])
+                st.info(f"💡 **Mẹo dân sinh:** {auth_res['hotline_tip']}")
+
     # GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ DÂN SINH
     st.markdown("💡 **Lối tắt tình huống đời sống thường gặp:**")
     r1_col1, r1_col2, r1_col3 = st.columns(3)
     r2_col1, r2_col2, r2_col3 = st.columns(3)
-
-    quick_prompt = None
 
     with r1_col1:
         if st.button("🏫 Bạo lực học đường (Trách nhiệm trường)"):
@@ -492,6 +578,15 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                             st.session_state.pending_quick_input = opt
                             st.rerun()
 
+            if msg.get("suggested_followups") and idx == len(st.session_state.messages) - 1:
+                st.markdown("💡 **Câu hỏi gợi ý bạn có thể hỏi Luật sư (Bấm 1 chạm):**")
+                s_cols = st.columns(min(len(msg["suggested_followups"]), 3))
+                for s_i, fq in enumerate(msg["suggested_followups"][:3]):
+                    with s_cols[s_i % len(s_cols)]:
+                        if st.button(fq, key=f"fq_click_{idx}_{s_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = fq
+                            st.rerun()
+
             if msg.get("agent") and msg["role"] == "assistant":
                 st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
 
@@ -537,6 +632,16 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                             st.session_state.pending_quick_input = opt
                             st.rerun()
 
+            suggested_followups = intake_res.get("suggested_followups", [])
+            if suggested_followups:
+                st.markdown("💡 **Câu hỏi đào sâu bạn có thể hỏi Luật sư ngay (Bấm 1 chạm):**")
+                s_cols = st.columns(min(len(suggested_followups), 3))
+                for s_i, fq in enumerate(suggested_followups[:3]):
+                    with s_cols[s_i % len(s_cols)]:
+                        if st.button(fq, key=f"fq_live_{s_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = fq
+                            st.rerun()
+
             # Tra cứu sâu điều luật & giải pháp tố tụng (Ẩn trong Expander để không làm rối mắt người dân)
             with st.expander("⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm (Tra Cứu Sâu)", expanded=False):
                 with st.spinner("Đang liên kết mạng lưới LangGraph để rà soát quy phạm..."):
@@ -577,6 +682,7 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 "content": resp_text,
                 "agent": "CitizenIntakeAgent",
                 "quick_options": quick_opts,
+                "suggested_followups": suggested_followups,
                 "citations": citations if 'citations' in locals() else [],
                 "action_type": action_type if 'action_type' in locals() else None,
                 "action_data": action_data if 'action_data' in locals() else None

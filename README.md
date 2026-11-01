@@ -1,8 +1,10 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Dân gian, Pipeline Tự Hành Chạy Liền Mạch, Trợ Năng 1-Chạm & Giọng Nói • Phiên bản 3.1 (The Continuous Pipeline & Voice-Enabled Platform)
+### Trạm Làm Việc Pháp Lý Đa Năng In-Chat, Giám Định Chứng Cứ Đa Phương Tiện & Bộ Công Cụ Dân Sinh 1-Chạm • Phiên bản 4.0 (The In-Chat Multi-Tool Legal Workstation)
 
-[![Version: 3.1](https://img.shields.io/badge/Version-3.1_(Continuous_Pipeline_%26_Voice)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
-[![Pipeline](https://img.shields.io/badge/Autonomous-Back--to--Back_Continuous_Loop-blue.svg)](#)
+[![Version: 4.0](https://img.shields.io/badge/Version-4.0_(Major_Release_Multi--Tool_Workstation)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Multimodal](https://img.shields.io/badge/Evidence-Multimodal_OCR_%26_Risk_Score-indigo.svg)](#)
+[![In-Chat Tools](https://img.shields.io/badge/Tools-Court_Fee_%26_Statute_Checker-blue.svg)](#)
+[![Dual Suggestions](https://img.shields.io/badge/UX-Dual_Action_Suggestions-orange.svg)](#)
 [![Scope](https://img.shields.io/badge/Focus-Individuals_%26_Citizens-blueviolet.svg)](#tầm-nhìn-chiến-lược-project-vision)
 [![Interaction](https://img.shields.io/badge/UX-Socratic_Step--by--Step_Intake-orange.svg)](#triết-lý-tương-tác-vàng-core-philosophy)
 [![Accessibility](https://img.shields.io/badge/Accessibility-Senior_%26_Low--Tech_Mode-informational.svg)](#)
@@ -126,6 +128,30 @@ flowchart TD
 * **Yêu cầu Kỹ thuật Phiên bản 3.1 (Requirements Version 3.1) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Continuous Autonomous Pipeline & Voice-Enabled Accessibility Platform: Pipeline tự hành chạy liền mạch (`scripts/continuous_dev_pipeline.py`), nút bấm trả lời 1-chạm trong chat, và cổng thu âm giọng nói cho người cao tuổi: [`requirements/requirements_version_3.1.md`](./requirements/requirements_version_3.1.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_3.1.md`](./tutorial/run_guide_version_3.1.md).
+* **Đánh giá Phiên bản 3.1 (Preview Version 3.1):**
+  * Phản biện quyết liệt của User: Yêu cầu bước nhảy vọt thực chiến, nạp file tài liệu & ảnh chứng cứ, tích hợp bộ công cụ tính án phí, thời hiệu và gợi ý 2 chiều thông minh: [`requirements/preview_version_3.1.md`](./requirements/preview_version_3.1.md).
+* **Yêu cầu Kỹ thuật Phiên bản 4.0 (Requirements Version 4.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The In-Chat Multi-Tool Autonomous Legal Workstation & Multimodal Evidence Diagnostic Engine: Bóc tách & giám định file PDF/Word/Ảnh giấy nợ viết tay, Sổ đỏ (`MultimodalEvidenceParser`), bộ công cụ tính án phí NQ 326, kiểm tra thời hiệu BLDS, tra thẩm quyền Tòa án (`CitizenLegalTools`), và hệ thống gợi ý kép thông minh: [`requirements/requirements_version_4.0.md`](./requirements/requirements_version_4.0.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_4.0.md`](./tutorial/run_guide_version_4.0.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 4.0 (IN-CHAT WORKSTATION, MULTIMODAL & TOOLS)
+
+1. 📎 **Nạp & Giám Định Chứng Cứ Đa Phương Tiện In-Chat (`src/tools/multimodal_evidence_parser.py`):**
+   - Người dân có thể tải trực tiếp vào khung chat: File PDF, Word, và **Hình ảnh chụp thực tế** (ảnh giấy nợ viết tay, sao kê ngân hàng, ảnh Sổ đỏ, ảnh tin nhắn Zalo).
+   - Hệ thống tự động bóc tách chữ, xác định nghĩa vụ tài sản, ngày tháng, chữ ký, con dấu.
+   - Chấm điểm **Thước đo Giá trị Chứng cứ (0 - 100 điểm)** theo BLTTDS 2015 và đưa ra lời khuyên lập Vi bằng kịp thời.
+   - 1-click đưa toàn bộ nội dung giám định vào cuộc trò chuyện cùng Luật sư AI.
+
+2. 🧮 **Bộ Công Cụ Pháp Lý Dân Sinh 1-Chạm (`src/tools/citizen_legal_tools.py`):**
+   - 💰 **Tính Án Phí Tòa Án (Nghị quyết 326/2016/UBTVQH14):** Nhập số tiền tranh chấp $\rightarrow$ Xuất ngay án phí sơ thẩm và tiền tạm ứng án phí phải nộp trước (50%).
+   - ⏳ **Kiểm Tra Thời Hiệu Khởi Kiện (Điều 429, 588, 623 BLDS 2015):** Nhập ngày xảy ra sự việc $\rightarrow$ Cảnh báo chính xác số ngày/tháng còn lại trước khi mất quyền khởi kiện.
+   - 🏛️ **Tra Cứu Cơ Quan Thẩm Quyền:** Phân định rõ UBND cấp xã (đối với hòa giải đất đai), Cơ quan Công an (đối với tố giác lừa đảo), và Tòa án nhân dân cấp huyện.
+
+3. 💡 **Hệ Thống Gợi Ý Kép Thông Minh (Dual-Action Dynamic Chips):**
+   - **Hàng 1:** Gợi ý câu trả lời nhanh (A/B/C hoặc Có/Không) để người dân bấm 1 chạm trả lời luật sư.
+   - **Hàng 2:** Gợi ý sẵn các câu hỏi đào sâu then chốt (ví dụ: *Án phí bao nhiêu? Có phong tỏa tài khoản con nợ được không? Lập vi bằng Zalo thế nào?*) để người dân chỉ cần bấm chạm là được giải đáp ngay!
 
 ---
 
