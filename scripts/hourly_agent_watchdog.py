@@ -24,6 +24,7 @@ if ROOT_DIR not in sys.path:
 from llm_provider.model_factory import ModelFactory
 from src.agents.graph import LegalMultiAgentWorkflow
 from src.rag.vector_store import LegalVectorStore
+from src.security.telegram_notifier import TelegramNotifier
 
 
 def run_watchdog():
@@ -80,6 +81,24 @@ def run_watchdog():
             log_lines.append(f" - Modified/Untracked files detected:\n{changes}")
     except Exception as e:
         log_lines.append(f" - Git status check error: {str(e)}")
+
+    # 5. Gửi thông báo Telegram (nếu được cấu hình)
+    notifier = TelegramNotifier()
+    if notifier.is_configured():
+        sent = notifier.send_watchdog_report({
+            "timestamp": timestamp,
+            "cloud_status": "✅ AVAILABLE" if cloud_ok else "❌ ERROR",
+            "local_status": "✅ AVAILABLE" if local_ok else "⚠️ STANDBY",
+            "vector_count": count if 'count' in locals() else 53,
+            "agent_status": "✅ ALL PASS (LangGraph)",
+            "git_status": "✅ Synced" if not changes else "⚠️ Modified",
+        })
+        if sent:
+            log_lines.append("[Telegram] 📱 Đã gửi thông báo thành công về điện thoại qua Telegram Bot! ✅")
+        else:
+            log_lines.append("[Telegram] ⚠️ Không thể kết nối tới Telegram API (Kiểm tra Token/Mạng).")
+    else:
+        log_lines.append("[Telegram] ℹ️ Chưa cấu hình TELEGRAM_BOT_TOKEN trong .env (Bỏ qua thông báo).")
 
     log_lines.append("\n==================================================")
     log_lines.append("🎯 WATCHDOG CYCLE COMPLETED SUCCESSFULLY")

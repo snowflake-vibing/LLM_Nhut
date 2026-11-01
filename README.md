@@ -1,13 +1,13 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến & Điều phối Đa Tác nhân LangGraph • Phiên bản 2.2 (The LangGraph Stateful Multi-Agent & Watchdog Platform)
+### Hệ thống Luật sư AI Trực tuyến, LangGraph Multi-Agent & Giám sát Tự hành 24/7 • Phiên bản 2.3 (The Cloud Autonomous & 24/7 Telegram Alert Platform)
 
-[![Version: 2.2](https://img.shields.io/badge/Version-2.2_(LangGraph_Multi--Agent)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 2.3](https://img.shields.io/badge/Version-2.3_(Cloud_Watchdog_%26_Telegram)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
 [![LangGraph](https://img.shields.io/badge/Orchestrator-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
+[![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
+[![Telegram](https://img.shields.io/badge/Alerts-Telegram_Bot_API-0088cc.svg)](https://telegram.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit_(2_Tabs_NotebookLM)-FF4B4B.svg)](https://streamlit.io/)
-[![Ollama](https://img.shields.io/badge/Local_LLM-Ollama-black.svg)](https://ollama.ai/)
-[![Gemini](https://img.shields.io/badge/Cloud_LLM-Gemini_3.5_Flash_Lite-4285F4.svg)](https://aistudio.google.com/)
 
 ---
 
@@ -39,25 +39,46 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.2 (Requirements Version 2.2) - [ĐÃ HOÀN THÀNH 100%]:**
   * Tích hợp chính thức LangGraph Stateful Architecture (`StateGraph`, `START`, `END`, Conditional Routing Edges), hiển thị sơ đồ Mermaid thời gian thực và Bộ kiểm thử tự hành định kỳ mỗi 1 giờ: [`requirements/requirements_version_2.2.md`](./requirements/requirements_version_2.2.md).
   * Hướng dẫn chạy và kịch bản test chi tiết: [`tutorial/run_guide_version_2.2.md`](./tutorial/run_guide_version_2.2.md).
+* **Đánh giá Phiên bản 2.2 (Preview Version 2.2):**
+  * Đánh giá v2.2, giải quyết bài toán chạy ngầm 24/7 khi máy tính tắt nguồn qua GitHub Actions và kênh báo cáo tức thời qua Telegram Bot: [`requirements/preview_version_2.2.md`](./requirements/preview_version_2.2.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.3 (Requirements Version 2.3) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Cloud Autonomous Watchdog & 24/7 Telegram Alert Platform: GitHub Actions Cron mỗi 1 giờ, Telegram Bot Notifier tự động gửi báo cáo sức khỏe hệ thống về điện thoại: [`requirements/requirements_version_2.3.md`](./requirements/requirements_version_2.3.md).
+  * Hướng dẫn thiết lập Telegram Bot & GitHub Secrets: [`tutorial/run_guide_version_2.3.md`](./tutorial/run_guide_version_2.3.md).
 
 ---
 
-## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.2 (THE LANGGRAPH MULTI-AGENT & WATCHDOG)
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.3 (THE CLOUD WATCHDOG & TELEGRAM)
 
-1. 🌐 **Tích hợp Chính thức Thư viện Quốc tế LangGraph (`langchain-ai/langgraph`):**
-   - Chuyển hóa toàn diện luồng xử lý sang **Stateful Multi-Agent Graph**:
-     - `LegalAgentState(TypedDict)` lưu giữ trạng thái, ngữ cảnh, PII mapping và kết quả trích dẫn xuyên suốt vòng đời tác vụ.
-     - `guardrail_node`: Đảm bảo an toàn PII và chống Prompt Injection trước khi chuyển tiếp.
-     - `router_node`: Nhận diện ý định và rẽ nhánh điều kiện (*Conditional Routing*) tới 7 Agent chuyên môn.
-     - `moderator_node`: Khôi phục PII và đính kèm miễn trừ pháp lý chuẩn mực trước khi trả lời.
-   - Trực quan hóa toàn bộ mạng lưới tác nhân dạng Mermaid trực tiếp trên Web (Tab 2: Studio).
+1. ☁️ **Tự hành 24/7 trên Cloud qua GitHub Actions (`deploy/hourly_watchdog.yml`):**
+   - Kích hoạt định kỳ mỗi 1 giờ trên hạ tầng máy chủ Cloud độc lập của GitHub/Microsoft.
+   - **Hoạt động 24/7 ngay cả khi máy tính cá nhân của người dùng đã tắt nguồn hoàn toàn**.
+   - Tự động kéo code, thiết lập môi trường Python 3.11, chạy kiểm thử hồi quy Model Cloud, Vector DB và luồng LangGraph.
 
-2. ⏱️ **Hệ thống Giám sát & Tự hành Định kỳ (Autonomous Hourly Watchdog Suite):**
-   - Kỹ sư AI đóng vai trò tự hành: Định kỳ mỗi 1 giờ tự động kiểm tra Model Cloud/Local, số lượng vector chunks, chạy regression test và ghi log tại `reports/watchdog_log.txt`.
-   - Nút bấm chạy kiểm thử Watchdog trực tiếp ngay trên giao diện web.
+2. 📱 **Kênh Báo cáo Tức thời về Điện thoại qua Telegram Bot (`src/security/telegram_notifier.py`):**
+   - Tự động gửi tin nhắn báo cáo định dạng chuẩn mực về điện thoại sau mỗi chu kỳ kiểm tra:
+     - ⏱️ Timestamp thực thi.
+     - ☁️ Trạng thái Cloud Gemini API.
+     - 💻 Trạng thái Local Ollama Model.
+     - 📚 Số lượng Chunks Vector DB đã được lập chỉ mục an toàn.
+     - 🌐 Trạng thái toàn bộ luồng LangGraph Stateful Workflow.
+     - 📦 Trạng thái nhánh Git trên repository.
 
-3. ⚖️ **Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis):**
+3. 🌐 **Lõi Điều phối Đa tác nhân LangGraph (`langchain-ai/langgraph`):**
+   - Sử dụng chuẩn mực `StateGraph`, `START`, `END` và rẽ nhánh có điều kiện (*Conditional Routing Edges*).
+   - Xuất sơ đồ mạng lưới tác nhân dạng Mermaid trực tiếp trên Web.
+
+4. ⚖️ **Phân tích Hợp đồng 2 Chiều Đối kháng (Bilateral Exploitation Analysis):**
    - Bóc tách cạm bẫy từ góc nhìn Bên ra luật (bên mạnh) vs Bên theo luật (bên yếu), đề xuất điều khoản dung hòa (Neutral Balanced Clause) và xuất file Word (.docx).
+
+5. 🏛️ **4 Tình huống Pháp lý Đời sống Xã hội Thực tiễn:**
+   - Bạo lực học đường (Điều 599 BLDS 2015), Tranh chấp đất đai (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn (Điều 39, 40 BLTTDS, Điều 175 BLHS), Ly hôn & Quyền nuôi con dưới 36 tháng (Điều 81 Luật HNGĐ 2014).
+
+6. 📝 **Biểu mẫu Thông minh Điền sẵn Căn cứ Pháp luật (Placeholder Fallback Engine):**
+   - AI điền sẵn 100% căn cứ pháp luật và nội dung tranh tụng. Thông tin cá nhân để trống sẽ tự động chèn dòng kẻ `........................` để in ra ký tên hoặc nộp ngay.
+
+7. 💻 **Trải nghiệm 2 Tab Tối giản Phong cách NotebookLM:**
+   - **Tab 1: 💬 AI Legal Chatbot & Command Center:** In-Chat Everything.
+   - **Tab 2: 🧰 Legal Tools Studio:** Trưng bày 9 công cụ chuyên sâu bao gồm LangGraph Visualizer.
 
 4. 🏛️ **4 Tình huống Pháp lý Đời sống Xã hội Thực tiễn:**
    - Bạo lực học đường (Điều 599 BLDS 2015), Tranh chấp đất đai (Điều 202 Luật Đất đai), Đòi nợ khi con nợ bỏ trốn (Điều 39, 40 BLTTDS, Điều 175 BLHS), Ly hôn & Quyền nuôi con dưới 36 tháng (Điều 81 Luật HNGĐ 2014).
