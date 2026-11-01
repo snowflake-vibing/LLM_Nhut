@@ -8,6 +8,7 @@ from .contract_scanner import ContractVulnerabilityScanner
 from .social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
 from .citizen_legal_tools import CitizenLegalTools
 from .multimodal_evidence_parser import MultimodalEvidenceParser
+from .instant_petition_generator import InstantPetitionGenerator
 
 __all__ = [
     "search_web_legal",
@@ -17,4 +18,5 @@ __all__ = [
     "SOCIAL_CASES_DATA",
     "CitizenLegalTools",
     "MultimodalEvidenceParser",
+    "InstantPetitionGenerator",
 ]

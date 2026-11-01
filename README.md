@@ -1,7 +1,8 @@
 # ⚖️ LegalTech Platform
-### Trạm Làm Việc Pháp Lý Đa Năng In-Chat, Giám Định Chứng Cứ Đa Phương Tiện & Bộ Công Cụ Dân Sinh 1-Chạm • Phiên bản 4.0 (The In-Chat Multi-Tool Legal Workstation)
+### Trạm Làm Việc Pháp Lý Đa Năng In-Chat, Giám Định Chứng Cứ Đa Phương Tiện & Sinh Đơn Khởi Kiện Chuẩn Mẫu 23-DS • Phiên bản 4.1 (The Breakthrough Judicial Workstation)
 
-[![Version: 4.0](https://img.shields.io/badge/Version-4.0_(Major_Release_Multi--Tool_Workstation)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 4.1](https://img.shields.io/badge/Version-4.1_(Breakthrough_Judicial_Workstation)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Petition Generator](https://img.shields.io/badge/Judicial_Docs-Form_23--DS_TANDTC-success.svg)](#)
 [![Multimodal](https://img.shields.io/badge/Evidence-Multimodal_OCR_%26_Risk_Score-indigo.svg)](#)
 [![In-Chat Tools](https://img.shields.io/badge/Tools-Court_Fee_%26_Statute_Checker-blue.svg)](#)
 [![Dual Suggestions](https://img.shields.io/badge/UX-Dual_Action_Suggestions-orange.svg)](#)
@@ -133,6 +134,23 @@ flowchart TD
 * **Yêu cầu Kỹ thuật Phiên bản 4.0 (Requirements Version 4.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
   * The In-Chat Multi-Tool Autonomous Legal Workstation & Multimodal Evidence Diagnostic Engine: Bóc tách & giám định file PDF/Word/Ảnh giấy nợ viết tay, Sổ đỏ (`MultimodalEvidenceParser`), bộ công cụ tính án phí NQ 326, kiểm tra thời hiệu BLDS, tra thẩm quyền Tòa án (`CitizenLegalTools`), và hệ thống gợi ý kép thông minh: [`requirements/requirements_version_4.0.md`](./requirements/requirements_version_4.0.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_4.0.md`](./tutorial/run_guide_version_4.0.md).
+* **Đánh giá Phiên bản 4.0 (Preview Version 4.0):**
+  * Phân tích chỉ đạo của User về bản chất của "Session": Không làm kiểm thử rập khuôn, mỗi session bắt buộc là một bước nhảy vọt về giá trị thực chiến: [`requirements/preview_version_4.0.md`](./requirements/preview_version_4.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 4.1 (Requirements Version 4.1) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Evolutionary Breakthrough & Instant Judicial Petition Platform: Sinh Đơn khởi kiện chuẩn Mẫu số 23-DS của TANDTC (`InstantPetitionGenerator`), tích hợp xuất đơn Word 1-chạm vào In-Chat Toolbar, và Evolutionary Breakthrough Pipeline: [`requirements/requirements_version_4.1.md`](./requirements/requirements_version_4.1.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_4.1.md`](./tutorial/run_guide_version_4.1.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 4.1 (INSTANT PETITION GENERATOR & VALUE-DRIVEN SESSIONS)
+
+1. 📝 **Máy Sinh Đơn Khởi Kiện Chuẩn Mẫu 23-DS TANDTC (`src/tools/instant_petition_generator.py`):**
+   - Không chỉ tư vấn lý thuyết, người dân nhập thông tin cơ bản $\rightarrow$ 1-click xuất ngay file Word (.docx) chuẩn theo Nghị quyết số 01/2017/NQ-HĐTP của Hội đồng Thẩm phán TAND Tối cao.
+   - Định dạng chuẩn A4, đầy đủ Quốc hiệu, Tiêu ngữ, Tòa án thụ lý, Căn cứ tính lãi Điều 468 BLDS 2015, và danh mục tài liệu chứng cứ kèm theo. In ra ký tên là nộp được ngay!
+
+2. 🚀 **Chuyển Hóa Bản Chất "Session" Tự Hành (Breakthrough Evolutionary Pipeline):**
+   - Mỗi session tự hành không còn là việc kiểm tra xem server có sống hay không, mà là **đo lường giá trị thực tế mới được kiến tạo** (Kích thước đơn từ sinh ra, án phí tính toán, thời hiệu kiểm định).
+   - Tự động báo cáo sự chuyển hóa bứt phá về Telegram Bot sau mỗi phiên.
 
 ---
 

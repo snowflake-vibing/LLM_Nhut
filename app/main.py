@@ -29,6 +29,7 @@ from src.tools.plain_language_engine import PlainLanguageEngine
 from src.tools.emotional_rant_parser import EmotionalRantParser
 from src.tools.citizen_legal_tools import CitizenLegalTools
 from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
+from src.tools.instant_petition_generator import InstantPetitionGenerator
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
@@ -44,7 +45,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v4.0",
+    page_title="LegalTech Platform - v4.1",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -253,11 +254,12 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 )
 
     # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Tra Cứu Thẩm Quyền • Kiểm Tra Thời Hiệu)", expanded=False):
-        tool_tab1, tool_tab2, tool_tab3 = st.tabs([
+    with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn Khởi Kiện • Kiểm Tra Thời Hiệu • Thẩm Quyền)", expanded=False):
+        tool_tab1, tool_tab2, tool_tab3, tool_tab4 = st.tabs([
             "💰 1. Tính Án Phí Tòa Án (NQ 326)",
-            "⏳ 2. Kiểm Tra Thời Hiệu Khởi Kiện",
-            "🏛️ 3. Xác Định Thẩm Quyền Tiếp Nhận Đơn"
+            "📝 2. Xuất Đơn Khởi Kiện (.docx)",
+            "⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện",
+            "🏛️ 4. Xác Định Thẩm Quyền Tiếp Nhận Đơn"
         ])
         with tool_tab1:
             st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
@@ -272,6 +274,38 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                 st.caption(f"📌 **Khung áp dụng:** {calc_res['bracket']}")
 
         with tool_tab2:
+            st.markdown("##### 📝 Xuất Đơn Khởi Kiện Chuẩn Mẫu 23-DS (Nghị quyết 01/2017/NQ-HĐTP)")
+            st.caption("Điền thông tin cơ bản để AI lập tức đóng gói Đơn khởi kiện chuẩn nộp Tòa án:")
+            pf_c1, pf_c2 = st.columns(2)
+            with pf_c1:
+                p_court = st.text_input("Tòa án nhân dân thụ lý:", value="TAND Quận 1, TP. Hồ Chí Minh", key="pf_court")
+                p_pl_name = st.text_input("Họ tên Người khởi kiện:", value="Nguyễn Thị Lan", key="pf_pl_name")
+                p_claim_money = st.text_input("Số tiền đòi / Giá trị khởi kiện:", value="150.000.000 VNĐ", key="pf_claim_money")
+            with pf_c2:
+                p_df_name = st.text_input("Họ tên Người bị kiện:", value="Trần Văn Nam", key="pf_df_name")
+                p_df_addr = st.text_input("Nơi cư trú người bị kiện:", value="Phường Bến Nghé, Quận 1, TP.HCM", key="pf_df_addr")
+                p_dispute = st.text_input("Quan hệ pháp luật tranh chấp:", value="Đòi nợ vay theo hợp đồng vay tài sản", key="pf_dispute")
+
+            if st.button("🚀 Xuất File Word Đơn Khởi Kiện Chuẩn 1-Chạm", key="btn_gen_petition_direct"):
+                petition_data = {
+                    "court_name": p_court,
+                    "plaintiff_name": p_pl_name,
+                    "claim_amount": p_claim_money,
+                    "defendant_name": p_df_name,
+                    "defendant_address": p_df_addr,
+                    "dispute_title": p_dispute
+                }
+                pet_buf = InstantPetitionGenerator.generate_lawsuit_petition_docx(petition_data)
+                st.download_button(
+                    label="📥 Tải Ngay Đơn Khởi Kiện Đã Điền (.docx)",
+                    data=pet_buf,
+                    file_name="Don_Khoi_Kien_Dan_Su_Mau_23DS.docx",
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    key="dl_pet_direct_btn"
+                )
+                st.success("Đã sinh đơn khởi kiện chuẩn hình thức tư pháp thành công!")
+
+        with tool_tab3:
             st.markdown("##### ⏳ Kiểm Tra Thời Hiệu Khởi Kiện (Điều 429, 588, 623 BLDS 2015)")
             sol_c1, sol_c2 = st.columns(2)
             with sol_c1:
