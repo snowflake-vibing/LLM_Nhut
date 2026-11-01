@@ -42,7 +42,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v2.9",
+    page_title="LegalTech Platform - v3.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -99,7 +99,7 @@ if "citizen_intake" not in st.session_state:
 # ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
 with st.sidebar:
     st.title("⚖️ LegalTech Platform")
-    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v2.7**")
+    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v3.0**")
     st.markdown("---")
 
     # 📌 ĐIỀU HƯỚNG CHÍNH: CHỈ ĐÚNG 2 TAB THEO PHONG CÁCH NOTEBOOKLM
@@ -189,10 +189,11 @@ with st.sidebar:
 
     st.markdown("---")
     st.info(
-        "⚖️ **Trụ cột Version 2.9:**\n"
+        "⚖️ **Trụ cột Version 3.0:**\n"
+        "- Citizen-Centric Diagnostic Intake\n"
+        "- Multi-Turn Socratic Intake\n"
         "- 360° Holistic Audit Matrix\n"
-        "- UI / UX / Backend / Testing\n"
-        "- Senior Accessibility Mode\n"
+        "- Senior Accessibility Mode (19px)\n"
         "- Emotional Rant De-Noiser\n"
         "- Zero-Trust Ephemeral Wipe\n"
         "- Telegram Bot Sub-Second"
