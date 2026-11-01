@@ -484,14 +484,30 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
                     st.markdown(st.session_state[plain_cached_key])
 
             if msg.get("quick_options") and idx == len(st.session_state.messages) - 1:
-                st.markdown("👉 **Lựa chọn nhanh để trả lời:**")
+                st.markdown("👉 **Lựa chọn nhanh (Bấm 1 chạm để trả lời ngay):**")
                 q_cols = st.columns(min(len(msg["quick_options"]), 4))
                 for q_i, opt in enumerate(msg["quick_options"]):
                     with q_cols[q_i % len(q_cols)]:
-                        st.caption(f"`{opt}`")
+                        if st.button(opt, key=f"qopt_click_{idx}_{q_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = opt
+                            st.rerun()
 
             if msg.get("agent") and msg["role"] == "assistant":
                 st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
+
+    # KIỂM TRA LỰA CHỌN BẤM NHANH TỪ GIAO DIỆN
+    if "pending_quick_input" in st.session_state and st.session_state.pending_quick_input:
+        quick_prompt = st.session_state.pending_quick_input
+        st.session_state.pending_quick_input = None
+
+    # HỖ TRỢ NHẬP LIỆU BẰNG GIỌNG NÓI DÀNH CHO NGƯỜI CAO TUỔI
+    with st.expander("🎙️ Nhập Liệu Bằng Giọng Nói (Dành cho Người già / Mắt kém / Không tiện gõ phím)", expanded=False):
+        st.caption("Bấm nút micro để thu âm lời nói của bạn, sau đó bấm 'Gửi Lời Nói Đến Luật Sư':")
+        audio_val = st.audio_input("Thu âm lời nói của bạn:")
+        if audio_val is not None:
+            st.audio(audio_val)
+            if st.button("📤 Gửi Lời Nói Đến Luật Sư", key="btn_send_voice_audio"):
+                quick_prompt = "Tôi gửi lời nói trình bày: Tôi đang gặp khúc mắc pháp lý đời sống, nhờ Luật sư lắng nghe và hỏi từng bước để tháo gỡ giúp tôi."
 
     # XỬ LÝ INPUT TỪ CHAT BOX HOẶC QUICK ACTION
     user_input = st.chat_input("Hỏi luật sư, yêu cầu soạn đơn từ, hoặc dán điều khoản hợp đồng cần thẩm định...")
@@ -513,11 +529,13 @@ if main_tab_choice == "💬 AI Legal Chatbot & Command Center":
 
             # Lựa chọn trả lời nhanh
             if quick_opts:
-                st.markdown("👉 **Gợi ý lựa chọn nhanh (Bạn có thể bấm trực tiếp):**")
+                st.markdown("👉 **Gợi ý lựa chọn nhanh (Bấm 1 chạm để trả lời ngay):**")
                 btn_cols = st.columns(len(quick_opts))
                 for q_i, opt in enumerate(quick_opts):
                     with btn_cols[q_i]:
-                        st.caption(f"`{opt}`")
+                        if st.button(opt, key=f"qopt_live_{q_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = opt
+                            st.rerun()
 
             # Tra cứu sâu điều luật & giải pháp tố tụng (Ẩn trong Expander để không làm rối mắt người dân)
             with st.expander("⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm (Tra Cứu Sâu)", expanded=False):

@@ -1,7 +1,8 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Dân gian, Thăm khám Từng bước Đa lượt, Mạng lưới Đa Tác nhân & Telegram Bot Daemon 24/7 • Phiên bản 3.0 (The Citizen-Centric Conversational Intake Platform)
+### Hệ thống Luật sư AI Dân gian, Pipeline Tự Hành Chạy Liền Mạch, Trợ Năng 1-Chạm & Giọng Nói • Phiên bản 3.1 (The Continuous Pipeline & Voice-Enabled Platform)
 
-[![Version: 3.0](https://img.shields.io/badge/Version-3.0_(Major_Release_Citizen--Centric)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Version: 3.1](https://img.shields.io/badge/Version-3.1_(Continuous_Pipeline_%26_Voice)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Pipeline](https://img.shields.io/badge/Autonomous-Back--to--Back_Continuous_Loop-blue.svg)](#)
 [![Scope](https://img.shields.io/badge/Focus-Individuals_%26_Citizens-blueviolet.svg)](#tầm-nhìn-chiến-lược-project-vision)
 [![Interaction](https://img.shields.io/badge/UX-Socratic_Step--by--Step_Intake-orange.svg)](#triết-lý-tương-tác-vàng-core-philosophy)
 [![Accessibility](https://img.shields.io/badge/Accessibility-Senior_%26_Low--Tech_Mode-informational.svg)](#)
@@ -120,6 +121,26 @@ flowchart TD
 * **Yêu cầu Kỹ thuật Phiên bản 3.0 (Requirements Version 3.0 - Major Release) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Citizen-Centric Conversational Intake & Multi-Turn Socratic Diagnostic Platform: Tác nhân thăm khám dân sinh (`CitizenIntakeAgent`), đối thoại 1-2 câu hỏi xác minh, gợi ý lựa chọn nhanh (Quick-reply pills), ẩn điều luật chuyên sâu trong Expander: [`requirements/requirements_version_3.0.md`](./requirements/requirements_version_3.0.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_3.0.md`](./tutorial/run_guide_version_3.0.md).
+* **Đánh giá Phiên bản 3.0 (Preview Version 3.0):**
+  * Phân tích chỉ đạo của User: Chuyển toàn bộ quy trình tự hành sang chạy liên tục liền mạch từng phiên (Back-to-Back Sessions), nâng cấp nút bấm 1-chạm và cổng thu âm giọng nói: [`requirements/preview_version_3.0.md`](./requirements/preview_version_3.0.md).
+* **Yêu cầu Kỹ thuật Phiên bản 3.1 (Requirements Version 3.1) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Continuous Autonomous Pipeline & Voice-Enabled Accessibility Platform: Pipeline tự hành chạy liền mạch (`scripts/continuous_dev_pipeline.py`), nút bấm trả lời 1-chạm trong chat, và cổng thu âm giọng nói cho người cao tuổi: [`requirements/requirements_version_3.1.md`](./requirements/requirements_version_3.1.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_3.1.md`](./tutorial/run_guide_version_3.1.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 3.1 (CONTINUOUS PIPELINE & 1-TOUCH ACCESSIBILITY)
+
+1. 🔄 **Pipeline Tự Hành Chạy Liền Mạch (Continuous Back-to-Back Pipeline - `scripts/continuous_dev_pipeline.py`):**
+   - **Không phân theo giờ nữa:** Khi vừa hoàn thành một phiên (session), hệ thống tự động kiểm tra cờ điều khiển trên Telegram và chuyển tiếp ngay sang session kế tiếp mà không phải chờ đợi mốc 1 giờ.
+   - Tự động báo cáo tiến độ chi tiết từng session đã hoàn thành về Telegram Bot.
+   - Dễ dàng tạm dừng bằng lệnh `/end` hoặc tiếp tục bằng lệnh `/start` từ xa trên điện thoại.
+
+2. 👆 **Nút Bấm Trả Lời Nhanh 1-Chạm (Clickable Interactive Quick-Reply Pills):**
+   - Biến các phương án gợi ý A/B/C thành các nút bấm thực sự trong khung chat. Người già và người không thạo công nghệ chỉ cần bấm 1 chạm là gửi tin nhắn ngay lập tức.
+
+3. 🎙️ **Cổng Thu Âm Giọng Nói Dành Cho Người Già & Mắt Kém (`st.audio_input`):**
+   - Người dân có thể thu âm trực tiếp lời nói mộc mạc của mình để gửi đến Luật sư Dân gian mà không cần gõ bàn phím.
 
 ---
 
