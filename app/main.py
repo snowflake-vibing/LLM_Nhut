@@ -48,7 +48,7 @@ from src.dossier import (
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v5.1",
+    page_title="LegalTech Platform - v3.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -108,7 +108,7 @@ if "evidence_parser" not in st.session_state:
 # ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
 with st.sidebar:
     st.title("⚖️ LegalTech Platform")
-    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v4.0**")
+    st.caption("Hệ thống Luật sư AI Trực tuyến & Tools Studio • **v3.0**")
     st.markdown("---")
 
     # 📌 ĐIỀU HƯỚNG CHÍNH: CHỈ ĐÚNG 2 TAB THEO PHONG CÁCH NOTEBOOKLM

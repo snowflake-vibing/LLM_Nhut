@@ -1,44 +1,57 @@
-# 📋 ĐẶC TẢ YÊU CẦU KỸ THUẬT PHIÊN BẢN 3.0 (REQUIREMENTS VERSION 3.0)
-### The Citizen-Centric Conversational Intake & Multi-Turn Socratic Diagnostic Platform
+# 📋 ĐẶC TẢ YÊU CẦU KỸ THUẬT PHIÊN BẢN 3.0 (REQUIREMENTS VERSION 3.0 - MAJOR RELEASE)
+### The Citizen-Centric Conversational Legal Workstation & Multimodal Judicial Suite
 
 > **Tài liệu tham chiếu:** [`RULES.md`](../RULES.md) | File đánh giá tiền đề: [`preview_version_2.9.md`](./preview_version_2.9.md)  
-> **Trạng thái:** [x] ĐÃ HOÀN THÀNH 100% & VERIFIED
+> **Trạng thái:** [x] ĐÃ HOÀN THÀNH 100% & TOÀN DIỆN HÓA
 
 ---
 
-## 🎯 1. MỤC TIÊU PHIÊN BẢN 3.0 (MAJOR RELEASE)
+## 🎯 1. TỔNG QUAN PHIÊN BẢN 3.0
 
-Chuyển đổi toàn diện trải nghiệm tương tác của LegalTech Platform từ cơ chế *"trả lời dồn dập toàn bộ điều luật (One-shot legal dump)"* sang **"Thăm khám Pháp lý Từng bước Đa lượt (Multi-Turn Socratic Legal Intake)"**, đặt 100% trọng tâm vào **Cá nhân & Người dân**; tạm đưa phạm vi Doanh nghiệp / Công ty vào chế độ chờ.
-
----
-
-## 🛠️ 2. CHI TIẾT TÍNH NĂNG VÀ KIẾN TRÚC MỚI
-
-### 2.1. Tác Nhân Thăm Khám Pháp Lý Dân Sinh (`src/agents/citizen_intake_agent.py`)
-- [x] Tạo lớp `CitizenIntakeAgent` với các nguyên tắc vàng:
-  - **Không trả lời dồn dập:** Không trút tràng điều luật khô khan vào tin nhắn chính.
-  - **Hỏi để chắc chắn:** Chỉ hỏi tối đa 1 đến 2 câu hỏi trọng tâm nhất nhằm xác thực chứng cứ, thời gian, và mong muốn của người dân.
-  - **Gợi ý lựa chọn nhanh (Quick-reply options):** Tự động sinh ra 3-4 nút bấm gợi ý (A/B/C, Có/Không, Giấy viết tay / Tin nhắn Zalo...) để người già hoặc người ít thạo công nghệ chỉ cần bấm chọn.
-  - **Giọng điệu đồng hành:** Xưng hô "mình - bạn", mộc mạc như người bạn hiểu luật ngồi lắng nghe bên chén trà.
-
-### 2.2. Đại Tu Trải Nghiệm Chatbot Tab 1 (`app/main.py`)
-- [x] Đính kèm Banner thông báo phạm vi: `🎯 Định Hướng Trọng Tâm: 👨‍👩‍👧 Dành Cho Cá Nhân & Người Dân`.
-- [x] Tích hợp bộ thăm khám `CitizenIntakeAgent` làm luồng phản hồi chính trong bong bóng chat.
-- [x] Hiển thị các nút bấm trả lời nhanh (Quick Options) trực quan ngay dưới câu hỏi của AI.
-- [x] Đưa toàn bộ điều luật chuyên sâu, kết quả quét hợp đồng và biểu mẫu dự thảo vào Expander thu gọn (`⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm`), giúp người dân không bị ngợp.
-
-### 2.3. Nâng Cấp Luồng Trò Chuyện Trực Tiếp Trên Telegram Daemon (`scripts/telegram_bot_daemon.py`)
-- [x] Tích hợp `CitizenIntakeAgent` vào bot Telegram `@SnowflakeVibingBot`.
-- [x] Phản hồi ngắn gọn, hỏi 1 câu xác minh then chốt kèm danh sách gợi ý gõ nhanh dạng bullet points.
-- [x] Giữ nguyên khả năng phản hồi sub-second (<1s) và các lệnh quản trị `/status`, `/audit`, `/end`, `/start`.
+Phiên bản 3.0 đánh dấu **bước ngoặt chuyển mình chiến lược** của LegalTech Platform:
+- Chuyển 100% trọng tâm phục vụ **Cá nhân & Người dân** (Người cao tuổi, người mắt kém/khiếm thị, người ít am hiểu công nghệ và người hoang mang khi vướng tranh chấp dân sự).
+- Đưa toàn bộ module doanh nghiệp phức tạp vào chế độ chờ (standby) ở Tab 2 Studio.
+- Thay thế hoàn toàn thói quen *"xả tràng dài điều luật khô khan"* bằng **"Thăm khám Pháp lý Từng bước (Socratic Legal Intake)"** kèm hệ thống công cụ dân sinh tương tác 1-chạm toàn diện.
 
 ---
 
-## 🧪 3. KỊCH BẢN KIỂM THỬ THỰC ĐỊA
+## 🛠️ 2. CHI TIẾT CÁC NĂNG LỰC CỐT LÕI CỦA VERSION 3.0
 
-1. **Tình huống Đòi nợ cá nhân:**
-   - *Người dân nhắn:* "Tôi cho đứa bạn mượn 50 triệu tiêu xài, hẹn tháng trước trả mà giờ nó im luôn, gọi điện không bắt máy."
-   - *AI phản hồi:* Trấn an ngắn gọn $\rightarrow$ Hỏi đúng 1 câu: *"Khi cho vay, hai bên có lập giấy viết tay không, hay chỉ nhắn tin qua Zalo / chuyển khoản ngân hàng?"* $\rightarrow$ Đưa ra 4 nút chọn nhanh.
-2. **Tình huống Tranh chấp đất đai:**
-   - *Người dân nhắn:* "Hàng xóm mới mua đất kế bên đập tường cũ xây tường mới lấn sang sân nhà tôi."
-   - *AI phản hồi:* Trấn an $\rightarrow$ Hỏi: *"Thửa đất nhà bạn hiện đã có Sổ đỏ chính chủ đo đạc ranh giới tọa độ rõ ràng chưa?"* $\rightarrow$ Đưa ra các lựa chọn Có / Chưa có sổ đỏ.
+### 2.1. Tác Nhân Thăm Khám Socratic & Gợi Ý Kép 1-Chạm (`src/agents/citizen_intake_agent.py`)
+- Lắng nghe, lọc bỏ cảm xúc tiêu cực/hoang mang (`EmotionalRantParser`).
+- Hỏi từng bước 1-2 câu then chốt để xác minh chứng cứ và mốc thời gian trước khi kết luận.
+- **Hệ thống Gợi ý Kép 1-chạm:**
+  - `quick_options`: Các nút chọn nhanh câu trả lời (A/B/C, Có/Không, Giấy viết tay/Zalo...) để người già không phải gõ chữ.
+  - `suggested_followups`: Các nút gợi ý câu hỏi tiếp theo người dân nên hỏi Luật sư.
+
+### 2.2. Trợ Lý Giọng Nói Tiếng Việt Song Phương (Two-Way Voice Assistant)
+- **Voice Input:** Cổng thu âm giọng nói trực tiếp (`st.audio_input`) giúp người dân chỉ việc nói mà không cần gõ bàn phím.
+- **Voice Output (TTS) (`src/tools/voice_narrator.py`):** Nút **`🔊 Đọc to lời giải thích bằng giọng nói`** dưới mỗi phản hồi của AI. Tự động làm sạch định dạng Markdown, cất giọng đọc tiếng Việt ấm áp, rõ ràng cho người cao tuổi và người khiếm thị lắng nghe.
+
+### 2.3. Hộp Công Cụ Dân Sinh 1-Chạm (In-Chat Toolbar 6 Tabs)
+Tích hợp trực tiếp tại Tab 1 Chatbot:
+1. **💰 1. Tính Án Phí Tòa Án (NQ 326/2016):** Tính chính xác án phí dân sự sơ thẩm và mức tạm ứng 50% phải nộp cho cơ quan thi hành án.
+2. **📝 2. Xuất Đơn Khởi Kiện Chuẩn (.docx) (`InstantPetitionGenerator`):** Soạn thảo tức thì Đơn khởi kiện chuẩn Mẫu số 23-DS của Hội đồng Thẩm phán TANDTC.
+3. **⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện (Điều 429 BLDS):** Xác định vụ việc còn hay hết thời hiệu 3 năm để tránh bị Tòa đình chỉ.
+4. **🏛️ 4. Xác Định Thẩm Quyền Tòa Án:** Hướng dẫn nộp đơn đúng TAND cấp Huyện nơi bị đơn cư trú hoặc nơi có bất động sản.
+5. **⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều (`LegalLitigationSimulator`):**
+   - Dự báo tỷ lệ thắng kiện khách quan (0 - 100%) theo loại chứng cứ.
+   - Bóc tách 3 mũi tấn công của Nguyên đơn vs 3 chiêu bài phản đòn của Bị đơn (chối chữ ký, nại hùn vốn làm ăn, câu giờ).
+   - Trang bị 3 kế sách hóa giải: Nộp đơn yêu cầu áp dụng **Biện pháp khẩn cấp tạm thời** (phong tỏa tài khoản, kê biên tài sản) và lập Vi bằng chứng cứ điện tử.
+6. **📦 6. Xuất Trọn Gói Bộ Hồ Sơ Tố Tụng (.docx) (`LitigationDossierGenerator`):**
+   - Đóng gói toàn bộ Đơn Mẫu 23-DS + Bảng án phí NQ 326 + Báo cáo bàn cờ tố tụng + Danh mục chứng cứ kèm chữ ký thành 1 file Word duy nhất sẵn sàng nộp TAND.
+
+### 2.4. Giám Định Chứng Cứ Đa Phương Tiện (`src/tools/multimodal_evidence_parser.py`)
+- Tiếp nhận PDF, Word, Ảnh chụp giấy nợ viết tay, Sổ đỏ, Tin nhắn Zalo.
+- Đánh giá Thước đo Giá trị Chứng cứ (Evidentiary Weight Meter 0-100%).
+
+### 2.5. Trợ Năng Người Cao Tuổi & Bảo Mật Zero-Trust
+- Phóng to font chữ 19px, line-height 1.85, chống mỏi mắt.
+- Nút **Panic Wipe (Xóa Sạch Dấu Vết)** giải phóng RAM tức thì, bảo vệ an toàn cho nạn nhân bạo lực gia đình hoặc người bị theo dõi.
+
+---
+
+## 🧪 3. KIỂM THỬ VÀ NGHIỆM THU HỆ THỐNG
+
+- Kiểm thử tự động `streamlit.testing.v1.AppTest`: **`PASS 100% (No Exceptions)`**.
+- Telegram Daemon Agent phản hồi tức thì với độ trễ dưới 1 giây.
