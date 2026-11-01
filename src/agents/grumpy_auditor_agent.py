@@ -121,35 +121,13 @@ class GrumpyQualityAuditorAgent:
             for req in data["strict_requirements"]:
                 next_session_mandates.append(f"[{data['label']}] {req}")
 
-        # Thử gọi LLM để tăng thêm tính tự nhiên và sắc bén nếu có API
-        factory = self._get_llm()
-        ai_personalized_note = ""
-        if factory:
-            try:
-                sys_prompt = (
-                    "Bạn là 'Lão Giám Khảo Khó Tính' - Trưởng ban Kiểm định Chất lượng Tư pháp Dân sự. "
-                    "Bạn nổi tiếng cực kỳ khó tính, tỉ mỉ, soi xét từng dấu chấm phẩy, chuyên gạt bỏ những báo cáo hình thức. "
-                    "Nhiệm vụ của bạn là kéo điểm sản phẩm về mức 6.0/10 để bắt đội ngũ kỹ sư phải cải tiến thực chất. "
-                    "Hãy đưa ra đúng 2 câu nhận xét đanh thép, thẳng thắn, bắt lỗi chi tiết nhưng mang tính xây dựng cao."
-                )
-                user_prompt = (
-                    f"Session #{session_num} vừa chạy xong. Điểm tổng quát đang được neo ở mức {overall_score}/10. "
-                    f"Các điểm nghẽn: Giao diện di động chưa mượt, giọng đọc còn trễ, chưa có phễu trắc nghiệm 3 phút, phụ thuộc Cloud. "
-                    f"Hãy đưa ra lời phê bình sắc bén nhất của bạn."
-                )
-                ai_personalized_note = factory.generate(prompt=user_prompt, system_prompt=sys_prompt).strip()
-            except Exception:
-                ai_personalized_note = (
-                    "Sản phẩm mới ở mức khung sườn ban đầu (6.0 điểm), đừng vội tự mãn! "
-                    "Người già và người dân nghèo không cần những biểu đồ hoa mỹ mà cần sự tiện dụng 1-chạm, "
-                    "nói là hiểu ngay và chạy mượt trên chiếc điện thoại cũ kỹ. Tập trung giải quyết dứt điểm các điểm nghẽn trên!"
-                )
-        else:
-            ai_personalized_note = (
-                "Sản phẩm mới ở mức khung sườn ban đầu (6.0 điểm), đừng vội tự mãn! "
-                "Người già và người dân nghèo không cần những biểu đồ hoa mỹ mà cần sự tiện dụng 1-chạm, "
-                "nói là hiểu ngay và chạy mượt trên chiếc điện thoại cũ kỹ. Tập trung giải quyết dứt điểm các điểm nghẽn trên!"
-            )
+        # Đánh giá đanh thép nhất quán theo đúng hiện trạng mã nguồn thực tế
+        # Tránh việc sinh lời văn ngẫu nhiên liên tục gây spam tin nhắn khi code chưa thay đổi
+        ai_personalized_note = (
+            "Sản phẩm mới ở mức khung sườn ban đầu (6.0 điểm), cấm tự mãn! "
+            "Người già và người dân nghèo không cần những biểu đồ hoa mỹ mà cần sự tiện dụng 1-chạm, "
+            "nói là hiểu ngay và chạy mượt trên chiếc điện thoại cũ kỹ. Tập trung giải quyết dứt điểm các điểm nghẽn trên!"
+        )
 
         audit_result = {
             "session_number": session_num,
