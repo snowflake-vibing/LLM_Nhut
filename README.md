@@ -1,10 +1,11 @@
 # ⚖️ LegalTech Platform
-### Hệ thống Luật sư AI Trực tuyến, Tiến trình Tố tụng, Két Bằng chứng & Bộ Chuyển đổi Văn phong Bình dân • Phiên bản 2.5 (The Plain-Language Dual-Persona Platform)
+### Hệ thống Luật sư AI Trực tuyến, Điều khiển Tự hành từ xa qua Telegram & Antigravity Engine • Phiên bản 2.6 (The Telegram Remote Control & Antigravity Platform)
 
-[![Version: 2.5](https://img.shields.io/badge/Version-2.5_(Plain--Language_Dual--Persona)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
-[![LangGraph](https://img.shields.io/badge/Orchestrator-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
+[![Version: 2.6](https://img.shields.io/badge/Version-2.6_(Telegram_Remote_%26_Antigravity)-brightgreen.svg)](#quản-lý-phiên-bản--lộ-trình-versioning--roadmap)
+[![Antigravity](https://img.shields.io/badge/Orchestrator-Google_Antigravity-blue.svg)](https://deepmind.google/)
+[![LangGraph](https://img.shields.io/badge/Multi--Agent-LangGraph_StateGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-24%2F7_Cloud_Watchdog-blue.svg)](https://github.com/snowflake-vibing/LLM_Nhut/actions)
-[![Telegram](https://img.shields.io/badge/Alerts-Telegram_Bot_API-0088cc.svg)](https://telegram.org/)
+[![Telegram](https://img.shields.io/badge/Remote_Control-%2Fstart_%26_%2Fend-0088cc.svg)](https://telegram.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit_(2_Tabs_NotebookLM)-FF4B4B.svg)](https://streamlit.io/)
@@ -54,6 +55,30 @@
 * **Yêu cầu Kỹ thuật Phiên bản 2.5 (Requirements Version 2.5) - [ĐÃ HOÀN THÀNH 100%]:**
   * The Plain-Language Dual-Persona Platform: Chuyển đổi văn phong tư pháp sang ngôn ngữ bình dân gần gũi như bạn bè, thấu tình đạt lý với 1-click in-chat: [`requirements/requirements_version_2.5.md`](./requirements/requirements_version_2.5.md).
   * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.5.md`](./tutorial/run_guide_version_2.5.md).
+* **Đánh giá Phiên bản 2.5 (Preview Version 2.5):**
+  * Đánh giá v2.5, giải pháp điều khiển từ xa qua Telegram (/start, /end, /status) kết hợp sức mạnh tự hành Google Antigravity: [`requirements/preview_version_2.5.md`](./requirements/preview_version_2.5.md).
+* **Yêu cầu Kỹ thuật Phiên bản 2.6 (Requirements Version 2.6) - [ĐÃ HOÀN THÀNH 100%]:**
+  * The Telegram Remote Control & Antigravity Platform: Điều khiển chu kỳ tự hành 100% từ xa trên điện thoại qua lệnh `/start` và `/end`, phối hợp Antigravity Scheduler & Watchdog: [`requirements/requirements_version_2.6.md`](./requirements/requirements_version_2.6.md).
+  * Hướng dẫn kiểm thử chi tiết: [`tutorial/run_guide_version_2.6.md`](./tutorial/run_guide_version_2.6.md).
+
+---
+
+## 🌟 ĐỘT PHÁ CÔNG NGHỆ TRONG PHIÊN BẢN 2.6 (TELEGRAM REMOTE & ANTIGRAVITY)
+
+1. 📱 **Điều khiển Tự hành 100% từ xa qua Tin nhắn Telegram:**
+   - Người dùng quản lý tiến trình của AI Agent ngay trên điện thoại:
+     - Gõ `/end` $\rightarrow$ Tạm dừng chu kỳ tự hành, bot phản hồi xác nhận.
+     - Gõ `/start` $\rightarrow$ Khởi động lại chu kỳ tự hành, bot tiếp tục code và test.
+     - Gõ `/status` $\rightarrow$ Báo cáo trạng thái trực tiếp của hệ thống.
+
+2. 🧠 **Phối hợp Toàn diện với Hệ sinh thái Google Antigravity:**
+   - Tận dụng Antigravity Scheduler ngầm, Slash Commands (`/goal`, `/schedule`, `/plan`) làm bộ não điều hành tự động hóa cao cấp.
+
+3. ☕ **Bộ Chuyển đổi Văn phong Song ngữ (Plain-Language Dual-Persona Switcher):**
+   - 1-click chuyển đổi giữa `Văn phong Tòa án` $\longleftrightarrow$ `Diễn giải Bình dân thấu tình đạt lý`.
+
+4. 🗺️ **Bản đồ Tiến trình Tố tụng (Visual Stepper) & Két Bằng Chứng (Smart Evidence Vault):**
+   - Thước đo giá trị chứng cứ 0 - 100% theo BLTTDS 2015.
 
 ---
 

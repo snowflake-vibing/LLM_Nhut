@@ -23,3 +23,4 @@ data/database/*.db-journal
 # Logs
 *.log
 reports/watchdog_log.txt
+data/autonomous_state.json
