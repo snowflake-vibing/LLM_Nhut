@@ -50,7 +50,12 @@ class TelegramNotifier:
 
         try:
             resp = requests.post(endpoint, json=payload, timeout=15)
-            return resp.status_code == 200
+            if resp.status_code == 200:
+                return True
+            # Fallback nếu lỗi cú pháp Markdown: gửi dạng plain text
+            payload.pop("parse_mode", None)
+            fallback_resp = requests.post(endpoint, json=payload, timeout=15)
+            return fallback_resp.status_code == 200
         except Exception:
             return False
 
