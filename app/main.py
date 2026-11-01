@@ -1360,56 +1360,82 @@ elif main_tab_choice == "🧰 Legal Tools Studio (NotebookLM Style)":
         audit_engine = HolisticAuditEngine()
         audit_res = audit_engine.run_full_audit()
 
-        # Thẻ điểm tổng quan
+        # Thẻ điểm tổng quan theo khung chuẩn mực kỳ vọng cao
         c_all, c_ui, c_ux, c_be, c_te = st.columns(5)
         with c_all:
-            st.metric("🎯 Điểm Tổng Hợp", f"{audit_res['overall_score']} / 10", delta="Xuất sắc")
+            st.metric("🎯 Điểm Tổng Hợp", f"{audit_res['overall_score']} / 10", delta="Khung 6.0 Điểm", delta_color="inverse")
         with c_ui:
-            st.metric("🎨 UI (Giao diện)", f"{audit_res['ui']['average_score']} / 10", delta="Chữ lớn 19px")
+            st.metric("🎨 UI (Giao diện)", f"{audit_res['ui']['average_score']} / 10", delta="Mobile Cần Tối Ưu", delta_color="inverse")
         with c_ux:
-            st.metric("💖 UX (Trải nghiệm)", f"{audit_res['ux']['average_score']} / 10", delta="Khử nhiễu uất ức")
+            st.metric("💖 UX (Trải nghiệm)", f"{audit_res['ux']['average_score']} / 10", delta="Cần Phễu 3 Phút", delta_color="inverse")
         with c_be:
-            st.metric("⚙️ Backend", f"{audit_res['backend']['average_score']} / 10", delta="Zero-Trust RAM")
+            st.metric("⚙️ Backend", f"{audit_res['backend']['average_score']} / 10", delta="Cần Streaming", delta_color="inverse")
         with c_te:
-            st.metric("🧪 Testing", f"{audit_res['testing']['average_score']} / 10", delta="Sub-second <1s")
+            st.metric("🧪 Testing", f"{audit_res['testing']['average_score']} / 10", delta="Cần 50 Test Ca", delta_color="inverse")
 
-        st.markdown(f"> 🏆 **Kết luận Kiểm định:** {audit_res['summary_verdict']}")
+        st.info(
+            "💡 **Ý nghĩa Đánh giá Toàn diện:** Thiết lập kỳ vọng chuyên nghiệp cao cấp và thân thiện dân sinh tuyệt đối. "
+            "Kéo điểm số về **mức 6.0/10** để loại bỏ hoàn toàn tâm lý tự mãn 'điểm ảo 9-10/10', "
+            "giúp nhìn thẳng vào **16 điểm nghẽn nghiêm trọng** và xác định chính xác những việc cần làm để bứt phá sản phẩm!"
+        )
+
+        st.markdown(f"> ⚖️ **Kết luận Kiểm định:** {audit_res['summary_verdict']}")
         st.markdown("---")
 
-        tab_ui, tab_ux, tab_be, tab_te = st.tabs([
+        tab_ui, tab_ux, tab_be, tab_te, tab_roadmap = st.tabs([
             "🎨 1. Giao Diện (UI - 5 Tiêu chí)",
             "💖 2. Trải Nghiệm (UX - 5 Tiêu chí)",
             "⚙️ 3. Hệ Thống (Backend - 5 Tiêu chí)",
-            "🧪 4. Kiểm Thử (Testing - 5 Tiêu chí)"
+            "🧪 4. Kiểm Thử (Testing - 5 Tiêu chí)",
+            "🚀 5. Bản Đồ Đột Phá (Breakthrough Roadmap)"
         ])
 
         with tab_ui:
-            st.markdown(f"#### 🎨 Đánh Giá Giao Diện Người Dùng — Điểm TB: `{audit_res['ui']['average_score']}/10`")
+            st.markdown(f"#### 🎨 Đánh Giá Giao Diện Người Dùng — Điểm TB: `{audit_res['ui']['average_score']}/10` ({audit_res['ui']['status_label']})")
             for c in audit_res["ui"]["criteria"]:
                 with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
-                    st.write(f"**Mô tả:** {c['desc']}")
-                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+                    st.write(f"🎯 **Kỳ vọng cao cấp:** {c['desc']}")
+                    st.write(f"📌 **Hiện trạng:** {c['current']}")
+                    st.warning(f"⚠️ **Điểm nghẽn nghiêm trọng:** {c['gap']}")
+                    st.success(f"🚀 **Hành động đột phá:** {c['breakthrough_action']}")
 
         with tab_ux:
-            st.markdown(f"#### 💖 Đánh Giá Trải Nghiệm Người Dùng — Điểm TB: `{audit_res['ux']['average_score']}/10`")
+            st.markdown(f"#### 💖 Đánh Giá Trải Nghiệm Người Dùng — Điểm TB: `{audit_res['ux']['average_score']}/10` ({audit_res['ux']['status_label']})")
             for c in audit_res["ux"]["criteria"]:
                 with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
-                    st.write(f"**Mô tả:** {c['desc']}")
-                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+                    st.write(f"🎯 **Kỳ vọng cao cấp:** {c['desc']}")
+                    st.write(f"📌 **Hiện trạng:** {c['current']}")
+                    st.warning(f"⚠️ **Điểm nghẽn nghiêm trọng:** {c['gap']}")
+                    st.success(f"🚀 **Hành động đột phá:** {c['breakthrough_action']}")
 
         with tab_be:
-            st.markdown(f"#### ⚙️ Đánh Giá Kiến Trúc Backend & Bảo Mật — Điểm TB: `{audit_res['backend']['average_score']}/10`")
+            st.markdown(f"#### ⚙️ Đánh Giá Kiến Trúc Backend & Bảo Mật — Điểm TB: `{audit_res['backend']['average_score']}/10` ({audit_res['backend']['status_label']})")
             for c in audit_res["backend"]["criteria"]:
                 with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
-                    st.write(f"**Mô tả:** {c['desc']}")
-                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+                    st.write(f"🎯 **Kỳ vọng cao cấp:** {c['desc']}")
+                    st.write(f"📌 **Hiện trạng:** {c['current']}")
+                    st.warning(f"⚠️ **Điểm nghẽn nghiêm trọng:** {c['gap']}")
+                    st.success(f"🚀 **Hành động đột phá:** {c['breakthrough_action']}")
 
         with tab_te:
-            st.markdown(f"#### 🧪 Đánh Giá Bộ Kiểm Thử & QA Suite — Điểm TB: `{audit_res['testing']['average_score']}/10`")
+            st.markdown(f"#### 🧪 Đánh Giá Bộ Kiểm Thử & QA Suite — Điểm TB: `{audit_res['testing']['average_score']}/10` ({audit_res['testing']['status_label']})")
             for c in audit_res["testing"]["criteria"]:
                 with st.expander(f"🔹 {c['name']} — Điểm: {c['score']}/10 [{c['status']}]"):
-                    st.write(f"**Mô tả:** {c['desc']}")
-                    st.info(f"**Ghi chú thực địa:** {c['notes']}")
+                    st.write(f"🎯 **Kỳ vọng cao cấp:** {c['desc']}")
+                    st.write(f"📌 **Hiện trạng:** {c['current']}")
+                    st.warning(f"⚠️ **Điểm nghẽn nghiêm trọng:** {c['gap']}")
+                    st.success(f"🚀 **Hành động đột phá:** {c['breakthrough_action']}")
+
+        with tab_roadmap:
+            st.markdown("#### 🚀 Danh Mục Hành Động Đột Phá Bắt Buộc (Từ Khung 6.0 Lên 8.5+)")
+            st.caption("Các nhiệm vụ trọng yếu được bóc tách từ các điểm nghẽn để tạo ra bước nhảy vọt thực chất:")
+            backlog = audit_engine.get_breakthrough_backlog()
+            for idx, item in enumerate(backlog, 1):
+                st.markdown(
+                    f"**{idx}. [{item['dimension']}] {item['name']}** (`{item['score']}`)\n"
+                    f"- ⚠️ *Điểm nghẽn:* {item['gap']}\n"
+                    f"- 🚀 *Đột phá bắt buộc:* **{item['breakthrough_action']}**"
+                )
 
         st.markdown("---")
         btn_col1, btn_col2 = st.columns(2)
