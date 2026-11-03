@@ -1,6 +1,2 @@
 @echo off
-chcp 65001 >nul
-cd /d "%~dp0"
-echo Đang dừng toàn bộ dịch vụ ngầm...
-.\venv\Scripts\python.exe scripts\manage_standalone.py stop
-pause
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0stop_standalone_247.ps1"

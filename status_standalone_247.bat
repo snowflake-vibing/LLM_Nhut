@@ -1,5 +1,2 @@
 @echo off
-chcp 65001 >nul
-cd /d "%~dp0"
-.\venv\Scripts\python.exe scripts\manage_standalone.py status
-pause
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0status_standalone_247.ps1"
