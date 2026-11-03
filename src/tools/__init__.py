@@ -16,6 +16,10 @@ from .citizen_wizard import CitizenDiagnosticFunnel
 from .plain_legal_glossary import PlainLegalGlossary
 from .deterministic_rules import DeterministicLegalRules
 from .chaotic_citizen_tests import ChaoticCitizenTestSuite
+from .usury_trap_detector import UsuryTrapDetector
+from .court_jurisdiction_guide import CourtJurisdictionGuide
+from .divorce_settlement_calculator import DivorceSettlementCalculator
+from .inheritance_distribution_engine import InheritanceDistributionEngine
 
 __all__ = [
     "search_web_legal",
@@ -33,4 +37,8 @@ __all__ = [
     "PlainLegalGlossary",
     "DeterministicLegalRules",
     "ChaoticCitizenTestSuite",
+    "UsuryTrapDetector",
+    "CourtJurisdictionGuide",
+    "DivorceSettlementCalculator",
+    "InheritanceDistributionEngine",
 ]

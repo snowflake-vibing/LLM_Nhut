@@ -32,7 +32,12 @@ from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.tools.instant_petition_generator import InstantPetitionGenerator
 from src.tools.litigation_simulator import LegalLitigationSimulator
 from src.tools.voice_narrator import VoiceNarrator
-from src.tools.litigation_dossier_generator import LitigationDossierGenerator
+from src.tools.citizen_wizard import CitizenDiagnosticFunnel
+from src.tools.plain_legal_glossary import PlainLegalGlossary
+from src.tools.usury_trap_detector import UsuryTrapDetector
+from src.tools.court_jurisdiction_guide import CourtJurisdictionGuide
+from src.tools.divorce_settlement_calculator import DivorceSettlementCalculator
+from src.tools.inheritance_distribution_engine import InheritanceDistributionEngine
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
@@ -244,23 +249,23 @@ with st.expander("📎 Nạp Tài Liệu & Ảnh Chứng Cứ (PDF, Word, Ảnh 
             )
 
 # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • Tính Án Phí • Xuất Đơn • Thời Hiệu • Thẩm Quyền • Giả Lập • Trọn Bộ)", expanded=False):
-    tool_tab0, tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6 = st.tabs([
-        "🧭 0. Phễu Chẩn Đoán 3 Phút (Trắc Nghiệm)",
-        "💰 1. Tính Án Phí Tòa Án (NQ 326)",
-        "📝 2. Xuất Đơn Khởi Kiện (.docx)",
-        "⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện",
-        "🏛️ 4. Xác Định Thẩm Quyền Tiếp Nhận Đơn",
-        "⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều",
-        "📦 6. Xuất Trọn Bộ Hồ Sơ Tố Tụng (.docx)"
+with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đen • Hành Trang Ra Tòa • Ly Hôn • Thừa Kế • Phễu 3 Phút • Án Phí • Xuất Đơn)", expanded=False):
+    tool_tab0, tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6, tool_tab7, tool_tab8, tool_tab9 = st.tabs([
+        "🧭 0. Phễu 3 Phút",
+        "💰 1. Án Phí NQ 326",
+        "🛑 2. Bẫy Tín Dụng Đen",
+        "🏛️ 3. Tòa Án & 1 Cửa",
+        "👨‍👩‍👧 4. Ly Hôn & Con Cái",
+        "📜 5. Thừa Kế Đất Đai",
+        "📝 6. Đơn Mẫu 23-DS",
+        "⏳ 7. Thời Hiệu",
+        "⚖️ 8. Giả Lập Tố Tụng",
+        "📦 9. Trọn Gói Hồ Sơ"
     ])
 
     with tool_tab0:
         st.markdown("##### 🧭 Phễu Chẩn Đoán Pháp Lý 3 Phút (Không Cần Gõ Chữ)")
         st.caption("Dành cho người già, người ít am hiểu luật: Chọn nhanh các phương án để AI đưa ra chẩn đoán và 3 bước hành động ngay:")
-        from src.tools.citizen_wizard import CitizenDiagnosticFunnel
-        from src.tools.plain_legal_glossary import PlainLegalGlossary
-
         wiz_cat = st.selectbox(
             "Chọn lĩnh vực vụ việc cần chẩn đoán:",
             options=["DEBT", "LAND"],
@@ -280,8 +285,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
             st.markdown(f"**1.** {diag['step_1']}")
             st.markdown(f"**2.** {diag['step_2']}")
             st.markdown(f"**3.** {diag['step_3']}")
-            
-            # Gợi ý đưa vào chat
             if st.button("💬 Đưa Kết Luận Này Vào Khung Chat Với Luật Sư", key="btn_send_diag_to_chat"):
                 quick_prompt = f"Tôi vừa hoàn tất Phễu Chẩn Đoán: {diag['diagnosis_title']}. Kết luận: {diag['diagnosis']}. Lời khuyên: 1. {diag['step_1']} - 2. {diag['step_2']} - 3. {diag['step_3']}. Xin luật sư hướng dẫn chi tiết thêm cho tôi."
 
@@ -298,6 +301,154 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
             st.caption(f"📌 **Khung áp dụng:** {calc_res['bracket']}")
 
     with tool_tab2:
+        st.markdown("##### 🛑 Máy Quét Bẫy Tín Dụng Đen & Cầm Cố Cắt Cổ")
+        st.caption("Bảo vệ người vay tiền nóng, bốc bát họ, app vay online theo Điều 468 BLDS và Điều 201 BLHS:")
+        us_c1, us_c2 = st.columns(2)
+        with us_c1:
+            u_principal = st.number_input("Số tiền ghi trên giấy vay/app (Gốc danh nghĩa):", min_value=1000000, value=20000000, step=1000000, key="u_pr_in")
+            u_actual = st.number_input("Số tiền THỰC NHẬN về tay (sau khi bị trừ phí):", min_value=500000, value=16000000, step=1000000, key="u_act_in")
+            u_days = st.number_input("Thời hạn vay (Số ngày, vd 30 hoặc 50 ngày):", min_value=1, value=50, step=5, key="u_days_in")
+        with us_c2:
+            u_periodic_fee = st.number_input("Tiền lãi/phí phải đóng mỗi kỳ (VNĐ):", min_value=0, value=400000, step=50000, key="u_pfee_in")
+            u_cycle = st.selectbox("Chu kỳ đóng tiền:", [1, 7, 30], format_func=lambda x: "Mỗi ngày" if x == 1 else ("Mỗi tuần" if x == 7 else "Mỗi tháng"), key="u_cycle_in")
+            u_hidden = st.number_input("Các khoản phụ phí khác (phí hồ sơ, bảo hiểm...):", min_value=0, value=500000, step=100000, key="u_hid_in")
+
+        if st.button("🔍 Quét Lãi Suất & Kiểm Tra Dấu Hiệu Tín Dụng Đen", key="btn_check_usury"):
+            u_res = UsuryTrapDetector.analyze_loan(u_principal, u_actual, int(u_days), u_periodic_fee, int(u_cycle), u_hidden)
+            st.markdown(f"### {u_res['color_badge']}")
+            st.warning(f"**Tình trạng:** {u_res['status_text']}")
+            
+            u_m1, u_m2, u_m3 = st.columns(3)
+            with u_m1:
+                st.metric("Lãi Suất Thực Tế", f"{u_res['annualized_percent']}% / năm")
+            with u_m2:
+                st.metric("Trần Cho Phép (Điều 468)", "20.0% / năm")
+            with u_m3:
+                st.metric("Tiền Lãi Vượt Trần Bất Hợp Pháp", UsuryTrapDetector.format_currency(u_res['excess_interest_amount']))
+
+            st.markdown("##### 🛡️ Hướng Dẫn Hành Động Cứu Nguy Cho Người Dân:")
+            for rec in u_res["recommendations"]:
+                st.markdown(rec)
+
+            if u_res["severity"] in ["CRIMINAL_ALERT", "EXTREME_USURY"]:
+                st.markdown("---")
+                st.markdown("##### 📝 Mẫu Đơn Tố Giác Tội Phạm Gửi Công An:")
+                denounce_txt = UsuryTrapDetector.generate_criminal_denunciation_template(
+                    u_res,
+                    {"full_name": "Nguyễn Văn A", "birth_year": "1990", "cccd": "079090xxxxxx", "address": "TP. Hồ Chí Minh", "phone": "090xxxxxxx"},
+                    {"name": "Đối tượng cho vay lãi nóng", "contact": "App vay / SĐT đối tượng", "address": "Khu vực cư trú", "police_dept": "Cơ quan CSĐT Công an Quận/Huyện"}
+                )
+                st.text_area("Nội dung đơn tố giác (có thể copy hoặc tải về):", value=denounce_txt, height=200, key="denounce_txt_area")
+                st.download_button(
+                    "📥 Tải Mẫu Đơn Tố Giác Tội Phạm (.txt)",
+                    data=denounce_txt,
+                    file_name="Don_To_Giac_Cho_Vay_Lai_Nang_Dieu_201_BLHS.txt",
+                    mime="text/plain",
+                    key="dl_denounce_btn"
+                )
+
+    with tool_tab3:
+        st.markdown("##### 🏛️ Tra Cứu Tòa Án Thẩm Quyền & Hành Trang Ra Tòa 1 Cửa")
+        st.caption("Tránh bị Tòa trả lại đơn (Điều 192 BLTTDS 2015), tra cứu địa chỉ chính xác và danh mục giấy tờ cần mang:")
+        cj_c1, cj_c2, cj_c3 = st.columns(3)
+        with cj_c1:
+            cj_type = st.selectbox(
+                "Lĩnh vực vụ việc:",
+                options=list(CourtJurisdictionGuide.DISPUTE_CATEGORIES.keys()),
+                format_func=lambda k: CourtJurisdictionGuide.DISPUTE_CATEGORIES[k]["title"],
+                key="cj_type_in"
+            )
+        with cj_c2:
+            cj_prov = st.selectbox("Tỉnh / Thành phố nơi xảy ra việc/bị đơn cư trú:", ["HỒ CHÍ MINH", "HÀ NỘI", "ĐÀ NẴNG", "TỈNH KHÁC"], key="cj_prov_in")
+        with cj_c3:
+            cj_dist = st.text_input("Quận / Huyện cụ thể:", value="QUẬN 1", key="cj_dist_in")
+
+        if st.button("📍 Tra Cứu Tòa Án & Lập Danh Mục Hành Trang 1 Cửa", key="btn_run_jurisdiction"):
+            cj_res = CourtJurisdictionGuide.resolve_jurisdiction_and_checklist(cj_type, cj_prov, cj_dist)
+            st.success(f"🏛️ **Tòa Án Thụ Lý Thẩm Quyền:** {cj_res['target_court_name']}")
+            st.markdown(f"📍 **Địa chỉ nộp đơn:** {cj_res['target_court_address']} *(ĐT: {cj_res['target_court_phone']})*")
+            st.markdown(f"🏢 **Nơi nộp tiền tạm ứng án phí:** {cj_res['target_thads_name']} ({cj_res['target_thads_address']})")
+            
+            if cj_res["mandatory_pre_litigation"]:
+                st.error(f"⚠️ **LƯU Ý SỐNG CÒN:** {cj_res['pre_litigation_notice']}")
+            
+            st.markdown(f"##### 🎒 Danh Mục Hồ Sơ Cần Chuẩn Bị (Checklist Hành Trang):")
+            for idx, doc in enumerate(cj_res["required_dossier"], 1):
+                st.markdown(f"**{idx}.** {doc}")
+
+            st.markdown("##### 🚶 Các Bước Đi Nộp Đơn Thực Tế:")
+            for step in cj_res["action_steps"]:
+                st.markdown(f"• {step}")
+
+    with tool_tab4:
+        st.markdown("##### 👨‍👩‍👧 Máy Tính Chia Tài Sản & Bảo Vệ Con Cái Khi Ly Hôn")
+        st.caption("Bảo vệ công sức nội trợ của người vợ (Điều 59.2) và quyền lợi của con nhỏ (Điều 81 Luật HNGĐ 2014):")
+        div_c1, div_c2 = st.columns(2)
+        with div_c1:
+            d_common_asset = st.number_input("Tổng tài sản chung tạo lập trong hôn nhân (nhà, đất, tiền gửi):", min_value=0, value=1200000000, step=50000000, key="d_asset_in")
+            d_common_debt = st.number_input("Tổng nợ chung của 2 vợ chồng (nếu có):", min_value=0, value=200000000, step=20000000, key="d_debt_in")
+            d_homemaker = st.checkbox("Người vợ ở nhà làm nội trợ, chăm sóc gia đình?", value=True, key="d_hm_in")
+        with div_c2:
+            d_income_supporter = st.number_input("Thu nhập hàng tháng của người không trực tiếp nuôi con (VNĐ):", min_value=0, value=20000000, step=1000000, key="d_inc_in")
+            d_child_age = st.number_input("Tuổi của con nhỏ nhất (tháng tuổi):", min_value=1, value=24, step=6, key="d_cage_in")
+
+        if st.button("⚖️ Phân Tích Tài Sản & Quyền Nuôi Con", key="btn_calc_divorce"):
+            mock_children = [{"name": "Con chung", "age_months": int(d_child_age)}]
+            div_res = DivorceSettlementCalculator.calculate_settlement(
+                0, 0, d_common_asset, d_common_debt, d_homemaker, mock_children, d_income_supporter
+            )
+            st.success(f"🏠 **Tài sản chung thuần túy sau khi trừ nợ:** {DivorceSettlementCalculator.format_currency(div_res['net_common_assets'])}")
+            
+            dc1, dc2 = st.columns(2)
+            with dc1:
+                st.metric("Phần Chia Người Vợ (50%)", DivorceSettlementCalculator.format_currency(div_res['wife_share_common']))
+            with dc2:
+                st.metric("Phần Chia Người Chồng (50%)", DivorceSettlementCalculator.format_currency(div_res['husband_share_common']))
+
+            st.markdown("##### 👶 Phân Tích Quyền Trực Tiếp Nuôi Con & Cấp Dưỡng:")
+            for c_info in div_res["custody_analysis"]:
+                st.info(f"**{c_info['child_name']} ({c_info['age_display']}):** {c_info['rule']}\n\n👉 {c_info['explanation']}")
+            
+            st.metric("Mức Cấp Dưỡng Khuyến Nghị Cho Bé", f"{DivorceSettlementCalculator.format_currency(div_res['monthly_child_support_per_child'])} / tháng")
+
+            st.markdown("##### 💡 Lời Khuyên Pháp Lý Dân Gian:")
+            for adv in div_res["legal_advice"]:
+                st.markdown(adv)
+
+    with tool_tab5:
+        st.markdown("##### 📜 Phân Chia Di Sản Thừa Kế Đất Đai Dân Gian (BLDS 2015)")
+        st.caption("Tính toán phân chia di sản hàng thứ nhất (Điều 651) và bảo vệ suất bắt buộc 2/3 không phụ thuộc di chúc (Điều 644):")
+        inh_c1, inh_c2 = st.columns(2)
+        with inh_c1:
+            inh_total = st.number_input("Tổng trị giá di sản (Nhà đất, sổ tiết kiệm, vàng):", min_value=0, value=3000000000, step=100000000, key="inh_tot_in")
+            inh_debt = st.number_input("Chi phí mai táng + tiền nợ của người chết (nếu có):", min_value=0, value=100000000, step=10000000, key="inh_debt_in")
+            inh_spouse = st.checkbox("Người vợ / chồng của người chết còn sống?", value=True, key="inh_sp_in")
+        with inh_c2:
+            inh_parents = st.number_input("Số cha, mẹ của người chết còn sống:", min_value=0, max_value=2, value=1, key="inh_par_in")
+            inh_children = st.number_input("Tổng số người con (con đẻ + con nuôi):", min_value=1, max_value=10, value=3, key="inh_ch_in")
+            inh_minor = st.number_input("Trong đó có bao nhiêu con chưa đủ 18 tuổi:", min_value=0, max_value=10, value=1, key="inh_min_in")
+
+        if st.button("⚖️ Tính Chia Di Sản Chuẩn Bộ Luật Dân Sự", key="btn_calc_inheritance"):
+            inh_res = InheritanceDistributionEngine.calculate_statutory_inheritance(
+                inh_total, 0, inh_debt, inh_spouse, int(inh_parents), int(inh_children), 0, int(inh_minor), 0
+            )
+            st.success(f"🏡 **Di sản thực tế đem chia:** {InheritanceDistributionEngine.format_currency(inh_res['net_estate_value'])}")
+            
+            im1, im2 = st.columns(2)
+            with im1:
+                st.metric(f"Mỗi Suất Hàng 1 ({inh_res['heirs_rank_1_total']} người)", InheritanceDistributionEngine.format_currency(inh_res['legal_share_per_person']))
+            with im2:
+                st.metric("Suất Bảo Vệ 2/3 (Điều 644)", InheritanceDistributionEngine.format_currency(inh_res['mandatory_protection_share_2_thirds']))
+
+            st.markdown("##### 👥 Danh Sách Phân Bổ Di Sản:")
+            for d_item in inh_res["distribution_plan"]:
+                st.markdown(f"• **{d_item['relation']} ({d_item['count']} người):** {InheritanceDistributionEngine.format_currency(d_item['share_per_person'])} / người. *(Lưu ý: {d_item['note']})*")
+
+            st.markdown("##### ⚠️ Cảnh Báo Pháp Lý Quan Trọng:")
+            for al in inh_res["alerts"]:
+                st.warning(al)
+
+    with tool_tab6:
         st.markdown("##### 📝 Xuất Đơn Khởi Kiện Chuẩn Mẫu 23-DS (Nghị quyết 01/2017/NQ-HĐTP)")
         st.caption("Điền thông tin cơ bản để AI lập tức đóng gói Đơn khởi kiện chuẩn nộp Tòa án:")
         pf_c1, pf_c2 = st.columns(2)
@@ -329,7 +480,7 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
             )
             st.success("Đã sinh đơn khởi kiện chuẩn hình thức tư pháp thành công!")
 
-    with tool_tab3:
+    with tool_tab7:
         st.markdown("##### ⏳ Kiểm Tra Thời Hiệu Khởi Kiện (Điều 429, 588, 623 BLDS 2015)")
         sol_c1, sol_c2 = st.columns(2)
         with sol_c1:
@@ -345,24 +496,7 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
             else:
                 st.error(sol_res.get("message"))
 
-    with tool_tab3:
-        st.markdown("##### 🏛️ Tra Cứu Cơ Quan Thẩm Quyền Giải Quyết")
-        auth_c1, auth_c2, auth_c3 = st.columns(3)
-        with auth_c1:
-            auth_type = st.selectbox("Dạng vụ việc:", ["Tranh chấp đất đai", "Đòi nợ / Hợp đồng", "Lừa đảo qua mạng"], key="auth_type_in")
-        with auth_c2:
-            auth_dist = st.text_input("Quận / Huyện của bên kia / nơi có đất:", value="Quận 1", key="auth_dist_in")
-        with auth_c3:
-            auth_prov = st.text_input("Tỉnh / Thành phố:", value="TP. Hồ Chí Minh", key="auth_prov_in")
-        if st.button("Xác Định Cơ Quan Có Thẩm Quyền", key="btn_check_auth"):
-            auth_res = CitizenLegalTools.locate_competent_authority(auth_type, auth_dist, auth_prov)
-            st.success(f"📍 **Bước 1 (Tiếp nhận đầu tiên):** {auth_res['stage_1']}")
-            st.caption(auth_res['stage_1_desc'])
-            st.warning(f"⚖️ **Bước 2 (Giải quyết tiếp theo):** {auth_res['stage_2']}")
-            st.caption(auth_res['stage_2_desc'])
-            st.info(f"💡 **Mẹo dân sinh:** {auth_res['hotline_tip']}")
-
-    with tool_tab5:
+    with tool_tab8:
         st.markdown("##### ⚖️ Giả Lập Bàn Cờ Đối Kháng & Dự Báo Tỷ Lệ Thắng Kiện")
         st.caption("AI giả lập phiên Tòa: Bên khởi kiện tấn công gì, đối phương sẽ phản đòn gì và kế sách hóa giải:")
         sim_c1, sim_c2 = st.columns(2)
@@ -374,8 +508,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
         if st.button("🚀 Bắt Đầu Giả Lập Phiên Tòa Đối Kháng", key="btn_run_sim"):
             simulator = LegalLitigationSimulator()
             sim_res = simulator.simulate_case(sim_case, "Tranh chấp dân sự thực tế", sim_ev)
-            
-            # Hiển thị tỷ lệ thắng
             st.metric("🎯 Dự Báo Tỷ Lệ Thắng Kiện Tại Tòa", f"{sim_res['win_rate']}%", delta="Khả thi tố tụng")
             st.markdown(f"> 🏛️ **Dự báo phán quyết của Tòa:** *{sim_res['court_forecast']}*")
 
@@ -393,7 +525,7 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • T
             for tac in sim_res["winning_tactics"]:
                 st.markdown(f"👉 **{tac}**")
 
-    with tool_tab6:
+    with tool_tab9:
         st.markdown("##### 📦 Xuất Trọn Gói Bộ Hồ Sơ Tố Tụng Hoàn Chỉnh (Nộp TAND)")
         st.caption("Tự động kết hợp: Đơn khởi kiện chuẩn Mẫu 23-DS + Bảng tạm tính án phí NQ 326 + Báo cáo bàn cờ đối kháng 2 chiều + Danh mục chứng cứ vào 1 file Word .docx duy nhất:")
         

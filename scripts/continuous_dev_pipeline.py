@@ -41,6 +41,10 @@ from src.tools.citizen_wizard import CitizenDiagnosticFunnel
 from src.tools.plain_legal_glossary import PlainLegalGlossary
 from src.tools.deterministic_rules import DeterministicLegalRules
 from src.tools.chaotic_citizen_tests import ChaoticCitizenTestSuite
+from src.tools.usury_trap_detector import UsuryTrapDetector
+from src.tools.court_jurisdiction_guide import CourtJurisdictionGuide
+from src.tools.divorce_settlement_calculator import DivorceSettlementCalculator
+from src.tools.inheritance_distribution_engine import InheritanceDistributionEngine
 from src.security.telegram_notifier import TelegramNotifier
 from src.security.telegram_remote_controller import TelegramRemoteController
 
@@ -62,10 +66,30 @@ def run_evolutionary_pipeline():
     print("==================================================", flush=True)
     print("🌟 AUTONOMOUS EVOLUTIONARY INNOVATION PIPELINE - V3.0", flush=True)
     print("🎯 Chu kỳ điểm số: Bắt đầu 6.0đ ➔ Kết thúc >= 9.0đ", flush=True)
-    print("🚀 Thực thi tiến hóa 4 Cột mốc Đột phá thực chất", flush=True)
+    print("🚀 Thực thi tiến hóa 8 Cột mốc Đột phá Dân sinh thực chất", flush=True)
     print("==================================================", flush=True)
 
     milestones = [
+        {
+            "name": "🛑 Máy Quét Bẫy Tín Dụng Đen & Cầm Cố Cắt Cổ (Usury Trap Detector)",
+            "action": lambda: UsuryTrapDetector.analyze_loan(20000000, 16000000, 50, 400000, 1, 500000),
+            "summary": "Tự động phát hiện lãi suất cắt cổ (>100%/năm theo Điều 201 BLHS), vô hiệu phần lãi vượt Điều 468 BLDS, xuất đơn tố giác tội phạm gửi Công an."
+        },
+        {
+            "name": "🏛️ Tra Cứu Tòa Án Thẩm Quyền & Hành Trang Ra Tòa 1 Cửa (Court Jurisdiction Guide)",
+            "action": lambda: CourtJurisdictionGuide.resolve_jurisdiction_and_checklist("LAND_DISPUTE", "HỒ CHÍ MINH", "QUẬN 1"),
+            "summary": "Chỉ đúng TAND thụ lý theo Điều 39 BLTTDS, nhắc nhở hòa giải bắt buộc tại UBND xã và xuất checklist giấy tờ công chứng cần mang."
+        },
+        {
+            "name": "👨‍👩‍👧 Máy Tính Chia Tài Sản & Giành Quyền Nuôi Con Khi Ly Hôn (Divorce Settlement)",
+            "action": lambda: DivorceSettlementCalculator.calculate_settlement(0, 0, 1500000000, 200000000, True, [{"name": "Bé", "age_months": 24}], 20000000),
+            "summary": "Bảo vệ tuyệt đối công sức nội trợ của người vợ (Điều 59.2), ưu tiên mẹ nuôi con dưới 36 tháng (Điều 81.3) và tính mức cấp dưỡng."
+        },
+        {
+            "name": "📜 Phân Chia Di Sản Thừa Kế Đất Đai Dân Gian (Inheritance Distribution Engine)",
+            "action": lambda: InheritanceDistributionEngine.calculate_statutory_inheritance(3000000000, 0, 200000000, True, 1, 3, 0, 1, 0),
+            "summary": "Chia đều hàng thừa kế thứ 1 (Điều 651) và bảo vệ suất bắt buộc 2/3 không phụ thuộc vào di chúc (Điều 644 BLDS 2015)."
+        },
         {
             "name": "🧭 Phễu Chẩn Đoán Dân Sinh 3 Phút (Citizen Diagnostic Funnel)",
             "action": lambda: CitizenDiagnosticFunnel.evaluate_answers("DEBT", {1: 1, 2: 0, 3: 0}),
@@ -114,6 +138,7 @@ def run_evolutionary_pipeline():
             current_ms = milestones[(session_count - 1) % len(milestones)]
             print(f"[Milestone] 🎯 Mục tiêu bứt phá: {current_ms['name']}", flush=True)
             ms_result = current_ms["action"]()
+            ms_detail = ms_result.get("formatted_summary", "") if isinstance(ms_result, dict) else ""
 
             # 1. Thẩm định Án phí Thực tế (Test case: 250 triệu tranh chấp)
             fee_res = CitizenLegalTools.calculate_court_fee(250000000)
@@ -160,7 +185,8 @@ def run_evolutionary_pipeline():
                 f"🎯 *Chu Kỳ Điểm Số:* `{start_audit['overall_score']}/10 ➔ {final_score}/10.0` ⭐⭐⭐⭐⭐\n"
                 f"🚀 *Bước Đột Phá Mới Hoàn Tất:*\n"
                 f"• **{current_ms['name']}**\n"
-                f"  └ {current_ms['summary']}\n\n"
+                f"  └ {current_ms['summary']}\n"
+                + (f"  └ 📊 *Số liệu thực chứng:* `{ms_detail}`\n\n" if ms_detail else "\n") +
                 f"📦 *Hiện trạng Nền tảng Dân sinh (v3.0):*\n"
                 f"• Án phí NQ 326: `{fee_res['formatted_fee']}` | Tạm ứng: `{fee_res['formatted_advance']}`\n"
                 f"• Thời hiệu: `{sol_res['status_label']}` | Thẩm quyền: `{auth_res['stage_1']}`\n"
