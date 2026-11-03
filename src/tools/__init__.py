@@ -12,6 +12,10 @@ from .instant_petition_generator import InstantPetitionGenerator
 from .litigation_simulator import LegalLitigationSimulator
 from .voice_narrator import VoiceNarrator
 from .litigation_dossier_generator import LitigationDossierGenerator
+from .citizen_wizard import CitizenDiagnosticFunnel
+from .plain_legal_glossary import PlainLegalGlossary
+from .deterministic_rules import DeterministicLegalRules
+from .chaotic_citizen_tests import ChaoticCitizenTestSuite
 
 __all__ = [
     "search_web_legal",
@@ -25,4 +29,8 @@ __all__ = [
     "LegalLitigationSimulator",
     "VoiceNarrator",
     "LitigationDossierGenerator",
+    "CitizenDiagnosticFunnel",
+    "PlainLegalGlossary",
+    "DeterministicLegalRules",
+    "ChaoticCitizenTestSuite",
 ]

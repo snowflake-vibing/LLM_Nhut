@@ -244,8 +244,9 @@ with st.expander("📎 Nạp Tài Liệu & Ảnh Chứng Cứ (PDF, Word, Ảnh 
             )
 
 # 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • Xuất Đơn • Thời Hiệu • Thẩm Quyền • Giả Lập Tố Tụng • Trọn Bộ Hồ Sơ)", expanded=False):
-    tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6 = st.tabs([
+with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Phễu 3 Phút • Tính Án Phí • Xuất Đơn • Thời Hiệu • Thẩm Quyền • Giả Lập • Trọn Bộ)", expanded=False):
+    tool_tab0, tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6 = st.tabs([
+        "🧭 0. Phễu Chẩn Đoán 3 Phút (Trắc Nghiệm)",
         "💰 1. Tính Án Phí Tòa Án (NQ 326)",
         "📝 2. Xuất Đơn Khởi Kiện (.docx)",
         "⏳ 3. Kiểm Tra Thời Hiệu Khởi Kiện",
@@ -253,6 +254,37 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Tính Án Phí • X
         "⚖️ 5. Giả Lập Bàn Cờ Tố Tụng 2 Chiều",
         "📦 6. Xuất Trọn Bộ Hồ Sơ Tố Tụng (.docx)"
     ])
+
+    with tool_tab0:
+        st.markdown("##### 🧭 Phễu Chẩn Đoán Pháp Lý 3 Phút (Không Cần Gõ Chữ)")
+        st.caption("Dành cho người già, người ít am hiểu luật: Chọn nhanh các phương án để AI đưa ra chẩn đoán và 3 bước hành động ngay:")
+        from src.tools.citizen_wizard import CitizenDiagnosticFunnel
+        from src.tools.plain_legal_glossary import PlainLegalGlossary
+
+        wiz_cat = st.selectbox(
+            "Chọn lĩnh vực vụ việc cần chẩn đoán:",
+            options=["DEBT", "LAND"],
+            format_func=lambda x: "💸 Đòi nợ & Vay mượn tài sản" if x == "DEBT" else "🏡 Tranh chấp đất đai & Lối đi",
+            key="wiz_cat_select"
+        )
+        tree = CitizenDiagnosticFunnel.get_funnel(wiz_cat)
+        user_answers = {}
+        for s in tree["steps"]:
+            opts = [o["label"] for o in s["options"]]
+            sel = st.radio(f"**Bước {s['step_id']}: {s['question']}**", options=range(len(opts)), format_func=lambda i: opts[i], key=f"wiz_step_{s['step_id']}")
+            user_answers[s["step_id"]] = sel
+
+        if st.button("🚀 Chẩn Đoán Tức Thì & Nhận Lời Khuyên 3 Bước", key="btn_run_wizard"):
+            diag = CitizenDiagnosticFunnel.evaluate_answers(wiz_cat, user_answers)
+            st.success(f"**Kết luận chẩn đoán:** {diag['diagnosis']}")
+            st.markdown(f"**1.** {diag['step_1']}")
+            st.markdown(f"**2.** {diag['step_2']}")
+            st.markdown(f"**3.** {diag['step_3']}")
+            
+            # Gợi ý đưa vào chat
+            if st.button("💬 Đưa Kết Luận Này Vào Khung Chat Với Luật Sư", key="btn_send_diag_to_chat"):
+                quick_prompt = f"Tôi vừa hoàn tất Phễu Chẩn Đoán: {diag['diagnosis_title']}. Kết luận: {diag['diagnosis']}. Lời khuyên: 1. {diag['step_1']} - 2. {diag['step_2']} - 3. {diag['step_3']}. Xin luật sư hướng dẫn chi tiết thêm cho tôi."
+
     with tool_tab1:
         st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
         c_fee_input = st.number_input("Nhập số tiền tranh chấp (VNĐ):", min_value=0, value=100000000, step=10000000, key="calc_fee_in")
