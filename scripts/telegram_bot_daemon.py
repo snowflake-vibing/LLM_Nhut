@@ -107,18 +107,28 @@ def run_telegram_daemon():
 
                 elif text in ["/status", "status"]:
                     curr_st = controller.get_state().get("status", "running")
-                    status_text = "🟢 Đang chạy (Running)" if curr_st == "running" else "🔴 Đang tạm dừng (Paused)"
+                    status_text = "🟢 Đang chạy ngầm (Silent Sentry)" if curr_st == "running" else "🔴 Đang tạm dừng (Paused)"
                     controller.send_reply(
                         f"ℹ️ *[TRẠNG THÁI HỆ THỐNG HIỆN TẠI]*\n"
                         f"━━━━━━━━━━━━━━━━━━━━\n"
-                        f"Trạng thái Tự hành: *{status_text}*\n"
-                        f"Phiên bản: *LegalTech Platform v2.9 (Holistic 360° Audit Suite)*\n"
-                        f"Kiến trúc: *LangGraph + 4-Trụ Cột (UI • UX • Backend • Testing)*\n\n"
-                        f"💡 *Các lệnh hữu ích:*\n"
+                        f"Trạng thái: *{status_text}* (Chống spam: Tự động im lặng 24/7)\n"
+                        f"Phiên bản: *LegalTech Platform v3.0 (Citizen-Centric Workstation)*\n"
+                        f"Kiến trúc: *10 Công Cụ Dân Sinh 1-Chạm • LangGraph Hybrid AI*\n\n"
+                        f"💡 *Các lệnh chủ động theo yêu cầu:*\n"
+                        f"• `/session` - Chạy 1 phiên kiểm định khắt khe & bứt phá (6.0đ ➔ >= 9.0đ)\n"
                         f"• `/audit` - Xuất Bảng Đánh Giá Đa Chiều 360° (UI, UX, Backend, Testing)\n"
+                        f"• `/critic` - Mời Giám khảo khó tính vào soi lỗi\n"
                         f"• `/end` - Tạm dừng tự hành | `/start` - Tiếp tục tự hành\n"
                         f"• Nhắn tin tâm sự hoặc hỏi luật trực tiếp để nhận tư vấn ngay lập tức!"
                     )
+                    continue
+
+                elif text in ["/session", "/breakthrough", "/butpha", "session", "breakthrough", "butpha"]:
+                    controller.send_reply("⏳ *Đang tiến hành Chu kỳ Kiểm định Khắt khe & Bứt phá Dân sinh...*")
+                    from scripts.continuous_dev_pipeline import run_single_breakthrough_session
+                    sess_res = run_single_breakthrough_session(session_num=1, send_telegram=False)
+                    controller.send_reply(sess_res["report_msg"])
+                    controller.set_state(controller.get_state().get("status", "running"), "/session", update_id)
                     continue
 
                 elif text in ["/audit", "/eval", "/danhgia", "/matrix", "audit", "danhgia", "danh gia"]:
