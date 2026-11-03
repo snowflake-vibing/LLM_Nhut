@@ -4,6 +4,8 @@ from .output_moderation import OutputModerator
 from .telegram_notifier import TelegramNotifier
 from .telegram_remote_controller import TelegramRemoteController
 from .ephemeral_privacy import EphemeralPrivacyManager
+from .citizen_account_manager import CitizenAccountManager
+from .onboarding_tutorial import OnboardingTutorial
 
 __all__ = [
     "PIIMasker",
@@ -12,4 +14,6 @@ __all__ = [
     "TelegramNotifier",
     "TelegramRemoteController",
     "EphemeralPrivacyManager",
+    "CitizenAccountManager",
+    "OnboardingTutorial",
 ]

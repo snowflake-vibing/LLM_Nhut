@@ -1,0 +1,10 @@
+{
+  "TEST_USER_01": {
+    "id": "TEST_USER_01",
+    "name": "Nguyễn Văn Test",
+    "phone": "0909999999",
+    "note": "Ghi chú vụ việc",
+    "created_at": "2026-11-03 22:33:28",
+    "is_demo": false
+  }
+}

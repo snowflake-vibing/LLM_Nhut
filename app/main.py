@@ -1,8 +1,10 @@
 """
-LegalTech Platform - Streamlit Application - Version 2.7 (The Specialized Multi-Agent Swarm Platform)
-Giao diện 2 Tab chuẩn phong cách NotebookLM:
-- TAB 1: 💬 AI Legal Chatbot & Command Center (In-Chat Everything & Interactive Widgets)
-- TAB 2: 🧰 Legal Tools Studio (Trưng bày & Thực thi Độc lập Toàn bộ Công cụ)
+LegalTech Platform - Streamlit Application - Version 3.0 (Citizen-Centric Workstation)
+Thiết kế tinh gọn cho Cá nhân & Người dân:
+- 👤 Cấp Account Riêng & Nút Vào Nhanh Demo 1-Chạm (4 Personas Đời Thực: Bác Ba, Chị Lan, Anh Hoàng, Cụ Sáu)
+- 📖 Interactive Onboarding Tutorial Cho Người Mới Bắt Đầu (Hướng dẫn 4 bước trực quan)
+- 💬 Khung Chat Tinh Gọn: Xóa sạch toàn bộ nút test kỹ thuật thừa thãi, chỉ giữ hội thoại ân cần và tình huống dân sinh
+- 🧮 Hộp Công Cụ Dân Sinh 1-Chạm (10 Tiện ích độc lập tách riêng tại Tab 2)
 """
 
 import os
@@ -12,7 +14,6 @@ import math
 import pandas as pd
 import streamlit as st
 
-# Thêm đường dẫn gốc vào hệ thống import
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
@@ -20,7 +21,13 @@ if ROOT_DIR not in sys.path:
 from llm_provider.model_factory import ModelFactory, ProviderType
 from src.agents import LegalMultiAgentWorkflow
 from src.database import DatabaseManager
-from src.security import PIIMasker, PromptInjectionGuard, EphemeralPrivacyManager
+from src.security import (
+    PIIMasker,
+    PromptInjectionGuard,
+    EphemeralPrivacyManager,
+    CitizenAccountManager,
+    OnboardingTutorial,
+)
 from src.tools.web_search_tool import hybrid_industry_search
 from src.tools.contract_scanner import ContractVulnerabilityScanner
 from src.tools.social_cases_knowledge import SocialCasesKnowledgeEngine, SOCIAL_CASES_DATA
@@ -32,6 +39,7 @@ from src.tools.multimodal_evidence_parser import MultimodalEvidenceParser
 from src.tools.instant_petition_generator import InstantPetitionGenerator
 from src.tools.litigation_simulator import LegalLitigationSimulator
 from src.tools.voice_narrator import VoiceNarrator
+from src.tools.litigation_dossier_generator import LitigationDossierGenerator
 from src.tools.citizen_wizard import CitizenDiagnosticFunnel
 from src.tools.plain_legal_glossary import PlainLegalGlossary
 from src.tools.usury_trap_detector import UsuryTrapDetector
@@ -41,25 +49,26 @@ from src.tools.inheritance_distribution_engine import InheritanceDistributionEng
 from src.agents.holistic_evaluator import HolisticAuditEngine
 from src.agents.citizen_intake_agent import CitizenIntakeAgent
 from src.agents.memory_store import LegalMemoryStore
-from src.dossier import (
-    generate_registration_request_docx,
-    generate_company_charter_docx,
-    generate_member_list_docx,
-    generate_full_dossier_docx,
-    validate_dossier_legal_compliance,
-    validate_company_name,
-    DynamicLegalDrafter,
-)
+from src.dossier import DynamicLegalDrafter
 
 # Cấu hình giao diện Streamlit
 st.set_page_config(
-    page_title="LegalTech Platform - v3.0",
+    page_title="LegalTech Platform - Trợ Lý Luật Sư Dân Gian v3.0",
     page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Khởi tạo trạng thái Session
+# ==================== KHỞI TẠO TRẠNG THÁI SESSION ====================
+if "account_mgr" not in st.session_state:
+    st.session_state.account_mgr = CitizenAccountManager()
+
+if "current_user" not in st.session_state:
+    st.session_state.current_user = CitizenAccountManager.get_default_guest()
+
+if "show_tutorial" not in st.session_state:
+    st.session_state.show_tutorial = True
+
 if "factory" not in st.session_state:
     st.session_state.factory = ModelFactory()
 
@@ -84,18 +93,25 @@ if "plain_engine" not in st.session_state:
 if "rant_parser" not in st.session_state:
     st.session_state.rant_parser = EmotionalRantParser(st.session_state.factory)
 
+if "citizen_intake" not in st.session_state:
+    st.session_state.citizen_intake = CitizenIntakeAgent(st.session_state.factory)
+
+if "evidence_parser" not in st.session_state:
+    st.session_state.evidence_parser = MultimodalEvidenceParser(st.session_state.factory)
+
 if "messages" not in st.session_state:
+    user_name = st.session_state.current_user.get("name", "Bạn")
     st.session_state.messages = [
         {
             "role": "assistant",
             "content": (
-                "👋 **Xin chào bạn! Tôi là Luật sư Dân gian Đồng hành (LegalTech Platform v3.0 - Citizen-Centric Diagnostic Platform).**\n\n"
-                "🎯 **Định hướng trọng tâm:** Tôi chuyên sâu hỗ trợ **Cá nhân & Người dân** trong các vấn đề đời sống thiết thực:\n"
-                "- 🏡 **Đất đai & Ranh giới:** Hàng xóm lấn đất, tranh chấp lối đi chung, sổ đỏ cha ông.\n"
-                "- 💸 **Đòi nợ & Vay mượn:** Nợ khó đòi, con nợ cắt liên lạc, giấy viết tay hoặc chỉ có tin nhắn Zalo.\n"
-                "- 💔 **Hôn nhân & Gia đình:** Thuận tình hoặc đơn phương ly hôn, tranh chấp nuôi con và chia tài sản.\n"
-                "- 🛡️ **Lừa đảo & Bạo lực:** Lừa đảo qua mạng, chuyển khoản, bạo lực học đường, xâm phạm danh dự.\n\n"
-                "💡 **Nguyên tắc hỗ trợ:** Tôi sẽ **hỏi thăm từng bước để nắm chắc sự việc, tuyệt đối không trả lời dồn dập** khiến bạn bị ngợp. Bạn có thể gõ câu chuyện hoặc bấm các lựa chọn nhanh!"
+                f"👋 **Kính chào {user_name}! Tôi là Luật sư Dân gian Đồng hành (LegalTech Platform v3.0).**\n\n"
+                "Tôi ở đây để **lắng nghe, hỏi thăm từng bước và bảo vệ quyền lợi hợp pháp** cho bạn trong các vấn đề đời sống:\n"
+                "- 🏡 **Đất đai & Ranh giới:** Hàng xóm lấn chiếm đất, bít lối đi chung, sổ đỏ thừa kế.\n"
+                "- 🛑 **Vay mượn & Bẫy tín dụng đen:** Vay app nóng, bị đe dọa, nợ khó đòi, tính lãi vượt trần 20%/năm.\n"
+                "- 💔 **Hôn nhân & Gia đình:** Thuận tình ly hôn, công sức nội trợ của người vợ, quyền nuôi con nhỏ.\n"
+                "- 📜 **Di sản Thừa kế:** Phân chia đất đai cha mẹ, bảo vệ suất thừa kế bắt buộc 2/3 không phụ thuộc di chúc.\n\n"
+                "💡 *Bạn hãy chia sẻ sự việc bằng lời nói đời thường hoặc bấm chọn các tình huống bên dưới, tôi sẽ hỗ trợ bạn ngay!*"
             ),
             "agent": "CitizenIntakeAgent",
             "citations": [],
@@ -104,62 +120,142 @@ if "messages" not in st.session_state:
         }
     ]
 
-if "citizen_intake" not in st.session_state:
-    st.session_state.citizen_intake = CitizenIntakeAgent(st.session_state.factory)
-
-if "evidence_parser" not in st.session_state:
-    st.session_state.evidence_parser = MultimodalEvidenceParser(st.session_state.factory)
-
-# ==================== SIDEBAR: KIẾN TRÚC & MODEL SWITCHER ====================
+# ==================== SIDEBAR: TÀI KHOẢN, DEMO & TRỢ NĂNG ====================
 with st.sidebar:
-    st.title("⚖️ LegalTech Platform")
-    st.caption("Trợ Lý Luật Sư Dân Gian Đồng Hành 24/7 • **v3.0**")
+    st.title("⚖️ Trợ Lý Dân Gian")
+    st.caption("Đồng Hành Pháp Lý Cá Nhân 24/7 • **v3.0**")
     st.markdown("---")
 
-    # ⚡ CẤU HÌNH MODEL SWITCHER (TIÊU CHÍ 3 UIT)
-    st.subheader("⚡ Chế độ Mô hình (Model Switcher)")
-    current_mode = st.session_state.factory.current_provider_type.value
-    selected_mode = st.radio(
-        "Chọn môi trường LLM:",
-        options=["cloud", "local"],
-        format_func=lambda x: "☁️ Cloud Model (Google Gemini)" if x == "cloud" else "💻 Local Model (Ollama / Qwen 2.5)",
-        index=0 if current_mode == "cloud" else 1
-    )
+    # 1. THẺ THÔNG TIN TÀI KHOẢN HIỆN TẠI
+    cur_u = st.session_state.current_user
+    st.markdown(f"#### {cur_u.get('avatar', '👤')} Tài Khoản Đang Dùng")
+    st.markdown(f"**Họ và tên:** `{cur_u.get('name')}`")
+    st.markdown(f"**Lĩnh vực quan tâm:** *{cur_u.get('category', 'Dân sự')}*")
+    if cur_u.get("phone") and cur_u.get("phone") != "Chưa đăng ký":
+        st.caption(f"SĐT: {cur_u.get('phone')}")
 
-    if selected_mode != current_mode:
-        st.session_state.factory.set_provider(selected_mode)
-        st.session_state.health = st.session_state.factory.check_health()
-        st.success(f"Đã chuyển sang chế độ: **{selected_mode.upper()}**")
+    # 2. NÚT VÀO NHANH TÀI KHOẢN DEMO (1-CHẠM PERSONAS ĐỜI THỰC)
+    st.markdown("##### ⚡ Vào Nhanh Tài Khoản Demo (1-Chạm):")
+    st.caption("Trải nghiệm ngay 4 tình huống đời thực không cần đăng ký:")
 
-    # 📡 KIỂM TRA TRẠNG THÁI KẾT NỐI
+    d_col1, d_col2 = st.columns(2)
+    with d_col1:
+        if st.button("🧑‍🌾 Bác Ba (Đất)", use_container_width=True, help="Bác Ba: Tranh chấp ranh giới đất & lối đi Tiền Giang"):
+            persona = CitizenAccountManager.get_demo_persona("bac_ba")
+            st.session_state.current_user = persona
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": f"👋 Kính chào **Bác Ba**! Tôi đã nắm được sự việc Bác đang bị hàng xóm lấn 1.5m đất vườn và rào bít lối đi chung tại Tiền Giang. Bác hãy gửi thêm thông tin để tôi hướng dẫn thủ tục hòa giải bắt buộc tại xã ngay nhé!",
+                    "agent": "CitizenIntakeAgent",
+                    "citations": [],
+                    "action_type": None,
+                    "action_data": None
+                },
+                {
+                    "role": "user",
+                    "content": persona["initial_prompt"]
+                }
+            ]
+            st.toast(f"Đã đăng nhập: {persona['name']}", icon="🧑‍🌾")
+            st.rerun()
+
+    with d_col2:
+        if st.button("👩‍🏭 Chị Lan (Vay)", use_container_width=True, help="Chị Lan: Dính bẫy app vay tín dụng đen Bình Dương"):
+            persona = CitizenAccountManager.get_demo_persona("chi_lan")
+            st.session_state.current_user = persona
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": f"👋 Chào **Chị Lan**! Em đừng quá lo sợ trước lời đe dọa của đối tượng cho vay app. Theo Điều 468 BLDS và Điều 201 BLHS, mức lãi 400k/ngày trên khoản 16tr là có dấu hiệu hình sự. Em DỪNG TRẢ LÃI NGAY, tôi sẽ giúp em làm Đơn tố giác gửi Công an!",
+                    "agent": "CitizenIntakeAgent",
+                    "citations": [],
+                    "action_type": None,
+                    "action_data": None
+                },
+                {
+                    "role": "user",
+                    "content": persona["initial_prompt"]
+                }
+            ]
+            st.toast(f"Đã đăng nhập: {persona['name']}", icon="👩‍🏭")
+            st.rerun()
+
+    d_col3, d_col4 = st.columns(2)
+    with d_col3:
+        if st.button("👨‍💼 Anh Hoàng (Ly hôn)", use_container_width=True, help="Anh Hoàng: Thuận tình ly hôn, nhà chung 2.4 tỷ, con 22 tháng"):
+            persona = CitizenAccountManager.get_demo_persona("anh_hoang")
+            st.session_state.current_user = persona
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": f"👋 Chào **Anh Hoàng**! Thuận tình ly hôn là quyết định văn minh. Với căn chung cư 2.4 tỷ (nợ 300tr) và bé 22 tháng tuổi, luật ưu tiên mẹ nuôi con dưới 36 tháng và công sức nội trợ của vợ được tính ngang lao động tạo thu nhập. Tôi sẽ lập phương án thỏa thuận tối ưu cho 2 bên!",
+                    "agent": "CitizenIntakeAgent",
+                    "citations": [],
+                    "action_type": None,
+                    "action_data": None
+                },
+                {
+                    "role": "user",
+                    "content": persona["initial_prompt"]
+                }
+            ]
+            st.toast(f"Đã đăng nhập: {persona['name']}", icon="👨‍💼")
+            st.rerun()
+
+    with d_col4:
+        if st.button("👴 Cụ Sáu (Thừa kế)", use_container_width=True, help="Cụ Sáu: Chia thừa kế đất hương hỏa cha mẹ 3 tỷ cho 4 anh em"):
+            persona = CitizenAccountManager.get_demo_persona("cu_sau")
+            st.session_state.current_user = persona
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": f"👋 Kính chào **Cụ Sáu**! Di sản cha mẹ để lại không có di chúc sẽ được chia đều cho 4 người con theo Hàng thừa kế thứ nhất (Điều 651 BLDS). Nếu Cụ muốn giữ đất làm nhà thờ họ, các anh em có thể thỏa thuận nhận tiền đền bù tương ứng phần suất.",
+                    "agent": "CitizenIntakeAgent",
+                    "citations": [],
+                    "action_type": None,
+                    "action_data": None
+                },
+                {
+                    "role": "user",
+                    "content": persona["initial_prompt"]
+                }
+            ]
+            st.toast(f"Đã đăng nhập: {persona['name']}", icon="👴")
+            st.rerun()
+
+    # 3. ĐĂNG KÝ TÀI KHOẢN CÁ NHÂN RIÊNG HOẶC QUAY VỀ KHÁCH
+    with st.expander("👤 Cấp / Đăng Ký Tài Khoản Riêng", expanded=False):
+        new_name = st.text_input("Họ và tên của bạn:", placeholder="VD: Trần Văn Bình", key="reg_name_in")
+        new_phone = st.text_input("Số điện thoại liên hệ:", placeholder="0901234567", key="reg_phone_in")
+        new_note = st.text_area("Tóm tắt vụ việc cần hỗ trợ:", placeholder="VD: Tranh chấp tiền cọc thuê nhà...", key="reg_note_in")
+        if st.button("💾 Lưu & Đăng Nhập Tài Khoản Này", use_container_width=True):
+            if new_name.strip():
+                uid = f"CITIZEN_{len(new_name)}_{abs(hash(new_name + new_phone)) % 10000}"
+                saved = st.session_state.account_mgr.save_account(uid, new_name.strip(), new_phone.strip(), new_note.strip())
+                saved["avatar"] = "👤"
+                saved["category"] = "Tài khoản cá nhân"
+                st.session_state.current_user = saved
+                st.success(f"Đã tạo và đăng nhập tài khoản: **{new_name}**")
+                st.rerun()
+            else:
+                st.warning("Vui lòng nhập họ tên của bạn.")
+
+    if cur_u.get("id") != "GUEST_CITIZEN":
+        if st.button("🚪 Đăng xuất / Quay về Khách", use_container_width=True):
+            st.session_state.current_user = CitizenAccountManager.get_default_guest()
+            st.rerun()
+
     st.markdown("---")
-    st.subheader("📡 Trạng thái Kết nối (Health)")
-    if "health" not in st.session_state:
-        st.session_state.health = st.session_state.factory.check_health()
-    health = st.session_state.health
 
-    c1, c2 = st.columns(2)
-    with c1:
-        if health["cloud"]["available"]:
-            st.markdown("🟢 **Cloud:** Sẵn sàng")
-        else:
-            st.markdown("🟡 **Cloud:** Chưa có Key")
-    with c2:
-        if health["local"]["available"]:
-            st.markdown("🟢 **Local:** Online")
-        else:
-            st.markdown("🔴 **Local:** Offline")
-
-    st.caption(f"Cloud: `{health['cloud']['model']}`")
-    st.caption(f"Local: `{health['local']['model']}`")
-    if st.button("🔄 Kiểm tra lại kết nối", use_container_width=True):
-        st.session_state.health = st.session_state.factory.check_health()
+    # 4. HƯỚNG DẪN SỬ DỤNG (TUTORIAL TOGGLE)
+    if st.button("📖 Bật / Tắt Hướng Dẫn Nhanh", use_container_width=True):
+        st.session_state.show_tutorial = not st.session_state.show_tutorial
         st.rerun()
 
-    # 👓 CHẾ ĐỘ TRỢ NĂNG DÀNH CHO NGƯỜI CAO TUỔI
-    st.markdown("---")
-    st.subheader("👓 Trợ Năng & Dễ Tiếp Cận")
-    elderly_mode = st.toggle("Chế độ Chữ Lớn (Người Cao Tuổi)", value=False, key="elderly_mode_toggle")
+    # 5. TRỢ NĂNG NGƯỜI CAO TUỔI
+    st.subheader("👓 Trợ Năng Cho Người Già")
+    elderly_mode = st.toggle("Chữ Lớn (19px) & Dễ Đọc", value=False, key="elderly_mode_toggle")
     if elderly_mode:
         st.markdown("""
         <style>
@@ -177,79 +273,232 @@ with st.sidebar:
             }
         </style>
         """, unsafe_allow_html=True)
-        st.caption("🟢 Đã bật giao diện phóng to chữ, giãn dòng thoáng và tương phản cao.")
 
-    # 🛡️ BẢO MẬT & XÓA DẤU VẾT KHẨN CẤP (PANIC WIPE)
-    st.markdown("---")
-    st.subheader("🛡️ Quyền Riêng Tư Tuyệt Đối")
-    st.caption("Dữ liệu chỉ nằm trong bộ nhớ tạm (RAM) của bạn, không lưu vĩnh viễn.")
+    # 6. BẢO MẬT KHẨN CẤP (PANIC WIPE)
+    st.subheader("🛡️ Quyền Riêng Tư")
     if st.button("🚨 XÓA SẠCH DẤU VẾT (Panic Wipe)", use_container_width=True, type="primary"):
         EphemeralPrivacyManager.panic_wipe_session_state(st.session_state)
-        st.toast("Đã xóa sạch 100% lịch sử và dữ liệu phiên làm việc!", icon="🛡️")
+        st.session_state.current_user = CitizenAccountManager.get_default_guest()
+        st.toast("Đã xóa sạch 100% dữ liệu phiên làm việc!", icon="🛡️")
         st.rerun()
 
-    st.markdown("---")
-    st.info(
-        "⚖️ **Trụ cột Version 3.0:**\n"
-        "- Citizen-Centric Diagnostic Intake\n"
-        "- Multi-Turn Socratic Intake\n"
-        "- 360° Holistic Audit Matrix\n"
-        "- Senior Accessibility Mode (19px)\n"
-        "- Emotional Rant De-Noiser\n"
-        "- Zero-Trust Ephemeral Wipe\n"
-        "- Telegram Bot Sub-Second"
-    )
+    # 7. THU GỌN TOÀN BỘ CÀI ĐẶT KỸ THUẬT VÀO ĐÁY SIDEBAR (KHÔNG LÀM RỐI NGƯỜI DÂN)
+    with st.expander("⚙️ Cài Đặt Môi Trường LLM & Kết Nối", expanded=False):
+        current_mode = st.session_state.factory.current_provider_type.value
+        selected_mode = st.radio(
+            "Môi trường LLM:",
+            options=["cloud", "local"],
+            format_func=lambda x: "☁️ Cloud (Google Gemini)" if x == "cloud" else "💻 Local (Ollama / Qwen)",
+            index=0 if current_mode == "cloud" else 1,
+            key="cfg_mode_select"
+        )
+        if selected_mode != current_mode:
+            st.session_state.factory.set_provider(selected_mode)
+            st.session_state.health = st.session_state.factory.check_health()
+            st.success(f"Đã chuyển: {selected_mode.upper()}")
+        
+        if "health" not in st.session_state:
+            st.session_state.health = st.session_state.factory.check_health()
+        h = st.session_state.health
+        st.caption(f"Cloud: `{'Sẵn sàng' if h['cloud']['available'] else 'Chưa có Key'}` | Local: `{'Online' if h['local']['available'] else 'Offline'}`")
+        if st.button("🔄 Kiểm tra kết nối", key="btn_recheck_health"):
+            st.session_state.health = st.session_state.factory.check_health()
+            st.rerun()
 
 
-# ==================== NỘI DUNG CHÍNH: 2 TABS ====================
+# ==================== NỘI DUNG CHÍNH: 2 TABS RÕ RÀNG ====================
 
-# ================================================================
-# TAB 1: 💬 AI LEGAL CHATBOT & COMMAND CENTER (IN-CHAT EVERYTHING)
-# ================================================================
-# ==================== TRỢ LÝ LUẬT SƯ AI DÂN GIAN (BỀ NỔI DÂN SINH) ====================
-st.header("⚖️ Trợ Lý Luật Sư AI Dân Gian")
-st.caption("Lắng nghe ân cần • Hỏi từng bước rõ ràng • Hỗ trợ pháp lý dân sinh 1-chạm 24/7")
+# HEADER GIAO DIỆN
+cur_name = st.session_state.current_user.get("name", "Công Dân")
+cur_av = st.session_state.current_user.get("avatar", "👤")
 
-# BANNER ĐỊNH HƯỚNG TRỌNG TÂM CÁ NHÂN & NGƯỜI DÂN
-st.info(
-    "🎯 **Định Hướng Trọng Tâm:** 👨‍👩‍👧 **Dành Cho Cá Nhân & Người Dân** — "
-    "*Luật sư đồng hành lắng nghe, hỏi từng bước để nắm chắc sự việc, tuyệt đối không trả lời dồn dập. "
-    "(Phạm vi Doanh nghiệp & Công ty đang được đặt ở chế độ chờ)*"
-)
+h_c1, h_c2 = st.columns([3, 1])
+with h_c1:
+    st.header(f"⚖️ Trợ Lý Luật Sư AI Dân Gian")
+    st.caption(f"Xin chào **{cur_av} {cur_name}** • Lắng nghe ân cần • Hỏi từng bước rõ ràng • Bảo vệ quyền lợi hợp pháp 24/7")
+with h_c2:
+    if st.button("❓ Hướng dẫn sử dụng", key="btn_top_tutorial", use_container_width=True):
+        st.session_state.show_tutorial = not st.session_state.show_tutorial
+        st.rerun()
+
+# 📖 ONBOARDING TUTORIAL CHO NGƯỜI MỚI (HIỂN THỊ KHI ĐƯỢC BẬT)
+if st.session_state.show_tutorial:
+    with st.container():
+        st.info("👋 **HƯỚNG DẪN 4 BƯỚC CHO NGƯỜI MỚI SỬ DỤNG TRONG 1 PHÚT:**")
+        tut_steps = OnboardingTutorial.get_tutorial_steps()
+        t_cols = st.columns(4)
+        for idx, t in enumerate(tut_steps):
+            with t_cols[idx]:
+                st.markdown(f"### {t['icon']} Bước {t['step']}")
+                st.markdown(f"**{t['title']}**")
+                st.caption(t["desc"])
+
+        if st.button("✅ Tôi đã hiểu - Bắt đầu ngay!", key="btn_close_tut", type="primary"):
+            st.session_state.show_tutorial = False
+            st.rerun()
+        st.markdown("---")
 
 quick_prompt = None
 
-# 📎 1. KHUNG NẠP TÀI LIỆU & ẢNH CHỨNG CỨ TRỰC TIẾP TRONG CHAT
-with st.expander("📎 Nạp Tài Liệu & Ảnh Chứng Cứ (PDF, Word, Ảnh Giấy Nợ Viết Tay, Sổ Đỏ, Zalo)", expanded=False):
-    st.caption("Tải lên hình ảnh hoặc tài liệu để AI bóc tách nội dung và chấm điểm giá trị chứng cứ theo BLTTDS 2015:")
-    uploaded_ev_file = st.file_uploader(
-        "Chọn file tài liệu hoặc ảnh chụp chứng cứ:",
-        type=["pdf", "docx", "txt", "png", "jpg", "jpeg"],
-        key="in_chat_file_uploader"
-    )
-    if uploaded_ev_file is not None:
-        with st.spinner("Đang bóc tách văn bản và giám định giá trị chứng cứ..."):
-            parse_res = st.session_state.evidence_parser.parse_uploaded_file(uploaded_ev_file)
+# PHÂN TÁCH GIAO DIỆN THÀNH 2 TAB: TAB 1 CHAT TINH GỌN & TAB 2 HỘP CÔNG CỤ DÂN SINH
+main_tab_chat, main_tab_tools = st.tabs([
+    "💬 Luật Sư Đồng Hành (Khung Chat Tinh Gọn)",
+    "🧮 Hộp Công Cụ Dân Sinh 1-Chạm (10 Tiện Ích)"
+])
 
-        ev_col1, ev_col2 = st.columns([1, 2])
-        with ev_col1:
-            st.metric("Điểm Giá Trị Chứng Cứ", f"{parse_res['evidence_score']} / 100")
-            st.markdown(f"**Xếp hạng:** `{parse_res['evidence_grade']}`")
-        with ev_col2:
-            st.info(f"💡 **Lời khuyên tố tụng:** {parse_res['action_advice']}")
+# ================================================================
+# TAB 1: 💬 KHUNG CHAT TINH GỌN (LOẠI BỎ TOÀN BỘ CÁC NÚT TEST THỪA)
+# ================================================================
+with main_tab_chat:
 
-        with st.expander("📄 Xem Nội dung Văn bản Bóc tách được từ tệp:", expanded=False):
-            st.text_area("Trích xuất nội dung:", value=parse_res["extracted_text"][:2000], height=120)
+    # 4 LỐI TẮT TÌNH HUỐNG THỰC TẾ DÂN SINH (KHÔNG CÓ TEST KỸ THUẬT)
+    st.markdown("💡 **Lối tắt tình huống thực tế thường gặp (Bấm 1-chạm để hỏi ngay):**")
+    p_c1, p_c2, p_c3, p_c4 = st.columns(4)
+    with p_c1:
+        if st.button("🏡 Tranh chấp lấn ranh đất", use_container_width=True):
+            quick_prompt = "Hàng xóm nhà tôi xây hàng rào lấn sang đất của tôi hơn 1 mét rưỡi. Tôi đã có Sổ đỏ chính chủ. Tôi có cần hòa giải ở xã trước không và làm đơn gì?"
+    with p_c2:
+        if st.button("🛑 Bẫy app vay & lãi cắt cổ", use_container_width=True):
+            quick_prompt = "Tôi bị app vay tiền nóng trừ phí giải ngân, tính lãi hơn 100%/năm và gọi điện đe dọa người thân. Luật sư hướng dẫn tôi cách xử lý và làm đơn tố giác tội phạm gửi Công an."
+    with p_c3:
+        if st.button("💔 Thuận tình ly hôn & nuôi con", use_container_width=True):
+            quick_prompt = "Vợ chồng tôi muốn thuận tình ly hôn. Có 1 căn nhà chung 2 tỷ và con nhỏ 2 tuổi. Vợ tôi ở nhà nội trợ thì tài sản chia thế nào và ai được quyền nuôi con?"
+    with p_c4:
+        if st.button("📜 Chia thừa kế đất cha mẹ", use_container_width=True):
+            quick_prompt = "Cha mẹ tôi mất không để lại di chúc, có để lại thửa đất 300m2 cho 4 anh em. Xin luật sư cho biết theo luật thì chia thừa kế hàng thứ nhất thế nào và có thời hiệu bao nhiêu năm?"
 
-        if st.button("💬 Đưa Tài Liệu Này Vào Cuộc Trò Chuyện Với Luật Sư", key="btn_send_file_to_chat"):
-            quick_prompt = (
-                f"Tôi vừa tải lên tài liệu/chứng cứ: '{parse_res['file_name']}'. "
-                f"Nội dung bóc tách được tóm lược như sau:\n\"{parse_res['extracted_text'][:800]}\"\n"
-                f"Xin Luật sư giám định và tư vấn quyền lợi pháp lý cho tôi dựa trên tài liệu này."
-            )
+    # KHUNG NẠP CHỨNG CỨ / ẢNH CHỤP GỌN GÀNG (EXPANDER THU NHỎ)
+    with st.expander("📎 Gửi Ảnh / Tài Liệu Chứng Cứ (Sổ Đỏ, Giấy Vay Viết Tay, Tin Nhắn Zalo)", expanded=False):
+        uploaded_ev_file = st.file_uploader(
+            "Chọn ảnh chụp hoặc file tài liệu:",
+            type=["pdf", "docx", "txt", "png", "jpg", "jpeg"],
+            key="chat_clean_file_uploader"
+        )
+        if uploaded_ev_file is not None:
+            with st.spinner("Đang bóc tách văn bản và giám định giá trị chứng cứ..."):
+                parse_res = st.session_state.evidence_parser.parse_uploaded_file(uploaded_ev_file)
 
-# 🧮 2. HỘP CÔNG CỤ DÂN SINH 1-CHẠM (IN-CHAT TOOLBAR)
-with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đen • Hành Trang Ra Tòa • Ly Hôn • Thừa Kế • Phễu 3 Phút • Án Phí • Xuất Đơn)", expanded=False):
+            ev_col1, ev_col2 = st.columns([1, 2])
+            with ev_col1:
+                st.metric("Điểm Giá Trị Chứng Cứ", f"{parse_res['evidence_score']} / 100")
+                st.markdown(f"**Xếp hạng:** `{parse_res['evidence_grade']}`")
+            with ev_col2:
+                st.info(f"💡 **Lời khuyên:** {parse_res['action_advice']}")
+
+            if st.button("💬 Đưa Tài Liệu Này Vào Cuộc Trò Chuyện", key="btn_send_file_to_clean_chat"):
+                quick_prompt = (
+                    f"Tôi vừa tải lên tài liệu/chứng cứ: '{parse_res['file_name']}'. "
+                    f"Nội dung tóm lược:\n\"{parse_res['extracted_text'][:600]}\"\n"
+                    f"Xin Luật sư giám định và tư vấn quyền lợi cho tôi."
+                )
+
+    st.markdown("---")
+
+    # HIỂN THỊ LỊCH SỬ CHAT (HOÀN TOÀN TINH GỌN)
+    for idx, msg in enumerate(st.session_state.messages):
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+            action_type = msg.get("action_type")
+            action_data = msg.get("action_data")
+
+            # XUẤT ĐƠN / VĂN BẢN KHI CẦN THIẾT CHO CÔNG DÂN
+            if action_type == "DYNAMIC_DRAFT_ACTION":
+                with st.expander("📝 Tải Về Mẫu Văn Bản Chuẩn Tư Pháp", expanded=True):
+                    st.caption("AI đã điền sẵn căn cứ pháp luật và mẫu chuẩn. Bạn có thể tải về file Word để in ra điền tay hoặc ký tên:")
+                    case_id = (action_data or {}).get("case_id", "DEBT_COLLECTION") if isinstance(action_data, dict) else "DEBT_COLLECTION"
+                    doc_buf = st.session_state.dynamic_drafter.draft_debt_lawsuit({"court_name": "TAND Quận/Huyện", "plaintiff_name": cur_name, "principal_amount": "150.000.000 VNĐ"})
+                    st.download_button(
+                        label="📥 Tải Ngay Đơn Khởi Kiện Chuẩn (.docx)",
+                        data=doc_buf,
+                        file_name=f"Van_Ban_Phap_Ly_{cur_name.replace(' ', '_')}.docx",
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        key=f"dl_clean_doc_{idx}"
+                    )
+
+            # DIỄN GIẢI BÌNH DÂN & ĐỌC TO CHO NGƯỜI CAO TUỔI
+            if msg["role"] == "assistant" and msg.get("content") and not msg.get("content", "").startswith("👋"):
+                c_action1, c_action2 = st.columns([1, 1])
+                with c_action1:
+                    with st.expander("☕ Xem Lời Giải Thích Dân Dã", expanded=False):
+                        plain_cached_key = f"plain_cache_{idx}"
+                        if plain_cached_key not in st.session_state:
+                            st.session_state[plain_cached_key] = st.session_state.plain_engine.translate_to_plain_language(msg["content"])
+                        st.markdown(st.session_state[plain_cached_key])
+                with c_action2:
+                    tts_cache_key = f"tts_audio_{idx}"
+                    if tts_cache_key not in st.session_state:
+                        if st.button("🔊 Đọc to câu trả lời", key=f"tts_btn_{idx}", help="Dành cho người già, người mắt kém"):
+                            audio_fp = VoiceNarrator.generate_speech(msg["content"])
+                            if audio_fp:
+                                st.session_state[tts_cache_key] = audio_fp.read()
+                                st.rerun()
+                    else:
+                        st.audio(st.session_state[tts_cache_key], format="audio/mp3")
+
+            # LỰA CHỌN TRẢ LỜI NHANH 1-CHẠM
+            if msg.get("quick_options") and idx == len(st.session_state.messages) - 1:
+                st.markdown("👉 **Lựa chọn trả lời nhanh:**")
+                q_cols = st.columns(min(len(msg["quick_options"]), 4))
+                for q_i, opt in enumerate(msg["quick_options"]):
+                    with q_cols[q_i % len(q_cols)]:
+                        if st.button(opt, key=f"qopt_click_{idx}_{q_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = opt
+                            st.rerun()
+
+            # CÂU HỎI GỢI Ý
+            if msg.get("suggested_followups") and idx == len(st.session_state.messages) - 1:
+                st.markdown("💡 **Câu hỏi gợi ý:**")
+                f_cols = st.columns(min(len(msg["suggested_followups"]), 3))
+                for f_i, fq in enumerate(msg["suggested_followups"][:3]):
+                    with f_cols[f_i % len(f_cols)]:
+                        if st.button(f"👉 {fq}", key=f"fup_click_{idx}_{f_i}", use_container_width=True):
+                            st.session_state.pending_quick_input = fq
+                            st.rerun()
+
+    # XỬ LÝ NHẬP LIỆU CHAT
+    pending_text = getattr(st.session_state, "pending_quick_input", None)
+    if pending_text:
+        del st.session_state.pending_quick_input
+        user_input = pending_text
+    elif quick_prompt:
+        user_input = quick_prompt
+    else:
+        user_input = st.chat_input("Nhập câu chuyện hoặc câu hỏi pháp lý của bạn...")
+
+    if user_input:
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        with st.chat_message("user"):
+            st.markdown(user_input)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Luật sư Dân gian đang lắng nghe và phân tích sự việc..."):
+                intake_res = st.session_state.citizen_intake.respond(user_input)
+                reply_text = intake_res.get("response", "")
+                q_opts = intake_res.get("quick_options", [])
+                f_ups = intake_res.get("suggested_followups", [])
+
+                st.markdown(reply_text)
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": reply_text,
+                    "agent": "CitizenIntakeAgent",
+                    "citations": [],
+                    "action_type": None,
+                    "action_data": None,
+                    "quick_options": q_opts,
+                    "suggested_followups": f_ups
+                })
+        st.rerun()
+
+
+# ================================================================
+# TAB 2: 🧮 HỘP CÔNG CỤ DÂN SINH 1-CHẠM (10 TIỆN ÍCH CHUYÊN BIỆT)
+# ================================================================
+with main_tab_tools:
+    st.markdown("#### 🧮 Hộp Công Cụ Dân Sinh 1-Chạm")
+    st.caption("Các tiện ích tính toán và tra cứu pháp lý chuyên biệt phục vụ đời sống hàng ngày của người dân:")
+
     tool_tab0, tool_tab1, tool_tab2, tool_tab3, tool_tab4, tool_tab5, tool_tab6, tool_tab7, tool_tab8, tool_tab9 = st.tabs([
         "🧭 0. Phễu 3 Phút",
         "💰 1. Án Phí NQ 326",
@@ -285,8 +534,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
             st.markdown(f"**1.** {diag['step_1']}")
             st.markdown(f"**2.** {diag['step_2']}")
             st.markdown(f"**3.** {diag['step_3']}")
-            if st.button("💬 Đưa Kết Luận Này Vào Khung Chat Với Luật Sư", key="btn_send_diag_to_chat"):
-                quick_prompt = f"Tôi vừa hoàn tất Phễu Chẩn Đoán: {diag['diagnosis_title']}. Kết luận: {diag['diagnosis']}. Lời khuyên: 1. {diag['step_1']} - 2. {diag['step_2']} - 3. {diag['step_3']}. Xin luật sư hướng dẫn chi tiết thêm cho tôi."
 
     with tool_tab1:
         st.markdown("##### 💰 Tính Án Phí Dân Sự Sơ Thẩm (Nghị quyết số 326/2016/UBTVQH14)")
@@ -332,13 +579,11 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
 
             if u_res["severity"] in ["CRIMINAL_ALERT", "EXTREME_USURY"]:
                 st.markdown("---")
-                st.markdown("##### 📝 Mẫu Đơn Tố Giác Tội Phạm Gửi Công An:")
                 denounce_txt = UsuryTrapDetector.generate_criminal_denunciation_template(
                     u_res,
-                    {"full_name": "Nguyễn Văn A", "birth_year": "1990", "cccd": "079090xxxxxx", "address": "TP. Hồ Chí Minh", "phone": "090xxxxxxx"},
+                    {"full_name": cur_name, "birth_year": "1990", "cccd": "079090xxxxxx", "address": "TP. Hồ Chí Minh", "phone": cur_u.get("phone", "090xxxxxxx")},
                     {"name": "Đối tượng cho vay lãi nóng", "contact": "App vay / SĐT đối tượng", "address": "Khu vực cư trú", "police_dept": "Cơ quan CSĐT Công an Quận/Huyện"}
                 )
-                st.text_area("Nội dung đơn tố giác (có thể copy hoặc tải về):", value=denounce_txt, height=200, key="denounce_txt_area")
                 st.download_button(
                     "📥 Tải Mẫu Đơn Tố Giác Tội Phạm (.txt)",
                     data=denounce_txt,
@@ -376,10 +621,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
             for idx, doc in enumerate(cj_res["required_dossier"], 1):
                 st.markdown(f"**{idx}.** {doc}")
 
-            st.markdown("##### 🚶 Các Bước Đi Nộp Đơn Thực Tế:")
-            for step in cj_res["action_steps"]:
-                st.markdown(f"• {step}")
-
     with tool_tab4:
         st.markdown("##### 👨‍👩‍👧 Máy Tính Chia Tài Sản & Bảo Vệ Con Cái Khi Ly Hôn")
         st.caption("Bảo vệ công sức nội trợ của người vợ (Điều 59.2) và quyền lợi của con nhỏ (Điều 81 Luật HNGĐ 2014):")
@@ -411,10 +652,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
             
             st.metric("Mức Cấp Dưỡng Khuyến Nghị Cho Bé", f"{DivorceSettlementCalculator.format_currency(div_res['monthly_child_support_per_child'])} / tháng")
 
-            st.markdown("##### 💡 Lời Khuyên Pháp Lý Dân Gian:")
-            for adv in div_res["legal_advice"]:
-                st.markdown(adv)
-
     with tool_tab5:
         st.markdown("##### 📜 Phân Chia Di Sản Thừa Kế Đất Đai Dân Gian (BLDS 2015)")
         st.caption("Tính toán phân chia di sản hàng thứ nhất (Điều 651) và bảo vệ suất bắt buộc 2/3 không phụ thuộc di chúc (Điều 644):")
@@ -440,21 +677,13 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
             with im2:
                 st.metric("Suất Bảo Vệ 2/3 (Điều 644)", InheritanceDistributionEngine.format_currency(inh_res['mandatory_protection_share_2_thirds']))
 
-            st.markdown("##### 👥 Danh Sách Phân Bổ Di Sản:")
-            for d_item in inh_res["distribution_plan"]:
-                st.markdown(f"• **{d_item['relation']} ({d_item['count']} người):** {InheritanceDistributionEngine.format_currency(d_item['share_per_person'])} / người. *(Lưu ý: {d_item['note']})*")
-
-            st.markdown("##### ⚠️ Cảnh Báo Pháp Lý Quan Trọng:")
-            for al in inh_res["alerts"]:
-                st.warning(al)
-
     with tool_tab6:
         st.markdown("##### 📝 Xuất Đơn Khởi Kiện Chuẩn Mẫu 23-DS (Nghị quyết 01/2017/NQ-HĐTP)")
         st.caption("Điền thông tin cơ bản để AI lập tức đóng gói Đơn khởi kiện chuẩn nộp Tòa án:")
         pf_c1, pf_c2 = st.columns(2)
         with pf_c1:
             p_court = st.text_input("Tòa án nhân dân thụ lý:", value="TAND Quận 1, TP. Hồ Chí Minh", key="pf_court")
-            p_pl_name = st.text_input("Họ tên Người khởi kiện:", value="Nguyễn Thị Lan", key="pf_pl_name")
+            p_pl_name = st.text_input("Họ tên Người khởi kiện:", value=cur_name, key="pf_pl_name")
             p_claim_money = st.text_input("Số tiền đòi / Giá trị khởi kiện:", value="150.000.000 VNĐ", key="pf_claim_money")
         with pf_c2:
             p_df_name = st.text_input("Họ tên Người bị kiện:", value="Trần Văn Nam", key="pf_df_name")
@@ -511,20 +740,6 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
             st.metric("🎯 Dự Báo Tỷ Lệ Thắng Kiện Tại Tòa", f"{sim_res['win_rate']}%", delta="Khả thi tố tụng")
             st.markdown(f"> 🏛️ **Dự báo phán quyết của Tòa:** *{sim_res['court_forecast']}*")
 
-            col_att, col_def = st.columns(2)
-            with col_att:
-                st.success("⚔️ **MŨI TẤN CÔNG CỦA NGUYÊN ĐƠN (BẠN):**")
-                for atk in sim_res["plaintiff_attack"]:
-                    st.markdown(f"• {atk}")
-            with col_def:
-                st.error("🛡️ **CHIÊU BÀI PHẢN ĐÒN CỦA ĐỐI PHƯƠNG (CON NỢ/BỊ ĐƠN):**")
-                for d_cnt in sim_res["defendant_counter"]:
-                    st.markdown(f"• {d_cnt}")
-
-            st.info("💡 **KẾ SÁCH HÓA GIẢI & CHIẾN THUẬT NẮM CHẮC CHIẾN THẮNG:**")
-            for tac in sim_res["winning_tactics"]:
-                st.markdown(f"👉 **{tac}**")
-
     with tool_tab9:
         st.markdown("##### 📦 Xuất Trọn Gói Bộ Hồ Sơ Tố Tụng Hoàn Chỉnh (Nộp TAND)")
         st.caption("Tự động kết hợp: Đơn khởi kiện chuẩn Mẫu 23-DS + Bảng tạm tính án phí NQ 326 + Báo cáo bàn cờ đối kháng 2 chiều + Danh mục chứng cứ vào 1 file Word .docx duy nhất:")
@@ -532,11 +747,11 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
         dos_c1, dos_c2 = st.columns(2)
         with dos_c1:
             dos_court = st.text_input("Tòa án thụ lý:", value="Tòa án nhân dân Quận 1, TP. Hồ Chí Minh", key="dos_court_in")
-            dos_plaintiff = st.text_input("Họ tên Người khởi kiện (Bạn):", value="Nguyễn Văn A", key="dos_plaintiff_in")
+            dos_plaintiff = st.text_input("Họ tên Người khởi kiện (Bạn):", value=cur_name, key="dos_plaintiff_in")
             dos_year = st.text_input("Năm sinh:", value="1985", key="dos_year_in")
             dos_id = st.text_input("Số CCCD:", value="079085012345", key="dos_id_in")
             dos_addr = st.text_input("Nơi cư trú người khởi kiện:", value="Số 123 Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM", key="dos_addr_in")
-            dos_phone = st.text_input("Điện thoại liên hệ:", value="0901234567", key="dos_phone_in")
+            dos_phone = st.text_input("Điện thoại liên hệ:", value=cur_u.get("phone", "0901234567"), key="dos_phone_in")
         with dos_c2:
             dos_defendant = st.text_input("Họ tên Người bị kiện (Con nợ/Bên vi phạm):", value="Trần Thị B", key="dos_def_in")
             dos_def_addr = st.text_input("Nơi cư trú người bị kiện:", value="Số 456 Hai Bà Trưng, Phường Tân Định, Quận 1, TP.HCM", key="dos_def_addr_in")
@@ -567,402 +782,3 @@ with st.expander("🧮 Hộp Công Cụ Dân Sinh 1-Chạm (Bẫy Tín Dụng Đ
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     key="dl_full_litigation_dossier"
                 )
-
-# GỢI Ý NHANH CÁC TÌNH HUỐNG THỰC TẾ DÂN SINH
-st.markdown("💡 **Lối tắt tình huống đời sống thường gặp:**")
-r1_col1, r1_col2, r1_col3 = st.columns(3)
-r2_col1, r2_col2, r2_col3 = st.columns(3)
-
-with r1_col1:
-    if st.button("🏫 Bạo lực học đường (Trách nhiệm trường)"):
-        quick_prompt = "Con tôi bị bạo lực học đường có thương tích nhưng nhà trường không chịu trách nhiệm vì nói xảy ra ngoài tầm mắt giáo viên. Luật sư cho tôi biết nhà trường có phải bồi thường không và thủ tục xử lý ra sao?"
-
-with r1_col2:
-    if st.button("🏡 Tranh chấp Sổ đỏ & Lấn chiếm ranh giới"):
-        quick_prompt = "Hàng xóm nhà tôi xây hàng rào lấn sang đất của tôi hơn 1 mét rưỡi. Tôi đã có Sổ đỏ chính chủ. Tôi có cần hòa giải ở xã trước không và làm đơn gì?"
-
-with r1_col3:
-    if st.button("💸 Khởi kiện Đòi nợ khi Con nợ bỏ trốn"):
-        quick_prompt = "Tôi có cho bạn vay 300 triệu có giấy nhận tiền và sao kê ngân hàng, nhưng nay đến hạn con nợ cắt liên lạc và bỏ trốn khỏi địa phương. Tôi muốn khởi kiện đòi nợ thì nộp đơn ở đâu?"
-
-with r2_col1:
-    if st.button("💔 Ly hôn, Chia tài sản & Quyền nuôi con"):
-        quick_prompt = "Vợ chồng tôi muốn thuận tình ly hôn. Có 2 con (1 bé 2 tuổi, 1 bé 8 tuổi) và 1 căn nhà chung. Chúng tôi muốn làm đơn thỏa thuận phân chia quyền nuôi con và tài sản thì thủ tục thế nào?"
-
-with r2_col2:
-    if st.button("🛡️ Quét Hợp đồng Đối kháng (Phạt 15%)"):
-        quick_prompt = "Hãy thẩm định hợp đồng mua bán này: 'Nếu Bên B chậm thanh toán thì phải chịu phạt vi phạm 15% tổng giá trị hợp đồng và bồi thường 100 triệu, đồng thời không áp dụng bất kỳ lý do bất khả kháng nào.'"
-
-with r2_col3:
-    if st.button("📝 Kích hoạt Form Soạn thảo Văn bản Thông minh"):
-        quick_prompt = "Tôi muốn soạn thảo một văn bản pháp lý với mẫu điền sẵn căn cứ và placeholder thông tin cá nhân."
-
-# HIỂN THỊ TOÀN BỘ LỊCH SỬ CHAT
-for idx, msg in enumerate(st.session_state.messages):
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
-
-        action_type = msg.get("action_type")
-        action_data = msg.get("action_data")
-
-        # 1. WIDGET QUÉT HỢP ĐỒNG 2 CHIỀU ĐỐI KHÁNG TRỰC TIẾP TRONG CHAT
-        if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
-            with st.expander("🛡️ Thẻ Phân tích Đối kháng 2 Chiều & Báo cáo Thẩm định (.docx)", expanded=True):
-                sc1, sc2 = st.columns([1, 2])
-                with sc1:
-                    st.metric("Điểm An toàn Pháp lý", f"{action_data.get('score', 0)} / 100")
-                    st.markdown(f"**Xếp hạng:** {action_data.get('status_label', '')}")
-                    st.markdown(f"**Số lỗ hổng phát hiện:** `{action_data.get('findings_count', 0)}`")
-                with sc2:
-                    docx_audit = st.session_state.contract_scanner.export_audit_report_docx(action_data)
-                    st.download_button(
-                        label="📥 Tải Báo cáo Thẩm định Đối kháng (.docx)",
-                        data=docx_audit,
-                        file_name=f"Bao_Cao_Tham_Dinh_Doi_Khang_{idx}.docx",
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                        key=f"dl_audit_{idx}"
-                    )
-
-                # Bảng Ma trận Đối kháng 2 Chiều trực quan
-                findings = action_data.get("findings", [])
-                if findings:
-                    st.markdown("##### ⚖️ Ma trận Bóc tách Cạm bẫy 2 Chiều (Bilateral Exploitation):")
-                    matrix_rows = []
-                    for f in findings:
-                        matrix_rows.append({
-                            "Điều khoản / Căn cứ": f.get("legal_basis", ""),
-                            "🔴 Bên ra luật lợi dụng gì?": f.get("issuer_exploitation", ""),
-                            "🟡 Bên theo luật bị ép ra sao?": f.get("adherent_exploitation", ""),
-                            "✍️ Điều khoản thay thế cân bằng": f.get("suggested_replacement", "")
-                        })
-                    st.table(pd.DataFrame(matrix_rows))
-
-        # 2. WIDGET SOẠN THẢO VĂN BẢN THÔNG MINH (SMART PRE-FILLED FORM & PLACEHOLDERS)
-        elif action_type == "DYNAMIC_DRAFT_ACTION":
-            with st.expander("📝 Biểu mẫu Soạn thảo Văn bản Thông minh (Smart Pre-filled Form)", expanded=True):
-                st.info(
-                    "💡 **Cơ chế Form Thông minh:** Toàn bộ căn cứ pháp luật và nội dung tranh tụng chuẩn mực đã được AI điền sẵn 100%. "
-                    "Bạn chỉ cần nhập các thông tin cá nhân bạn biết; **trường nào chưa rõ có thể để trống** — hệ thống sẽ tự động chèn dòng kẻ giữ chỗ "
-                    "`........................` để bạn tải về in ra điền tay hoặc ký tên!"
-                )
-
-                case_id = (action_data or {}).get("case_id", "CUSTOM") if isinstance(action_data, dict) else "CUSTOM"
-
-                # Chọn loại văn bản muốn xuất
-                doc_options = {
-                    "DEBT_COLLECTION": "1. Đơn khởi kiện đòi nợ khi con nợ bỏ trốn (Điều 463 BLDS, Điều 39 BLTTDS)",
-                    "LAND_DISPUTE": "2. Đơn yêu cầu hòa giải tranh chấp ranh giới đất đai (Điều 202 Luật Đất đai)",
-                    "SCHOOL_VIOLENCE": "3. Đơn khiếu nại bạo lực học đường & yêu cầu nhà trường bồi thường (Điều 599 BLDS)",
-                    "DIVORCE_AND_CUSTODY": "4. Đơn thuận tình ly hôn, thỏa thuận quyền nuôi con & chia tài sản (Luật HNGĐ)",
-                    "SERVICE_CONTRACT": "5. Hợp đồng dịch vụ thương mại cân bằng chuẩn mực (Luật Thương mại 2005)",
-                    "CUSTOM": "6. Soạn thảo văn bản tùy chọn bất kỳ qua Trí tuệ AI"
-                }
-
-                default_key = case_id if case_id in doc_options else "DEBT_COLLECTION"
-                selected_doc_key = st.selectbox(
-                    "Chọn mẫu văn bản cần tải về:",
-                    options=list(doc_options.keys()),
-                    format_func=lambda k: doc_options[k],
-                    index=list(doc_options.keys()).index(default_key),
-                    key=f"sel_doc_{idx}"
-                )
-
-                # Form nhập thông tin nhân thân linh hoạt
-                f_vals = {}
-                with st.form(f"dynamic_form_{idx}"):
-                    st.caption("*(Điền các trường bạn biết, để trống trường chưa biết để AI chèn dòng giữ chỗ)*")
-
-                    if selected_doc_key == "DEBT_COLLECTION":
-                        df_c1, df_c2 = st.columns(2)
-                        with df_c1:
-                            f_vals["court_name"] = st.text_input("Tòa án nhân dân tiếp nhận đơn:", placeholder="VD: TAND Quận 1, TP. Hồ Chí Minh", key=f"f_court_{idx}")
-                            f_vals["plaintiff_name"] = st.text_input("Họ và tên Người khởi kiện (Chủ nợ):", placeholder="VD: Nguyễn Văn A", key=f"f_pl_name_{idx}")
-                            f_vals["plaintiff_cccd"] = st.text_input("CCCD Chủ nợ:", placeholder="07920100xxxx", key=f"f_pl_cccd_{idx}")
-                            f_vals["plaintiff_phone"] = st.text_input("Số điện thoại Chủ nợ:", placeholder="0912345678", key=f"f_pl_phone_{idx}")
-                        with df_c2:
-                            f_vals["defendant_name"] = st.text_input("Họ và tên Người bị kiện (Con nợ):", placeholder="VD: Trần Văn B", key=f"f_df_name_{idx}")
-                            f_vals["defendant_address"] = st.text_input("Nơi cư trú cuối cùng của con nợ:", placeholder="Số 45 Lê Lợi, Phường Bến Nghé, Quận 1", key=f"f_df_addr_{idx}")
-                            f_vals["principal_amount"] = st.text_input("Số tiền nợ gốc (VNĐ):", placeholder="VD: 300.000.000 VNĐ", key=f"f_amount_{idx}")
-                            f_vals["interest_amount"] = st.text_input("Số tiền lãi yêu cầu tính thêm:", placeholder="VD: 15.000.000 VNĐ", key=f"f_interest_{idx}")
-                            f_vals["total_amount"] = f_vals["principal_amount"]
-
-                    elif selected_doc_key == "LAND_DISPUTE":
-                        df_c1, df_c2 = st.columns(2)
-                        with df_c1:
-                            f_vals["ubnd_name"] = st.text_input("UBND cấp xã tiếp nhận đơn hòa giải:", placeholder="VD: UBND Phường Linh Trung, TP. Thủ Đức", key=f"f_ubnd_{idx}")
-                            f_vals["applicant_name"] = st.text_input("Họ và tên người làm đơn:", placeholder="VD: Lê Thị C", key=f"f_app_name_{idx}")
-                            f_vals["parcel_info"] = st.text_input("Thông tin thửa đất tranh chấp:", placeholder="Thửa đất số 12, Tờ bản đồ số 45", key=f"f_parcel_{idx}")
-                        with df_c2:
-                            f_vals["neighbor_name"] = st.text_input("Họ và tên hộ hàng xóm liền kề:", placeholder="VD: Hoàng Văn D", key=f"f_neighbor_{idx}")
-                            f_vals["encroachment_desc"] = st.text_input("Mô tả hành vi lấn chiếm ranh giới:", placeholder="Xây tường rào lấn sang mốc giới 1.5 mét", key=f"f_encroach_{idx}")
-
-                    elif selected_doc_key == "SCHOOL_VIOLENCE":
-                        df_c1, df_c2 = st.columns(2)
-                        with df_c1:
-                            f_vals["school_name"] = st.text_input("Tên trường học xảy ra vụ việc:", placeholder="VD: Trường THCS Nguyễn Du", key=f"f_school_{idx}")
-                            f_vals["parent_name"] = st.text_input("Họ tên phụ huynh đứng đơn:", placeholder="VD: Vũ Văn E", key=f"f_parent_{idx}")
-                            f_vals["student_name"] = st.text_input("Họ tên học sinh bị bạo lực:", placeholder="VD: Cháu Vũ Minh F (Lớp 8A)", key=f"f_student_{idx}")
-                        with df_c2:
-                            f_vals["education_department"] = st.text_input("Phòng/Sở GD&ĐT quản lý:", placeholder="VD: Phòng GD&ĐT Quận 3", key=f"f_dept_{idx}")
-                            f_vals["medical_cost"] = st.text_input("Chi phí y tế & viện phí yêu cầu bồi thường:", placeholder="VD: 25.000.000 VNĐ", key=f"f_med_cost_{idx}")
-
-                    elif selected_doc_key == "DIVORCE_AND_CUSTODY":
-                        df_c1, df_c2 = st.columns(2)
-                        with df_c1:
-                            f_vals["court_name"] = st.text_input("Tòa án nhân dân nộp đơn:", placeholder="VD: TAND Huyện Bình Chánh", key=f"f_div_court_{idx}")
-                            f_vals["husband_name"] = st.text_input("Họ và tên Người chồng:", placeholder="VD: Đặng Văn G", key=f"f_husband_{idx}")
-                            f_vals["wife_name"] = st.text_input("Họ và tên Người vợ:", placeholder="VD: Phạm Thị H", key=f"f_wife_{idx}")
-                        with df_c2:
-                            f_vals["custody_agreement"] = st.text_input("Thỏa thuận quyền nuôi con & cấp dưỡng:", placeholder="Mẹ nuôi con nhỏ 2 tuổi, cha cấp dưỡng 5 triệu/tháng", key=f"f_custody_{idx}")
-                            f_vals["property_division"] = st.text_input("Thỏa thuận tài sản chung:", placeholder="Tự thỏa thuận không yêu cầu Tòa án giải quyết", key=f"f_prop_{idx}")
-
-                    elif selected_doc_key == "SERVICE_CONTRACT":
-                        df_c1, df_c2 = st.columns(2)
-                        with df_c1:
-                            f_vals["party_a_name"] = st.text_input("Bên A (Bên thuê dịch vụ):", placeholder="VD: CÔNG TY TNHH ALPHA", key=f"f_pa_{idx}")
-                            f_vals["party_b_name"] = st.text_input("Bên B (Bên cung ứng dịch vụ):", placeholder="VD: CÔNG TY CP BETA", key=f"f_pb_{idx}")
-                        with df_c2:
-                            f_vals["service_scope"] = st.text_input("Phạm vi dịch vụ cung cấp:", placeholder="Thiết kế và triển khai phần mềm quản lý", key=f"f_scope_{idx}")
-                            f_vals["contract_value"] = st.text_input("Giá trị hợp đồng:", placeholder="VD: 150.000.000 VNĐ", key=f"f_val_{idx}")
-
-                    else:
-                        f_vals["custom_prompt"] = st.text_area(
-                            "Mô tả chi tiết văn bản pháp lý bạn muốn AI soạn thảo:",
-                            value="Soạn thảo Giấy ủy quyền quản lý tài sản nhà đất hợp pháp có điều khoản giới hạn phạm vi ủy quyền.",
-                            key=f"f_custom_{idx}"
-                        )
-
-                    btn_generate = st.form_submit_button("⚡ Cập nhật & Tạo Văn bản (.docx)")
-
-                # Xử lý xuất file Word (.docx) an toàn không giật lag
-                if selected_doc_key == "DEBT_COLLECTION":
-                    doc_blob = st.session_state.dynamic_drafter.draft_debt_lawsuit(f_vals)
-                    file_title = "Don_Khoi_Kien_Doi_No.docx"
-
-                elif selected_doc_key == "LAND_DISPUTE":
-                    doc_blob = st.session_state.dynamic_drafter.draft_land_dispute(f_vals)
-                    file_title = "Don_Yeu_Cau_Hoa_Giai_Dat_Dai.docx"
-
-                elif selected_doc_key == "SCHOOL_VIOLENCE":
-                    doc_blob = st.session_state.dynamic_drafter.draft_school_violence_complaint(f_vals)
-                    file_title = "Don_Khieu_Nai_Bao_Luc_Hoc_Duong.docx"
-
-                elif selected_doc_key == "DIVORCE_AND_CUSTODY":
-                    doc_blob = st.session_state.dynamic_drafter.draft_divorce_petition(f_vals)
-                    file_title = "Don_Thuan_Tinh_Ly_Hon.docx"
-
-                elif selected_doc_key == "SERVICE_CONTRACT":
-                    doc_blob = st.session_state.dynamic_drafter.draft_service_contract(f_vals)
-                    file_title = "Hop_Dong_Dich_Vu_Thuong_Mai.docx"
-
-                else:
-                    cust_key = f"cust_blob_{idx}"
-                    if btn_generate or cust_key not in st.session_state:
-                        st.session_state[cust_key] = st.session_state.dynamic_drafter.draft_custom_document(
-                            f_vals.get("custom_prompt", "Văn bản pháp lý theo yêu cầu")
-                        )
-                    doc_blob = st.session_state[cust_key]
-                    file_title = "Van_Ban_Phap_Ly_Theo_Yeu_Cau.docx"
-
-                st.download_button(
-                    label=f"📥 Tải ngay File Word: {file_title}",
-                    data=doc_blob,
-                    file_name=file_title,
-                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    key=f"dl_dynamic_doc_{idx}"
-                )
-
-        # 3. WIDGET SOẠN HỒ SƠ DOANH NGHIỆP TRONG CHAT
-        elif action_type == "DOSSIER_CREATION_ACTION":
-            with st.expander("📝 Form Tạo Nhanh Bộ Hồ sơ Thành lập Doanh nghiệp", expanded=True):
-                st.info("Nhấn nút bên dưới để tạo và tải về trọn bộ file Word mẫu chuẩn quy định của Bộ KH&ĐT:")
-                default_dossier = {
-                    "company_name": "CÔNG TY TNHH CÔNG NGHỆ NHỰT AI",
-                    "entity_type_label": "Công ty TNHH 1 Thành viên",
-                    "city": "TP. Hồ Chí Minh",
-                    "address_street": "123 Đường Nguyễn Huệ",
-                    "address_ward": "Phường Bến Nghé",
-                    "address_district": "Quận 1",
-                    "main_industry_name": "Lập trình máy vi tính (AI & SaaS)",
-                    "main_industry_code": "6201",
-                    "charter_capital": 500000000,
-                    "charter_capital_in_words": "Năm trăm triệu đồng",
-                    "rep_name": "Nguyễn Văn Nhựt",
-                    "rep_title": "Giám đốc",
-                    "rep_gender": "Nam",
-                    "rep_dob": "15/08/2000",
-                    "rep_phone": "0912345678",
-                    "rep_email": "nhut@techai.vn",
-                    "rep_cccd": "079201004567",
-                    "rep_cccd_date": "10/05/2022",
-                    "rep_cccd_place": "Cục Cảnh sát QLHC về trật tự xã hội",
-                    "rep_permanent_address": "TP. Hồ Chí Minh",
-                    "rep_current_address": "TP. Hồ Chí Minh"
-                }
-                doc_buf = generate_full_dossier_docx(default_dossier)
-                st.download_button(
-                    label="📦 Tải Trọn bộ Hồ sơ Mẫu ĐKDN (.docx)",
-                    data=doc_buf,
-                    file_name=f"Tron_Bo_Ho_So_DKDN_Mau_{idx}.docx",
-                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    key=f"dl_dossier_{idx}"
-                )
-
-        # 4. HIỂN THỊ CITATIONS XÁC THỰC
-        citations = msg.get("citations", [])
-        if citations:
-            with st.expander(f"📖 Căn cứ pháp luật trích dẫn ({len(citations)} tài liệu kiểm chứng)"):
-                for c in citations:
-                    if isinstance(c, dict):
-                        st.markdown(f"**📌 {c.get('law_title', 'Văn bản quy phạm')} - {c.get('article', '')}**")
-                        if c.get("header"):
-                            st.caption(f"Tiêu đề: *{c.get('header')}*")
-                        if c.get("text_snippet"):
-                            st.info(f"\"{c.get('text_snippet')}\"")
-                        verify_url = c.get("verify_url", "https://vanban.chinhphu.vn/")
-                        st.markdown(f"[🔗 Kiểm chứng tại Cổng Thông tin điện tử Chính phủ]({verify_url})")
-                        st.markdown("---")
-                    else:
-                        st.markdown(f"- `{c}`")
-
-        if msg["role"] == "assistant" and msg.get("content") and not msg.get("content", "").startswith("👋"):
-            with st.expander("☕ Xem Diễn giải sang Ngôn ngữ Bình dân (Dễ hiểu cho người dân)", expanded=False):
-                plain_cached_key = f"plain_cache_{idx}"
-                if plain_cached_key not in st.session_state:
-                    with st.spinner("Đang chuyển hóa sang văn phong bình dân gần gũi..."):
-                        st.session_state[plain_cached_key] = st.session_state.plain_engine.translate_to_plain_language(msg["content"])
-                st.markdown(st.session_state[plain_cached_key])
-
-            # 🔊 TÍCH HỢP TRỢ LÝ PHÁT THANH ÂM THANH (TTS) CHO NGƯỜI CAO TUỔI / MẮT KÉM
-            tts_cache_key = f"tts_audio_{idx}"
-            tts_btn_key = f"tts_btn_{idx}"
-            if tts_cache_key not in st.session_state:
-                if st.button("🔊 Đọc to lời giải thích bằng giọng nói (Tiếng Việt)", key=tts_btn_key, help="Dành cho người già, người khiếm thị hoặc người mắt kém"):
-                    with st.spinner("Đang chuyển đổi câu trả lời thành giọng đọc truyền cảm..."):
-                        audio_fp = VoiceNarrator.generate_speech(msg["content"])
-                        if audio_fp:
-                            st.session_state[tts_cache_key] = audio_fp.read()
-                            st.rerun()
-            else:
-                st.markdown("🔊 **Giọng đọc phát thanh viên Luật sư:**")
-                st.audio(st.session_state[tts_cache_key], format="audio/mp3")
-
-        if msg.get("quick_options") and idx == len(st.session_state.messages) - 1:
-            st.markdown("👉 **Lựa chọn nhanh (Bấm 1 chạm để trả lời ngay):**")
-            q_cols = st.columns(min(len(msg["quick_options"]), 4))
-            for q_i, opt in enumerate(msg["quick_options"]):
-                with q_cols[q_i % len(q_cols)]:
-                    if st.button(opt, key=f"qopt_click_{idx}_{q_i}", use_container_width=True):
-                        st.session_state.pending_quick_input = opt
-                        st.rerun()
-
-        if msg.get("suggested_followups") and idx == len(st.session_state.messages) - 1:
-            st.markdown("💡 **Câu hỏi gợi ý bạn có thể hỏi Luật sư (Bấm 1 chạm):**")
-            s_cols = st.columns(min(len(msg["suggested_followups"]), 3))
-            for s_i, fq in enumerate(msg["suggested_followups"][:3]):
-                with s_cols[s_i % len(s_cols)]:
-                    if st.button(fq, key=f"fq_click_{idx}_{s_i}", use_container_width=True):
-                        st.session_state.pending_quick_input = fq
-                        st.rerun()
-
-        if msg.get("agent") and msg["role"] == "assistant":
-            st.caption(f"🤖 Xử lý bởi Agent: **{msg['agent']}**")
-
-# KIỂM TRA LỰA CHỌN BẤM NHANH TỪ GIAO DIỆN
-if "pending_quick_input" in st.session_state and st.session_state.pending_quick_input:
-    quick_prompt = st.session_state.pending_quick_input
-    st.session_state.pending_quick_input = None
-
-# HỖ TRỢ NHẬP LIỆU BẰNG GIỌNG NÓI DÀNH CHO NGƯỜI CAO TUỔI
-with st.expander("🎙️ Nhập Liệu Bằng Giọng Nói (Dành cho Người già / Mắt kém / Không tiện gõ phím)", expanded=False):
-    st.caption("Bấm nút micro để thu âm lời nói của bạn, sau đó bấm 'Gửi Lời Nói Đến Luật Sư':")
-    audio_val = st.audio_input("Thu âm lời nói của bạn:")
-    if audio_val is not None:
-        st.audio(audio_val)
-        if st.button("📤 Gửi Lời Nói Đến Luật Sư", key="btn_send_voice_audio"):
-            quick_prompt = "Tôi gửi lời nói trình bày: Tôi đang gặp khúc mắc pháp lý đời sống, nhờ Luật sư lắng nghe và hỏi từng bước để tháo gỡ giúp tôi."
-
-# XỬ LÝ INPUT TỪ CHAT BOX HOẶC QUICK ACTION
-user_input = st.chat_input("Hỏi luật sư, yêu cầu soạn đơn từ, hoặc dán điều khoản hợp đồng cần thẩm định...")
-if quick_prompt:
-    user_input = quick_prompt
-
-if user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.markdown(user_input)
-
-    with st.chat_message("assistant"):
-        with st.spinner("Luật sư Dân gian đang lắng nghe và suy ngẫm tình huống của bạn..."):
-            intake_res = st.session_state.citizen_intake.respond(user_input, st.session_state.messages)
-
-        resp_text = intake_res["response"]
-        quick_opts = intake_res.get("quick_options", [])
-        st.markdown(resp_text)
-
-        # Lựa chọn trả lời nhanh
-        if quick_opts:
-            st.markdown("👉 **Gợi ý lựa chọn nhanh (Bấm 1 chạm để trả lời ngay):**")
-            btn_cols = st.columns(len(quick_opts))
-            for q_i, opt in enumerate(quick_opts):
-                with btn_cols[q_i]:
-                    if st.button(opt, key=f"qopt_live_{q_i}", use_container_width=True):
-                        st.session_state.pending_quick_input = opt
-                        st.rerun()
-
-        suggested_followups = intake_res.get("suggested_followups", [])
-        if suggested_followups:
-            st.markdown("💡 **Câu hỏi đào sâu bạn có thể hỏi Luật sư ngay (Bấm 1 chạm):**")
-            s_cols = st.columns(min(len(suggested_followups), 3))
-            for s_i, fq in enumerate(suggested_followups[:3]):
-                with s_cols[s_i % len(s_cols)]:
-                    if st.button(fq, key=f"fq_live_{s_i}", use_container_width=True):
-                        st.session_state.pending_quick_input = fq
-                        st.rerun()
-
-        # Tra cứu sâu điều luật & giải pháp tố tụng (Ẩn trong Expander để không làm rối mắt người dân)
-        with st.expander("⚖️ Xem Thêm Căn Cứ Điều Luật & Hồ Sơ Đính Kèm (Tra Cứu Sâu)", expanded=False):
-            with st.spinner("Đang liên kết mạng lưới LangGraph để rà soát quy phạm..."):
-                result = st.session_state.workflow.process(user_input)
-
-            full_legal_text = result["response"]
-            st.markdown(full_legal_text)
-
-            citations = result.get("citations", [])
-            action_type = result.get("action_type")
-            action_data = result.get("action_data")
-
-            if action_type == "CONTRACT_AUDIT_ACTION" and action_data:
-                sc1, sc2 = st.columns([1, 2])
-                with sc1:
-                    st.metric("Điểm An toàn Pháp lý", f"{action_data.get('score', 0)} / 100")
-                with sc2:
-                    docx_audit = st.session_state.contract_scanner.export_audit_report_docx(action_data)
-                    st.download_button(
-                        label="📥 Tải Báo cáo Thẩm định Đối kháng (.docx)",
-                        data=docx_audit,
-                        file_name="Bao_Cao_Tham_Dinh_Doi_Khang.docx",
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    )
-
-            if citations:
-                st.markdown("#### 📖 Văn bản quy phạm pháp luật kiểm chứng:")
-                for c in citations:
-                    if isinstance(c, dict):
-                        st.markdown(f"**📌 {c.get('law_title', 'Văn bản quy phạm')} - {c.get('article', '')}**")
-                        verify_url = c.get("verify_url", "https://vanban.chinhphu.vn/")
-                        st.markdown(f"[🔗 Kiểm chứng tại Cổng Thông tin điện tử Chính phủ]({verify_url})")
-
-        st.caption("🤖 Xử lý bởi: **CitizenIntakeAgent (Luật sư Thăm khám Dân gian)** • Định hướng: Cá nhân & Người dân")
-
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": resp_text,
-            "agent": "CitizenIntakeAgent",
-            "quick_options": quick_opts,
-            "suggested_followups": suggested_followups,
-            "citations": citations if 'citations' in locals() else [],
-            "action_type": action_type if 'action_type' in locals() else None,
-            "action_data": action_data if 'action_data' in locals() else None
-        })
-
