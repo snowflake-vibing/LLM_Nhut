@@ -58,7 +58,7 @@ def run_telegram_daemon():
     while True:
         try:
             url = f"https://api.telegram.org/bot{token}/getUpdates?offset={offset}&timeout=10"
-            resp = requests.get(url, timeout=15)
+            resp = requests.get(url, timeout=25)
             if resp.status_code != 200:
                 time.sleep(2)
                 continue
@@ -189,6 +189,8 @@ def run_telegram_daemon():
                 controller.send_reply(reply_msg)
                 controller.set_state(controller.get_state().get("status", "running"), "citizen_chat", update_id)
 
+        except requests.exceptions.Timeout:
+            continue
         except Exception as e:
             print(f"[Telegram Daemon Exception] {e}")
             time.sleep(2)
